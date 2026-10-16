@@ -15,7 +15,7 @@ export async function db(path,{method='GET',body,prefer}={}) {
 }
 export async function rpc(name, body){return db('rpc/'+name,{method:'POST',body});}
 export const seats=async()=>{const d=await db('workshop_cohorts?id=eq.cohort-01&select=capacity,confirmed_count');return {capacity:d[0]?.capacity??8,paid:d[0]?.confirmed_count??0,remaining:Math.max(0,(d[0]?.capacity??8)-(d[0]?.confirmed_count??0))};};
-export const stripe=()=>{const key=process.env.STRIPE_SECRET_KEY;const mode=process.env.STRIPE_PAYMENT_MODE;if(!key||!((mode==='live'&&key.startsWith('sk_live_'))||(mode==='test'&&key.startsWith('sk_test_'))))return null;return new Stripe(key);};
+export const stripe=()=>{const key=process.env.STRIPE_SECRET_KEY;const mode=process.env.STRIPE_PAYMENT_MODE;if(!key||!((mode==='live'&&/^(sk_live_|rk_live_)/.test(key))||(mode==='test'&&key.startsWith('sk_test_'))))return null;return new Stripe(key);};
 export async function mail(to,msg){
  if(!process.env.RESEND_API_KEY) return {sent:false};
  const res=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.RESEND_FROM||'MotionPlay Labs <hello@motionplaylabs.com>',to:[to],subject:msg.subject,html:msg.html,text:msg.text})});

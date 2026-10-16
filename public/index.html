@@ -240,7 +240,7 @@ tailwind.config = {
   </div>
 </section>
 
-<footer class="relative z-10 pt-10 mt-4 border-t-2 border-black">
+<section class="relative z-10 my-8 border border-gray-200 rounded-2xl p-6"><p class="text-xs font-black uppercase tracking-widest">Cohort 01 · Live enrolment</p><p class="text-2xl font-black mt-2"><span id="soldCount">—</span> of 8 seats secured</p><p class="text-sm text-gray-500 mt-1">Only verified payments count.</p></section><footer class="relative z-10 pt-10 mt-4 border-t-2 border-black">
   <div class="grid grid-cols-1 sm:grid-cols-12 gap-8 mb-10">
     <div class="sm:col-span-5">
       <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">MotionPlay Labs Ltd</p>
@@ -249,7 +249,7 @@ tailwind.config = {
       <a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="mailto:justin@motionplaylabs.com">justin@motionplaylabs.com</a>
     </div>
     <div class="sm:col-span-4">
-      <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">Selected Projects</p>
+      <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">Proof of Work</p>
       <ul class="space-y-2">
         <li><a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="https://drawintheair.com" target="_blank" rel="noopener">Draw in the Air</a></li>
         <li><a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="https://voidcanvas.app" target="_blank" rel="noopener">Void Canvas</a></li>
@@ -386,5 +386,5 @@ tailwind.config = {
   })();
 })();
 </script>
-</body>
+<script>async function updateSeats(){try{let r=await fetch('/api/seats',{cache:'no-store'});let s=await r.json();if(s.ok)document.getElementById('soldCount').textContent=s.paid}catch(e){}}updateSeats();setInterval(updateSeats,30000);</script></body>
 </html>

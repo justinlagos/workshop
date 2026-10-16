@@ -32,6 +32,16 @@ export default async function handler(req,res){
   if(!method(req,res,'POST'))return;
   const ref=String(req.body?.reference||'');
   if(action==='mark-paid')return err(res,403,'Manual confirmation disabled. Seats are confirmed only through verified Stripe webhooks.');
+  if(action==='sample-invitation'){
+   const to='mrjustinukaegbu@gmail.com';
+   const logo='https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png';
+   const html='<div style="margin:0 auto;max-width:540px;font:15px/1.65 Arial,sans-serif;color:#111">'
+    +'<div style="padding:18px 25px 8px"><img src="'+logo+'" width="132" height="94" alt="MotionPlay Labs" style="display:block;width:132px;height:94px;object-fit:contain;border:0"/><div style="font-size:10px;font-weight:800;letter-spacing:2px">THE BUILD SESSION / COHORT 01</div></div>'
+    +'<div style="padding:8px 25px 26px;border-bottom:1px solid #ddd"><p style="color:#666;font-size:12px">SAMPLE EMAIL · NO PAYMENT REQUIRED</p><h1 style="font-size:28px;letter-spacing:-1px">Your invitation is ready.</h1><p>Hi Justin,</p><p>You’re invited to <b>The Build Session, Founding Cohort 01</b>.</p><p>Saturday 24 October 2026 · 2–5 PM UK · Online</p><p><b>£50 UK / ₦85,000 Nigeria</b></p><p style="background:#ccff00;padding:14px 20px;font-weight:bold;text-align:center">SAMPLE ONLY · PAYMENT BUTTON DISABLED</p><p style="font-size:13px;color:#555">This previews the updated logo and invitation design. No booking has been made and no seat has been reserved.</p></div><div style="padding:16px 25px;color:#777;font-size:12px">Justin Ukaegbu · MotionPlay Labs<br>justin@motionplaylabs.com</div></div>';
+   const sent=await mail(to,{subject:'[SAMPLE] The Build Session — your invitation',html,text:'Sample invitation. Hi Justin, you are invited to Founding Cohort 01 on Saturday 24 October 2026, 2–5 PM UK, online. Fee: £50 UK / ₦85,000 Nigeria. No payment or booking is required for this sample.'});
+   if(!sent.sent)return err(res,503,'Resend not configured');
+   return res.status(200).json({ok:true,sent:true,to});
+  }
   if(action==='test-emails'){
    const to=process.env.ADMIN_EMAIL;if(!to)return err(res,503,'Admin email not configured');
    const r=await mail(to,{subject:'The Build Session — transactional email integration test',text:'Your Vercel email integration is configured. This test does not create a booking.',html:'<h2>The Build Session</h2><p>Transactional email integration test. No booking was created.</p>'});

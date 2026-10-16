@@ -64,7 +64,7 @@ export default async function handler(req,res){
    const current=await seats();if(!current.remaining)return err(res,409,'The cohort is full');
    if(a.invite_url&&a.invite_expires_at&&new Date(a.invite_expires_at)>new Date())return res.status(200).json({ok:true,url:a.invite_url,reused:true});
    const client=stripe();if(!client)return err(res,503,'Stripe test credentials are not yet configured');
-   if(!process.env.STRIPE_SECRET_KEY.startsWith('sk_test_'))return err(res,403,'Live charges disabled until checkout verification and explicit approval');
+   if(!((process.env.STRIPE_PAYMENT_MODE==='live' && process.env.STRIPE_SECRET_KEY.startsWith('sk_live_'))||(process.env.STRIPE_PAYMENT_MODE==='test' && process.env.STRIPE_SECRET_KEY.startsWith('sk_test_'))))return err(res,403,'Payment mode and configured Stripe key do not match');
    const fee=feeFor(a.currency),expires=Math.floor(Date.now()/1000)+1800;
    const session=await client.checkout.sessions.create({mode:'payment',customer_email:a.email,client_reference_id:ref,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],metadata:{reference:ref,cohort:'cohort-01'},expires_at:expires,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(ref),cancel_url:site()+'/?payment=cancelled'});
    const updated=await update(ref,{status:'invited',stripe_session_id:session.id,invite_url:session.url,invite_expires_at:new Date(expires*1000).toISOString()});

@@ -29,6 +29,7 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
 <button id="exportBtn" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Export CSV</button>
 <button id="capBtn" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Check Stripe capability</button>
 <button id="payHist" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Payment history</button>
+<button id="sampleInvite" class="text-xs font-bold border border-[#ccff00] text-[#ccff00] hover:bg-[#ccff00] hover:text-black rounded-xl px-4 py-2.5">Send branded sample to Gmail</button>
 <button id="testMails" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Send 6 test emails to admin inbox</button>
 <span id="msg" class="text-xs text-gray-400 font-semibold"></span>
 <pre id="extra" class="w-full text-[11px] text-gray-300 bg-white/5 border border-white/15 rounded-xl p-4 mt-3 overflow-x-auto hidden font-mono"></pre>
@@ -153,6 +154,13 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
       say(`Ledger: ${j.payments.length} event(s), ${j.seats.paid}/${j.seats.capacity} paid.`);
       showExtra(j.payments);
     } catch(e){ say('Error: ' + e.message); }
+  });
+  $('sampleInvite').addEventListener('click', async () => {
+    say('Sending sample invitation…');
+    try {
+      const result = await api('POST','/api/admin/sample-invitation',{});
+      say('Sample sent to ' + result.to + '. This did not create a booking.');
+    } catch(e){ say('Email not sent: ' + e.message); }
   });
   $('testMails').addEventListener('click', async () => {
     say('Sending transactional email test to admin inbox…');

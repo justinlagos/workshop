@@ -24,7 +24,7 @@ export async function mail(to,msg){
 }
 export async function notifyAdmin(a,label,s){
  const lines=[label,'Name: '+a.full_name,'Email: '+a.email,'AI level: '+a.ai_experience,'Classification: '+a.classification,'Project: '+a.project_goal,'Reference: '+a.reference,'Confirmed: '+s.paid+'/8'];
- return mail(adminEmail(),{subject:'Build Session: '+label+' — '+a.reference,text:lines.join('\n'),html:'<pre style="font-family:Arial;white-space:pre-wrap">'+lines.map(x=>x.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('\n')+'</pre>'});
+ return mail(adminEmail(),{subject:'Build Session: '+label+' — '+a.reference,text:lines.join('\n'),html:'<div style="font-family:Arial;max-width:540px"><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="132" style="display:block;width:132px;height:auto;margin:0 0 14px"/><pre style="font-family:Arial;white-space:pre-wrap">'+lines.map(x=>x.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('\n')+'</pre></div>'});
 }
 export const applicationResult = (a) => ({classification:a.classification,score:a.score,breakdown:a.breakdown,rulesVersion:'v1'});
 export function method(req,res,expected){if(req.method!==expected){res.status(405).json({ok:false,error:'Method not allowed'});return false;}return true;}

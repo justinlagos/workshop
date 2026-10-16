@@ -1,19 +1,27 @@
 {
   "version": 2,
-  "buildCommand": null,
-  "outputDirectory": "public",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/health",
-      "destination": "/api/health"
+      "src": "public/**",
+      "use": "@vercel/static"
     },
     {
-      "source": "/api/seats",
-      "destination": "/api/seats"
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1.js"
     },
     {
-      "source": "/api/enrol",
-      "destination": "/api/enrol"
+      "src": "/$",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ]
 }

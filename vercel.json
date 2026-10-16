@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    },
+    {
+      "source": "/api/seats",
+      "destination": "/api/seats"
+    },
+    {
+      "source": "/api/enrol",
+      "destination": "/api/enrol"
+    }
+  ]
+}

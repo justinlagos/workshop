@@ -25,7 +25,7 @@ export default async function handler(req,res){
  try {
   let message;
   if(result.eligible){
-   const client=process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_') ? stripe() : null;
+   const client=(process.env.STRIPE_PAYMENT_MODE==='live' && process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_')) || (process.env.STRIPE_PAYMENT_MODE==='test' && process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_')) ? stripe() : null;
    if(client && s.remaining>0){
     const fee=feeFor(currency);
     const checkout=await client.checkout.sessions.create({mode:'payment',customer_email:email,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],client_reference_id:reference,metadata:{reference,cohort:'cohort-01'},expires_at:Math.floor(Date.now()/1000)+86400-60,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(reference),cancel_url:site()+'/?payment=cancelled'});

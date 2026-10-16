@@ -48,6 +48,14 @@ tailwind.config = {
 }
 .poster-frame { box-shadow: 0 30px 80px -20px rgba(15,15,20,0.12), 0 0 0 1px rgba(0,0,0,0.06); }
 .field-error { border-color: #ef4444 !important; }
+
+/* Hero arrow: restrained levitation with a detached ambient ground shadow. */
+.hero-arrow-stage{position:relative;isolation:isolate;perspective:700px;overflow:visible}
+.hero-arrow-stage::after{content:"";position:absolute;left:20%;right:14%;bottom:0;height:16%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(67,83,0,.24) 0%,rgba(67,83,0,.1) 34%,transparent 74%);filter:blur(14px);transform:translateY(18px) scale(1);animation:arrow-ground 6s cubic-bezier(.45,0,.55,1) infinite;pointer-events:none;z-index:0}
+.hero-arrow-floating{position:relative;z-index:1;transform-origin:50% 55%;filter:drop-shadow(0 24px 18px rgba(65,77,0,.17)) drop-shadow(0 5px 4px rgba(31,50,0,.10));animation:arrow-levitate 6s cubic-bezier(.45,0,.55,1) infinite;will-change:transform}
+@keyframes arrow-levitate{0%,100%{transform:translate3d(0,2px,0) rotate(-1deg)}50%{transform:translate3d(0,-14px,0) rotate(1deg)}}
+@keyframes arrow-ground{0%,100%{opacity:.78;transform:translateY(18px) scale(1)}50%{opacity:.4;transform:translateY(18px) scale(.78)}}
+@media(prefers-reduced-motion:reduce){.hero-arrow-floating,.hero-arrow-stage::after{animation:none!important}.hero-arrow-floating{will-change:auto}}
 </style>
 </head>
 <body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
@@ -92,8 +100,8 @@ tailwind.config = {
     </h1>
   </div>
   <div class="md:col-span-4 flex justify-center md:justify-end mt-4 md:mt-0 select-none">
-    <div class="relative w-48 h-48 sm:w-60 sm:h-60 flex items-center justify-center">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/hf_20261016_143607_db7a8a05-c3f2-487e-81ec-a8f8f632d7da.png" alt="" aria-hidden="true" width="240" height="240" loading="eager" decoding="async" class="w-full h-full object-contain" style="filter: drop-shadow(0 9px 12px rgba(66,80,0,.10));" />
+    <div class="hero-arrow-stage relative w-48 h-48 sm:w-60 sm:h-60 flex items-center justify-center">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/hf_20261016_143607_db7a8a05-c3f2-487e-81ec-a8f8f632d7da.png" alt="" aria-hidden="true" width="240" height="240" loading="eager" decoding="async" class="hero-arrow-floating w-full h-full object-contain" />
     </div>
   </div>
 </section>

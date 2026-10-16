@@ -56,7 +56,7 @@ tailwind.config = {
 @keyframes arrow-levitate{0%,100%{transform:translate3d(0,2px,0) rotate(-1deg)}50%{transform:translate3d(0,-14px,0) rotate(1deg)}}
 @keyframes arrow-ground{0%,100%{opacity:.78;transform:translateY(18px) scale(1)}50%{opacity:.4;transform:translateY(18px) scale(.78)}}
 @media(prefers-reduced-motion:reduce){.hero-arrow-floating,.hero-arrow-stage::after{animation:none!important}.hero-arrow-floating{will-change:auto}}
-</style>
+.success-check{margin-inline:auto;animation:success-in .8s cubic-bezier(.16,1,.3,1) both}@keyframes success-in{0%{transform:scale(.5) rotate(-24deg);opacity:0}65%{transform:scale(1.13) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){.success-check{animation:none}}\n</style>
 </head>
 <body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
 
@@ -153,7 +153,7 @@ tailwind.config = {
 
 <section class="relative z-10 bg-[#f8f9fc] border border-gray-200/80 rounded-3xl p-6 sm:p-10 mb-12 shadow-card-elevated" id="enrollSection">
   <div class="max-w-xl mx-auto">
-    <div class="text-center mb-8">
+    <div class="text-center mb-8" id="formIntro">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-brand-lime text-black font-black text-xs rounded-full uppercase tracking-widest mb-3">
         <span class="w-2 h-2 rounded-full bg-black"></span>LIMITED TO 8 SEATS • COHORT 01
       </div>
@@ -232,9 +232,9 @@ tailwind.config = {
     </form>
 
     <div class="hidden text-center py-10" id="formSuccessToast">
-      <div class="w-16 h-16 bg-brand-lime rounded-full flex items-center justify-center mx-auto mb-4">✓</div>
+      <div class="success-check w-16 h-16 bg-brand-lime rounded-full flex items-center justify-center mx-auto mb-4">✓</div>
       <h3 class="text-2xl font-black text-black mb-2">Application Received!</h3>
-      <p class="text-sm text-gray-600 max-w-sm mx-auto mb-2 font-medium" id="successMsg">Thank you! Check your email for confirmation. Justin will review and send onboarding details.</p>
+      <p class="text-sm text-gray-600 max-w-sm mx-auto mb-2 font-medium" id="successMsg">Check your inbox for your next step.</p>
       <p class="text-xs text-gray-500 mb-6">Reference: <span class="font-bold text-black" id="enrolRef"></span></p>
       <button class="px-6 py-3 bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-xl" type="button" id="resetBtn">Submit Another Response</button>
     </div>
@@ -359,9 +359,9 @@ tailwind.config = {
       }
       document.getElementById('enrolRef').textContent = out.reference || '';
       document.getElementById('successMsg').textContent = out.emailSent
-        ? 'Thank you ' + data.fullName.split(' ')[0] + '! Confirmation sent to ' + data.email + '. Justin will review and send onboarding + payment details.'
-        : 'Thank you! Your application was saved (ref ' + (out.reference||'') + '). Email confirmation is pending — Justin will still contact you at ' + data.email + '.';
-      form.classList.add('hidden'); success.classList.remove('hidden');
+        ? 'Thank you ' + data.fullName.split(' ')[0] + '! Confirmation sent to ' + data.email + '. Check your inbox for your next step.'
+        : 'Thank you! Your application was saved (ref ' + (out.reference||'') + '). Email confirmation is pending — You can contact us about this application at ' + data.email + '.';
+      form.classList.add('hidden'); document.getElementById('formIntro')?.classList.add('hidden'); success.classList.remove('hidden');
       success.scrollIntoView({behavior:'smooth', block:'center'});
       try { fetch(apiBase() + '/api/seats').then(r=>r.json()).then(s=>{ if(s && typeof s.remaining==='number'){ document.getElementById('seatsLeftLabel').textContent = s.remaining + ' SEATS LEFT'; } }); } catch(_){}
     } catch(err){
@@ -372,7 +372,7 @@ tailwind.config = {
     }
   });
   document.getElementById('resetBtn').addEventListener('click', ()=>{
-    success.classList.add('hidden'); form.classList.remove('hidden'); form.reset();
+    success.classList.add('hidden'); form.classList.remove('hidden'); document.getElementById('formIntro')?.classList.remove('hidden'); form.reset();
     counter.textContent = '0/300'; setCurrency('GBP');
   });
   // Live seats remaining

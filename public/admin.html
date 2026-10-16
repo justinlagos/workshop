@@ -93,7 +93,7 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
           <button data-act="future" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Future</button>
           <button data-act="invite" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Invite £/₦</button>
           <button data-act="remind" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Remind</button>
-          <button data-act="markpaid" data-ref="${a.reference}" title="Exception only — normal flow is Stripe Checkout" class="text-[11px] font-bold border border-emerald-300/50 text-emerald-200 px-2.5 py-1.5 rounded-lg">Mark paid (exception)</button>
+          
         </div></td></tr>`).join('') || '<tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">No applicants yet.</td></tr>';
       say('Loaded ' + j.applicants.length + ' applicant(s).');
     } catch(e){ say('Error: ' + e.message); }
@@ -155,11 +155,11 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
     } catch(e){ say('Error: ' + e.message); }
   });
   $('testMails').addEventListener('click', async () => {
-    say('Sending 6 test emails to admin inbox…');
+    say('Sending transactional email test to admin inbox…');
     try {
       const j = await api('POST','/api/admin/test-emails',{});
       const ok = j.results.filter(r=>r.ok).length;
-      say(ok + '/' + j.results.length + ' sent (' + j.results.map(r=>r.via).join(',') + '). Check justin@motionplaylabs.com.');
+      say(ok + '/' + j.results.length + ' test email sent (' + j.results.map(r=>r.via).join(',') + '). Check justin@motionplaylabs.com.');
     } catch(e){ say('Error: ' + e.message); }
   });
 })();

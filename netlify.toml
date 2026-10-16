@@ -1,0 +1,78 @@
+# The Build Session — Netlify configuration
+# Site: motionplay-build-session · https://workshop.motionplaylabs.com
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# API routes -> Functions (frontend calls /api/* in both environments)
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
+[[redirects]]
+  from = "/api/seats"
+  to = "/.netlify/functions/seats"
+  status = 200
+[[redirects]]
+  from = "/api/enrol"
+  to = "/.netlify/functions/enrol"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/admin/applicants"
+  to = "/.netlify/functions/admin-applicants"
+  status = 200
+[[redirects]]
+  from = "/api/admin/review"
+  to = "/.netlify/functions/admin-action?action=review"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/admin/invite"
+  to = "/.netlify/functions/admin-action?action=invite"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/admin/remind"
+  to = "/.netlify/functions/admin-action?action=remind"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/admin/mark-paid"
+  to = "/.netlify/functions/admin-action?action=mark-paid"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/admin/test-emails"
+  to = "/.netlify/functions/admin-action?action=test-emails"
+  status = 200
+  conditions = { Method = ["POST"] }
+[[redirects]]
+  from = "/api/export"
+  to = "/.netlify/functions/export"
+  status = 200
+[[redirects]]
+  from = "/api/admin/payments-capability"
+  to = "/.netlify/functions/admin-action?action=capability"
+  status = 200
+[[redirects]]
+  from = "/api/admin/payments"
+  to = "/.netlify/functions/admin-action?action=payments"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"

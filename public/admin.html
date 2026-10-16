@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — The Build Session · MotionPlay Labs</title>
+<meta name="robots" content="noindex,nofollow"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<style>body{font-family:'Plus Jakarta Sans',sans-serif}.display{font-family:'Space Grotesk',sans-serif}</style>
+</head>
+<body class="bg-[#0a0a0c] text-white min-h-screen px-4 sm:px-8 py-8 antialiased">
+<main class="w-full max-w-[1080px] mx-auto">
+<header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b-2 border-white mb-8">
+<div>
+<p class="text-[11px] font-black uppercase tracking-[0.24em] text-[#ccff00]">MotionPlay Labs · Internal</p>
+<h1 class="display text-3xl sm:text-4xl font-bold tracking-tight mt-1">Build Session Admin</h1>
+<p class="text-sm text-gray-400 mt-1 font-medium" id="seatLine">Loading seats…</p>
+</div>
+<div class="flex items-center gap-2">
+<input id="token" type="password" placeholder="ADMIN_TOKEN" autocomplete="off"
+class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-semibold placeholder:text-gray-500 w-56"/>
+<button id="load" class="bg-[#ccff00] hover:brightness-95 text-black font-black text-sm uppercase tracking-wider px-5 py-2.5 rounded-xl">Load</button>
+</div>
+</header>
+
+<div class="flex flex-wrap items-center gap-3 mb-6">
+<button id="exportBtn" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Export CSV</button>
+<button id="capBtn" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Check Stripe capability</button>
+<button id="payHist" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Payment history</button>
+<button id="testMails" class="text-xs font-bold border border-white/25 hover:border-white rounded-xl px-4 py-2.5">Send 6 test emails to admin inbox</button>
+<span id="msg" class="text-xs text-gray-400 font-semibold"></span>
+<pre id="extra" class="w-full text-[11px] text-gray-300 bg-white/5 border border-white/15 rounded-xl p-4 mt-3 overflow-x-auto hidden font-mono"></pre>
+</div>
+
+<div class="overflow-x-auto rounded-2xl border border-white/15">
+<table class="w-full text-sm min-w-[900px]">
+<thead><tr class="text-left text-[11px] uppercase tracking-widest text-gray-400 border-b border-white/15">
+<th class="px-4 py-3 font-black">Ref</th><th class="px-4 py-3 font-black">Name / Email</th>
+<th class="px-4 py-3 font-black">Assessment</th><th class="px-4 py-3 font-black">Status</th>
+<th class="px-4 py-3 font-black">Fee</th><th class="px-4 py-3 font-black">Actions</th>
+</tr></thead>
+<tbody id="rows"><tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">Enter your admin token and press Load.</td></tr></tbody>
+</table>
+</div>
+<p class="text-[11px] text-gray-500 mt-4 font-medium">Token is kept in this tab's session storage only and sent as a request header — never in URLs or logs. Payments stay in Stripe test mode until live keys are set with your explicit approval.</p>
+</main>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const tokenEl = $('token'), msg = $('msg');
+  tokenEl.value = sessionStorage.getItem('tbs_admin') || '';
+  const base = window.location.pathname.startsWith('/workshop') ? '/workshop' : '';
+  const say = t => { msg.textContent = t; };
+  function headers(){ return { 'Content-Type':'application/json', 'x-admin-token': tokenEl.value }; }
+  async function api(method, p, body){
+    const r = await fetch(base + p, { method, headers: headers(), body: body ? JSON.stringify(body) : undefined });
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+    return j;
+  }
+  function badge(a){
+    const c = a.classification || '?';
+    const col = c === 'Guided Builder' ? 'bg-[#ccff00] text-black'
+      : c === 'Review Required' ? 'bg-amber-300 text-black' : 'bg-white/15 text-white';
+    return `<span class="inline-block text-[11px] font-black px-2 py-1 rounded-lg ${col}">${c} · ${a.classificationScore ?? '?'}</span>
+      <div class="text-[11px] text-gray-400 mt-1">${(a.classificationBreakdown||[]).join(' · ')}</div>`;
+  }
+  function statusPill(s){
+    const col = s === 'paid' ? 'bg-emerald-400 text-black' : s === 'invited' ? 'bg-sky-300 text-black'
+      : s === 'waitlisted' ? 'bg-red-300 text-black' : 'bg-white/10 text-white';
+    return `<span class="inline-block text-[11px] font-black px-2 py-1 rounded-lg ${col}">${s}</span>`;
+  }
+  async function load(){
+    say('Loading…');
+    sessionStorage.setItem('tbs_admin', tokenEl.value);
+    try {
+      const j = await api('GET', '/api/admin/applicants?ts=' + Date.now());
+      // token via header; query ts avoids caching (token never in URL)
+      const s = j.seats;
+      $('seatLine').textContent = `Paid seats: ${s.paid}/${s.capacity} · ${s.remaining} remaining (verified payments only)`;
+      $('rows').innerHTML = j.applicants.map(a => `<tr class="border-b border-white/10 align-top">
+        <td class="px-4 py-3 font-bold whitespace-nowrap">${a.reference}<div class="text-[11px] text-gray-500 font-medium">${(a.createdAt||'').slice(0,10)}</div></td>
+        <td class="px-4 py-3"><div class="font-bold">${a.fullName}</div><div class="text-gray-400 text-xs">${a.email}</div>
+          <div class="text-gray-500 text-xs mt-1">${a.country} · ${a.aiExperience} · Claude ${a.claudePlan}</div>
+          <div class="text-gray-500 text-xs italic">“${(a.projectGoal||'').slice(0,90)}”</div></td>
+        <td class="px-4 py-3">${badge(a)}</td>
+        <td class="px-4 py-3">${statusPill(a.status)}${a.invite ? `<div class="text-[11px] text-gray-500 mt-1">invited ${(a.invite.createdAt||'').slice(0,10)} · expires ${(a.invite.expiresAt||'?').slice(0,16).replace('T',' ')}${a.invite.remindedAt ? ' · reminded' : ''}</div>`:''}${a.payment ? `<div class="text-[11px] text-gray-500 mt-1">paid ${(a.payment.paidAt||'').slice(0,10)}${a.payment.manual ? ' · manual' : ''}</div>`:''}</td>
+        <td class="px-4 py-3 font-bold whitespace-nowrap">${a.currency === 'NGN' ? '₦85,000' : '£50'}</td>
+        <td class="px-4 py-3"><div class="flex flex-wrap gap-1.5">
+          <button data-act="accept" data-ref="${a.reference}" class="text-[11px] font-black bg-white text-black px-2.5 py-1.5 rounded-lg">Accept</button>
+          <button data-act="future" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Future</button>
+          <button data-act="invite" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Invite £/₦</button>
+          <button data-act="remind" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Remind</button>
+          <button data-act="markpaid" data-ref="${a.reference}" title="Exception only — normal flow is Stripe Checkout" class="text-[11px] font-bold border border-emerald-300/50 text-emerald-200 px-2.5 py-1.5 rounded-lg">Mark paid (exception)</button>
+        </div></td></tr>`).join('') || '<tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">No applicants yet.</td></tr>';
+      say('Loaded ' + j.applicants.length + ' applicant(s).');
+    } catch(e){ say('Error: ' + e.message); }
+  }
+  $('rows').addEventListener('click', async e => {
+    const b = e.target.closest('button[data-act]');
+    if(!b) return;
+    const ref = b.dataset.ref, act = b.dataset.act;
+    b.disabled = true;
+    try {
+      if(act === 'accept') { await api('POST','/api/admin/review',{reference:ref,decision:'accept'}); say(ref + ' accepted as Guided Builder.'); }
+      if(act === 'future') { await api('POST','/api/admin/review',{reference:ref,decision:'future'}); say(ref + ' moved to future cohort.'); }
+      if(act === 'invite') { const j = await api('POST','/api/admin/invite',{reference:ref}); say(ref + ' invite ' + (j.reused ? 'reused' : 'created') + '. Email sent with payment link.'); }
+      if(act === 'remind') { await api('POST','/api/admin/remind',{reference:ref}); say('Reminder sent to ' + ref + '.'); }
+      if(act === 'markpaid') {
+        if(!confirm('Exception-only path (e.g. verified bank transfer). Normal flow is Stripe Checkout. Continue?')) return;
+        const receipt = prompt('Manual payment reference for ' + ref + ' (e.g. bank transfer ref):');
+        if(receipt === null) return;
+        await api('POST','/api/admin/mark-paid',{reference:ref,receipt:receipt || 'manual'});
+        say(ref + ' marked paid. Confirmation email sent.');
+      }
+      await load();
+    } catch(err){ say('Error: ' + err.message); }
+    finally { b.disabled = false; }
+  });
+  $('load').addEventListener('click', load);
+  $('exportBtn').addEventListener('click', async () => {
+    // Fetch CSV with header auth, download as blob (token never in URL).
+    const r = await fetch(base + '/api/export', { headers: { 'x-admin-token': tokenEl.value } });
+    if(!r.ok){ say('Export failed: HTTP ' + r.status); return; }
+    const blob = await r.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'build-session-applicants.csv'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  });
+  function showExtra(obj){
+    const el = $('extra');
+    el.textContent = typeof obj === 'string' ? obj : JSON.stringify(obj, null, 2);
+    el.classList.remove('hidden');
+  }
+  $('capBtn').addEventListener('click', async () => {
+    say('Checking Stripe account…');
+    try {
+      const r = await fetch(base + '/api/admin/payments-capability', { headers: { 'x-admin-token': tokenEl.value } });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      say('Capability OK — see details below.');
+      showExtra(j.capability);
+    } catch(e){ say('Capability check failed: ' + e.message + ' — Stripe keys missing or invalid.'); }
+  });
+  $('payHist').addEventListener('click', async () => {
+    say('Loading payment history…');
+    try {
+      const r = await fetch(base + '/api/admin/payments', { headers: { 'x-admin-token': tokenEl.value } });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      say(`Ledger: ${j.payments.length} event(s), ${j.seats.paid}/${j.seats.capacity} paid.`);
+      showExtra(j.payments);
+    } catch(e){ say('Error: ' + e.message); }
+  });
+  $('testMails').addEventListener('click', async () => {
+    say('Sending 6 test emails to admin inbox…');
+    try {
+      const j = await api('POST','/api/admin/test-emails',{});
+      const ok = j.results.filter(r=>r.ok).length;
+      say(ok + '/' + j.results.length + ' sent (' + j.results.map(r=>r.via).join(',') + '). Check justin@motionplaylabs.com.');
+    } catch(e){ say('Error: ' + e.message); }
+  });
+})();
+</script>
+</body>
+</html>

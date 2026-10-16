@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Payment received — The Build Session</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<style>body{font-family:'Plus Jakarta Sans',sans-serif}.display{font-family:'Space Grotesk',sans-serif}</style>
+</head>
+<body class="bg-[#f0f1f5] min-h-screen flex items-center justify-center px-4 py-10">
+<main class="w-full max-w-[560px] bg-white rounded-3xl p-8 sm:p-12 text-center">
+<p class="text-[11px] font-black uppercase tracking-[0.24em] mb-4">THE BUILD SESSION</p>
+<div class="w-16 h-16 bg-[#ccff00] rounded-full flex items-center justify-center mx-auto mb-5 text-2xl font-black">✓</div>
+<h1 class="display text-3xl font-bold tracking-tight mb-2">Payment received</h1>
+<p class="text-sm text-gray-600 font-medium mb-1" id="line">Confirming your seat…</p>
+<p class="text-xs text-gray-400 font-medium mb-6">Reference: <span class="font-bold text-black" id="ref"></span></p>
+<div class="text-left text-sm bg-[#f8f9fc] border border-gray-200 rounded-2xl p-5 font-medium text-gray-600 space-y-2">
+<p>Your seat is confirmed only after our server verifies the payment with Stripe — this page checks live status below. Your receipt email follows automatically.</p>
+<p id="status" class="font-bold text-black">Checking…</p>
+</div>
+<p class="mt-6"><a href="/" class="text-sm font-bold underline underline-offset-4">Back to workshop</a></p>
+</main>
+<script>
+(function(){
+  const q = new URLSearchParams(window.location.search);
+  const ref = q.get('ref') || '';
+  document.getElementById('ref').textContent = ref;
+  const base = window.location.pathname.startsWith('/workshop') ? '/workshop' : '';
+  async function check(n){
+    try {
+      const r = await fetch(base + '/api/seats').then(r=>r.json());
+      document.getElementById('status').textContent =
+        `Cohort status: ${r.paid}/${r.capacity} paid seats confirmed · ${r.remaining} remaining. ` +
+        (ref ? `If you just paid for ${ref}, your confirmation email arrives once the payment webhook is verified (usually under a minute).` : '');
+      document.getElementById('line').textContent = 'Thanks — verification is handled server-side.';
+    } catch(e){ if(n < 4) setTimeout(()=>check(n+1), 3000); }
+  }
+  check(0);
+})();
+</script>
+</body>
+</html>

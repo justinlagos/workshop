@@ -1,0 +1,17 @@
+{
+  "name": "motionplay-workshop",
+  "version": "1.0.0",
+  "description": "The Build Session workshop enrolment site for motionplaylabs.com/workshop",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14",
+    "stripe": "^23.0.0",
+    "validator": "^13.12.0"
+  }
+}

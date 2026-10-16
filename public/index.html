@@ -77,6 +77,23 @@ html,body{max-width:100%;overflow-x:clip}
  #enrollSection .max-w-xl{min-width:0}
  .ambient-glow{width:260px;height:260px;right:-50px}
 }
+
+/* Mobile hero composition: complete header, arrow intentionally intrudes on title edge. */
+@media(max-width:639px){
+ main.poster-frame{padding-top:38px}
+ main.poster-frame header{align-items:center;gap:12px;margin-bottom:30px;min-height:78px}
+ main.poster-frame header>div:first-child{min-width:0;flex:1}
+ main.poster-frame header span:first-child{font-size:10px;letter-spacing:.11em}
+ main.poster-frame header p{font-size:10px;letter-spacing:.12em}
+ .mobile-logo{width:112px;height:78px;overflow:visible}
+ .mobile-logo img{width:100%;height:100%;object-fit:contain;object-position:center}
+ .hero-arrow-column{position:relative;z-index:2;margin-top:-42px;margin-bottom:-16px;margin-right:-3px;pointer-events:none}
+ .hero-arrow-stage{width:176px;height:176px}
+ .headline-tight{position:relative;z-index:1}
+}
+@media(min-width:640px) and (max-width:767px){
+ .hero-arrow-column{margin-top:-22px;position:relative;z-index:2}
+}
 </style>
 </head>
 <body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
@@ -97,7 +114,7 @@ html,body{max-width:100%;overflow-x:clip}
 <main class="poster-frame relative w-full max-w-[920px] bg-white rounded-3xl sm:rounded-[36px] p-6 sm:p-14 overflow-hidden z-10">
 <div aria-hidden="true" class="ambient-glow"></div>
 
-<header class="relative z-10 flex items-start justify-between mb-8 sm:mb-12">
+<header class="relative z-20 flex items-center justify-between gap-3 mb-8 sm:mb-12">
   <div class="space-y-1.5">
     <div class="flex items-center gap-3">
       <span class="text-[12px] sm:text-[13px] font-extrabold tracking-[0.24em] uppercase text-black">THE BUILD SESSION</span>
@@ -105,8 +122,8 @@ html,body{max-width:100%;overflow-x:clip}
     </div>
     <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">FOUNDING COHORT 01</p>
   </div>
-  <div class="mobile-logo relative w-[88px] h-[60px] sm:w-24 sm:h-20 shrink-0 overflow-hidden" title="MotionPlay Labs">
-    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448" class="absolute max-w-none w-[220%] h-auto left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" loading="eager" decoding="async"/>
+  <div class="mobile-logo relative w-[112px] h-[80px] sm:w-32 sm:h-24 shrink-0" title="MotionPlay Labs">
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448" class="block w-full h-full object-contain object-center" loading="eager" decoding="async"/>
   </div>
 </header>
 
@@ -119,7 +136,7 @@ html,body{max-width:100%;overflow-x:clip}
       <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#9040ff] via-[#a260ff] to-[#be8cff]">BUILDING.</span>
     </h1>
   </div>
-  <div class="md:col-span-4 flex justify-center md:justify-end mt-4 md:mt-0 select-none">
+  <div class="hero-arrow-column md:col-span-4 flex justify-end md:justify-end mt-0 select-none">
     <div class="hero-arrow-stage relative w-48 h-48 sm:w-60 sm:h-60 flex items-center justify-center">
       <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/473db752-acb4-4f99-b25b-4cd77ed9d50e.png" alt="" aria-hidden="true" width="240" height="240" loading="eager" decoding="async" class="hero-arrow-floating w-full h-full object-contain" />
     </div>

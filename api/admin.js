@@ -5,6 +5,32 @@ function display(a){return {reference:a.reference,createdAt:a.created_at,fullNam
 function model(a){return {fullName:a.full_name,email:a.email,country:a.country,whatsapp:a.whatsapp,aiExperience:a.ai_experience,claudePlan:a.claude_plan,projectGoal:a.project_goal,currency:a.currency,reference:a.reference};}
 async function byRef(reference){const rows=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference)+'&select=*');return rows[0];}
 async function update(reference,patch){const rows=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference),{method:'PATCH',body:patch,prefer:'return=representation'});return rows[0];}
+function fail(code,message){const e=new Error(message);e.http=code;return e;}
+// Payment links last 24 hours (Stripe's maximum), minus a minute of headroom.
+const LINK_TTL=86400-60;
+// One path for approving and resending: reuse a link with more than an hour left,
+// otherwise retire the old link (so only one can ever be paid) and issue a new 24-hour one.
+// Always emails the applicant the link.
+async function sendPaymentLink(a){
+ if(a.status==='paid')throw fail(409,'Already paid');
+ const current=await seats();if(!current.remaining)throw fail(409,'The cohort is full');
+ const client=stripe();if(!client)throw fail(503,'Stripe is not configured');
+ const left=a.invite_expires_at?new Date(a.invite_expires_at).getTime()-Date.now():0;
+ const reuse=a.status==='invited'&&a.invite_url&&a.stripe_session_id&&left>3600e3;
+ let row=a;
+ if(!reuse){
+  if(a.stripe_session_id){
+   const old=await client.checkout.sessions.retrieve(a.stripe_session_id).catch(()=>null);
+   if(old&&(old.payment_status==='paid'||old.status==='complete'))throw fail(409,'This applicant has just paid. Refresh in a minute.');
+   if(old&&old.status==='open')await client.checkout.sessions.expire(a.stripe_session_id);
+  }
+  const fee=feeFor(a.currency),expires=Math.floor(Date.now()/1000)+LINK_TTL,ref=a.reference;
+  const session=await client.checkout.sessions.create({mode:'payment',customer_email:a.email,client_reference_id:ref,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],metadata:{reference:ref,cohort:'cohort-01'},expires_at:expires,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(ref),cancel_url:site()+'/?payment=cancelled'});
+  row=await update(ref,{classification:'Guided Builder',status:'invited',stripe_session_id:session.id,invite_url:session.url,invite_expires_at:new Date(expires*1000).toISOString()});
+ }
+ await mail(row.email,applicantAcceptance(model(row),row.reference,applicationResult(row),row.invite_url,site(),{seatsRemaining:current.remaining,expiresAt:row.invite_expires_at}));
+ return {url:row.invite_url,expiresAt:row.invite_expires_at,reused:!!reuse,applicant:display(row)};
+}
 export default async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(!adminOk(req))return err(res,401,'Unauthorised');
@@ -49,33 +75,30 @@ export default async function handler(req,res){
   }
   if(!ref)return err(res,400,'Applicant reference required');
   const a=await byRef(ref);if(!a)return err(res,404,'Applicant not found');
+  // Approve = Guided Builder + 24-hour payment link emailed straight away. No "under review" email.
+  if(action==='approve'||(action==='review'&&req.body.decision==='accept')){
+   return res.status(200).json({ok:true,...await sendPaymentLink(a)});
+  }
   if(action==='review'){
    const decision=String(req.body.decision||'');
-   const patch=decision==='accept'?{classification:'Guided Builder',status:'applied'}:decision==='future'?{classification:'Foundation',status:'foundation'}:decision==='review'?{classification:'Review Required',status:'reviewed'}:null;
-   if(!patch)return err(res,400,'Invalid decision');
    if(a.status==='paid')return err(res,409,'Cannot reclassify confirmed attendee');
-   const updated=await update(ref,patch);
-   const result=applicationResult(updated),d=model(updated);
-   await mail(updated.email,decision==='future'?futureCohort(d,ref,result,site()):reviewRequired(d,ref,result,site()));
-   return res.status(200).json({ok:true,applicant:display(updated)});
+   if(decision==='future'){
+    const updated=await update(ref,{classification:'Foundation',status:'foundation'});
+    await mail(updated.email,futureCohort(model(updated),ref,applicationResult(updated),site()));
+    return res.status(200).json({ok:true,applicant:display(updated)});
+   }
+   if(decision==='review'){
+    // Back to review quietly: the applicant already had the "under review" email when they applied.
+    const updated=await update(ref,{classification:'Review Required',status:'reviewed'});
+    return res.status(200).json({ok:true,applicant:display(updated)});
+   }
+   return err(res,400,'Invalid decision');
   }
-  if(action==='invite'){
-   if(a.classification!=='Guided Builder'||a.status==='paid'||a.status==='foundation'||a.status==='reviewed')return err(res,403,'Applicant is not eligible for payment invitation');
-   const current=await seats();if(!current.remaining)return err(res,409,'The cohort is full');
-   if(a.invite_url&&a.invite_expires_at&&new Date(a.invite_expires_at)>new Date())return res.status(200).json({ok:true,url:a.invite_url,reused:true});
-   const client=stripe();if(!client)return err(res,503,'Stripe test credentials are not yet configured');
-   if(!((process.env.STRIPE_PAYMENT_MODE==='live' && /^(sk_live_|rk_live_)/.test(process.env.STRIPE_SECRET_KEY||''))||(process.env.STRIPE_PAYMENT_MODE==='test' && process.env.STRIPE_SECRET_KEY.startsWith('sk_test_'))))return err(res,403,'Payment mode and configured Stripe key do not match');
-   const fee=feeFor(a.currency),expires=Math.floor(Date.now()/1000)+1800;
-   const session=await client.checkout.sessions.create({mode:'payment',customer_email:a.email,client_reference_id:ref,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],metadata:{reference:ref,cohort:'cohort-01'},expires_at:expires,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(ref),cancel_url:site()+'/?payment=cancelled'});
-   const updated=await update(ref,{status:'invited',stripe_session_id:session.id,invite_url:session.url,invite_expires_at:new Date(expires*1000).toISOString()});
-   await mail(a.email,applicantAcceptance(model(updated),ref,applicationResult(updated),session.url,site(),{seatsRemaining:current.remaining,expiresAt:updated.invite_expires_at}));
-   return res.status(200).json({ok:true,url:session.url,reused:false});
-  }
-  if(action==='remind'){
-   if(a.status!=='invited'||!a.invite_url||new Date(a.invite_expires_at)<new Date())return err(res,400,'No active invitation to remind');
-   const message={subject:'Your Build Session invitation is still open',text:'Hi '+a.full_name.split(' ')[0]+', your payment invitation is still available while seats remain. Secure your seat: '+a.invite_url,html:'<p>Hi '+cleanse(a.full_name.split(' ')[0])+',</p><p>Your Build Session invitation is still available, subject to capacity.</p><p><a href="'+a.invite_url+'">Secure your seat</a></p>'};
-   await mail(a.email,message);return res.status(200).json({ok:true});
+  // Resend the payment link (old "Invite" and "Remind" buttons both land here).
+  if(action==='invite'||action==='remind'||action==='resend'){
+   if(a.classification!=='Guided Builder')return err(res,403,'Approve this applicant first');
+   return res.status(200).json({ok:true,...await sendPaymentLink(a)});
   }
   return err(res,404,'Unknown administrator action');
- }catch(e){console.error('Admin operation failed',e.message);return err(res,503,'Admin operation could not be completed');}
+ }catch(e){console.error('Admin operation failed',e.message);return err(res,e.http||503,e.http?e.message:'Admin operation could not be completed');}
 }

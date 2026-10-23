@@ -68,6 +68,7 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
     return `<span class="inline-block text-[11px] font-black px-2 py-1 rounded-lg ${col}">${c} · ${a.classificationScore ?? '?'}</span>
       <div class="text-[11px] text-gray-400 mt-1">${(a.classificationBreakdown||[]).join(' · ')}</div>`;
   }
+  const ukTime = iso => new Date(iso).toLocaleString('en-GB',{timeZone:'Europe/London',weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) + ' UK';
   function statusPill(s){
     const col = s === 'paid' ? 'bg-emerald-400 text-black' : s === 'invited' ? 'bg-sky-300 text-black'
       : s === 'waitlisted' ? 'bg-red-300 text-black' : 'bg-white/10 text-white';
@@ -87,14 +88,13 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
           <div class="text-gray-500 text-xs mt-1">${a.country} · ${a.aiExperience} · Claude ${a.claudePlan}</div>
           <div class="text-gray-500 text-xs italic">“${(a.projectGoal||'').slice(0,90)}”</div></td>
         <td class="px-4 py-3">${badge(a)}</td>
-        <td class="px-4 py-3">${statusPill(a.status)}${a.invite ? `<div class="text-[11px] text-gray-500 mt-1">invited ${(a.invite.createdAt||'').slice(0,10)} · expires ${(a.invite.expiresAt||'?').slice(0,16).replace('T',' ')}${a.invite.remindedAt ? ' · reminded' : ''}</div>`:''}${a.payment ? `<div class="text-[11px] text-gray-500 mt-1">paid ${(a.payment.paidAt||'').slice(0,10)}${a.payment.manual ? ' · manual' : ''}</div>`:''}</td>
+        <td class="px-4 py-3">${statusPill(a.status)}${a.invite ? `<div class="text-[11px] text-gray-500 mt-1">invited ${(a.invite.createdAt||'').slice(0,10)} · link expires ${a.invite.expiresAt ? ukTime(a.invite.expiresAt) : '?'}${new Date(a.invite.expiresAt) < new Date() ? ' (expired)' : ''}</div>`:''}${a.payment ? `<div class="text-[11px] text-gray-500 mt-1">paid ${(a.payment.paidAt||'').slice(0,10)}${a.payment.manual ? ' · manual' : ''}</div>`:''}</td>
         <td class="px-4 py-3 font-bold whitespace-nowrap">${a.currency === 'NGN' ? '₦85,000' : '£50'}</td>
         <td class="px-4 py-3"><div class="flex flex-wrap gap-1.5">
-          <button data-act="accept" data-ref="${a.reference}" class="text-[11px] font-black bg-white text-black px-2.5 py-1.5 rounded-lg">Accept</button>
-          <button data-act="future" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Future</button>
-          <button data-act="invite" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Invite £/₦</button>
-          <button data-act="remind" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Remind</button>
-          
+          ${a.status === 'paid' ? '<span class="text-[11px] text-gray-500">Confirmed</span>' : a.status === 'invited'
+            ? `<button data-act="resend" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Resend link</button>`
+            : `<button data-act="approve" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Approve &amp; send link</button>`}
+          ${a.status === 'paid' || a.status === 'foundation' ? '' : `<button data-act="future" data-ref="${a.reference}" class="text-[11px] font-bold border border-white/25 px-2.5 py-1.5 rounded-lg">Future cohort</button>`}
         </div></td></tr>`).join('') || '<tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">No applicants yet.</td></tr>';
       say('Loaded ' + j.applicants.length + ' applicant(s).');
     } catch(e){ say('Error: ' + e.message); }
@@ -105,10 +105,11 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
     const ref = b.dataset.ref, act = b.dataset.act;
     b.disabled = true;
     try {
-      if(act === 'accept') { await api('POST','/api/admin/review',{reference:ref,decision:'accept'}); say(ref + ' accepted as Guided Builder.'); }
-      if(act === 'future') { await api('POST','/api/admin/review',{reference:ref,decision:'future'}); say(ref + ' moved to future cohort.'); }
-      if(act === 'invite') { const j = await api('POST','/api/admin/invite',{reference:ref}); say(ref + ' invite ' + (j.reused ? 'reused' : 'created') + '. Email sent with payment link.'); }
-      if(act === 'remind') { await api('POST','/api/admin/remind',{reference:ref}); say('Reminder sent to ' + ref + '.'); }
+      if(act === 'approve' || act === 'resend') {
+        const j = await api('POST','/api/admin/' + act,{reference:ref});
+        say(ref + (act === 'approve' ? ' approved. ' : ' ') + 'Payment link emailed' + (j.reused ? ' (same link)' : ' (new 24-hour link)') + ', valid until ' + ukTime(j.expiresAt) + '.');
+      }
+      if(act === 'future') { await api('POST','/api/admin/review',{reference:ref,decision:'future'}); say(ref + ' moved to future cohort. Email sent.'); }
       if(act === 'markpaid') {
         if(!confirm('Exception-only path (e.g. verified bank transfer). Normal flow is Stripe Checkout. Continue?')) return;
         const receipt = prompt('Manual payment reference for ' + ref + ' (e.g. bank transfer ref):');

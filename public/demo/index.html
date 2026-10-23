@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mama Tee's Kitchen · Order on WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#14532d;--green-2:#166534;--orange:#f97316;--orange-soft:#ffedd5;--cream:#fffaf3;--ink:#1c1917;--muted:#6b6259;--line:#eadfd2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 Nunito,Arial,Helvetica,sans-serif;padding-bottom:190px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{background:var(--green);color:#fff;padding:28px 0 26px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{flex:0 0 56px;height:56px;border-radius:16px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:30px}
+h1{margin:0;font:700 30px/1.1 Fredoka,Arial,sans-serif;letter-spacing:-0.3px}
+.tag{margin:4px 0 0;color:#dcfce7;font-weight:600}
+.info{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.info li{background:rgba(255,255,255,.12);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
+h2{font:600 22px/1.2 Fredoka,Arial,sans-serif;margin:28px 0 12px;color:var(--green)}
+.menu{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center}
+.item.on{border-color:var(--orange);background:#fffdf9}
+.emoji{flex:0 0 48px;height:48px;border-radius:14px;background:var(--orange-soft);display:flex;align-items:center;justify-content:center;font-size:26px}
+.meta{flex:1;min-width:0}
+.meta h3{margin:0;font-size:16px;font-weight:800}
+.meta p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.price{margin-top:4px;font-weight:800;color:var(--green)}
+.qty{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.qty button{width:36px;height:36px;border-radius:12px;border:2px solid var(--green);background:#fff;color:var(--green);font:700 20px/1 Nunito,Arial,sans-serif;cursor:pointer}
+.qty button.plus{background:var(--green);color:#fff}
+.qty button:disabled{opacity:.35;cursor:default}
+.qty output{min-width:22px;text-align:center;font-weight:800;font-size:17px}
+form{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+label{display:grid;gap:4px;font-weight:700;font-size:14px}
+label small{font-weight:600;color:var(--muted)}
+input,select,textarea{font:16px Nunito,Arial,sans-serif;padding:11px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
+textarea{resize:vertical;min-height:70px}
+.cart{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:5}
+.rows{display:grid;grid-template-columns:1fr auto;gap:2px 12px;font-size:14px;color:var(--muted)}
+.rows .total{color:var(--ink);font-weight:800;font-size:18px}
+.order{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font:800 17px Nunito,Arial,sans-serif;text-decoration:none;border:0}
+.order[aria-disabled="true"]{background:#d6d3d1;color:#78716c;pointer-events:none}
+.hint{margin:6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+footer{margin:28px 0 0;text-align:center;color:var(--muted);font-size:13px}
+@media (min-width:640px){h1{font-size:36px}.menu{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="brand"><div class="logo" aria-hidden="true">🍲</div><div><h1>Mama Tee's Kitchen</h1><p class="tag">Home-cooked Lagos favourites. Order on WhatsApp.</p></div></div>
+<ul class="info"><li>Delivery in Lekki and Victoria Island · ₦2,000</li><li>Orders 10 AM to 7 PM, Monday to Saturday</li></ul>
+</div></header>
+
+<main class="wrap">
+<h2>Menu</h2>
+<ul class="menu" id="menu"></ul>
+
+<h2>Your details</h2>
+<form id="details" onsubmit="return false">
+<label>Your name<input id="name" autocomplete="name" placeholder="For example Tola"></label>
+<label>Delivery area<select id="area"><option>Lekki</option><option>Victoria Island</option></select></label>
+<label>Street address <small>(optional)</small><input id="street" autocomplete="street-address" placeholder="House number and street"></label>
+<label>Note <small>(optional)</small><textarea id="note" placeholder="Less pepper, gate code, anything we should know"></textarea></label>
+</form>
+<footer>Prices include packaging. Payment on delivery or by transfer, confirmed on WhatsApp.</footer>
+</main>
+
+<div class="cart" role="region" aria-label="Your order"><div class="wrap">
+<div class="rows" aria-live="polite">
+<span id="count">No items yet</span><span id="subtotal">₦0</span>
+<span>Delivery</span><span id="delivery">₦0</span>
+<span class="total">Total</span><span class="total" id="total">₦0</span>
+</div>
+<a id="order" class="order" href="#" target="_blank" rel="noopener" aria-disabled="true">Order on WhatsApp</a>
+<p class="hint" id="hint">Add at least one item and your name.</p>
+</div></div>
+
+<script>
+// Set this to the kitchen's number in international format, no + or spaces (for example '2348012345678').
+// If it is set, the order opens straight into that chat: https://wa.me/<number>?text=...
+// If it is empty, WhatsApp opens and asks which chat to send the order to.
+var WHATSAPP_NUMBER = '';
+var DELIVERY_FEE = 2000;
+var MENU = [
+  {id:'jollof', name:'Jollof rice and chicken', desc:'Smoky party jollof with grilled chicken.', price:4500, emoji:'🍛'},
+  {id:'fried', name:'Fried rice and turkey', desc:'Vegetable fried rice with peppered turkey.', price:5000, emoji:'🍚'},
+  {id:'ofada', name:'Ofada rice and ayamase', desc:'Local rice with green pepper stew.', price:5500, emoji:'🌶️'},
+  {id:'poundo', name:'Pounded yam and egusi', desc:'Soft pounded yam with egusi and assorted meat.', price:6000, emoji:'🥣'},
+  {id:'moimoi', name:'Moi moi', desc:'Steamed bean pudding with egg.', price:1500, emoji:'🫘'},
+  {id:'dodo', name:'Dodo (fried plantain)', desc:'Sweet ripe plantain, fried golden.', price:1200, emoji:'🍌'},
+  {id:'chapman', name:'Chapman', desc:'Chilled fruity Lagos classic.', price:1500, emoji:'🍹'}
+];
+var qty = {};
+MENU.forEach(function(m){ qty[m.id] = 0; });
+
+function naira(n){ return '₦' + new Intl.NumberFormat('en-GB').format(n); }
+function $(id){ return document.getElementById(id); }
+
+function renderMenu(){
+  $('menu').innerHTML = MENU.map(function(m){
+    return '<li class="item" id="row-' + m.id + '">' +
+      '<div class="emoji" aria-hidden="true">' + m.emoji + '</div>' +
+      '<div class="meta"><h3>' + m.name + '</h3><p>' + m.desc + '</p><div class="price">' + naira(m.price) + '</div></div>' +
+      '<div class="qty">' +
+        '<button type="button" class="minus" data-id="' + m.id + '" aria-label="Remove one ' + m.name + '">−</button>' +
+        '<output id="q-' + m.id + '" aria-label="Quantity of ' + m.name + '">0</output>' +
+        '<button type="button" class="plus" data-id="' + m.id + '" aria-label="Add one ' + m.name + '">+</button>' +
+      '</div></li>';
+  }).join('');
+}
+
+function message(items, subtotal, delivery, total){
+  var lines = ["Hi Mama Tee, I'd like to order:"];
+  items.forEach(function(m){ lines.push(qty[m.id] + ' x ' + m.name + ' (' + naira(qty[m.id] * m.price) + ')'); });
+  lines.push('Subtotal: ' + naira(subtotal));
+  lines.push('Delivery: ' + naira(delivery));
+  lines.push('Total: ' + naira(total));
+  lines.push('Name: ' + $('name').value.trim());
+  var street = $('street').value.trim();
+  lines.push('Address: ' + (street ? street + ', ' : '') + $('area').value);
+  var note = $('note').value.trim();
+  if (note) lines.push('Note: ' + note);
+  return lines.join('\n');
+}
+
+function update(){
+  var items = MENU.filter(function(m){ return qty[m.id] > 0; });
+  var count = items.reduce(function(s, m){ return s + qty[m.id]; }, 0);
+  var subtotal = items.reduce(function(s, m){ return s + qty[m.id] * m.price; }, 0);
+  var delivery = count > 0 ? DELIVERY_FEE : 0;
+  var total = subtotal + delivery;
+  MENU.forEach(function(m){
+    $('q-' + m.id).textContent = qty[m.id];
+    $('row-' + m.id).classList.toggle('on', qty[m.id] > 0);
+    document.querySelector('.minus[data-id="' + m.id + '"]').disabled = qty[m.id] === 0;
+  });
+  $('count').textContent = count ? count + (count === 1 ? ' item' : ' items') : 'No items yet';
+  $('subtotal').textContent = naira(subtotal);
+  $('delivery').textContent = naira(delivery);
+  $('total').textContent = naira(total);
+  var name = $('name').value.trim();
+  var ready = count > 0 && name.length > 0;
+  var link = $('order');
+  if (ready){
+    var text = encodeURIComponent(message(items, subtotal, delivery, total));
+    link.href = WHATSAPP_NUMBER ? 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text : 'https://wa.me/?text=' + text;
+    link.setAttribute('aria-disabled', 'false');
+    link.removeAttribute('tabindex');
+    $('hint').textContent = 'Opens WhatsApp with your order typed out.';
+  } else {
+    link.href = '#';
+    link.setAttribute('aria-disabled', 'true');
+    link.setAttribute('tabindex', '-1');
+    $('hint').textContent = count === 0 ? 'Add at least one item and your name.' : 'Add your name to place the order.';
+  }
+}
+
+renderMenu();
+$('menu').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-id]');
+  if (!b) return;
+  var id = b.getAttribute('data-id');
+  qty[id] = Math.max(0, qty[id] + (b.classList.contains('plus') ? 1 : -1));
+  update();
+});
+['name', 'area', 'street', 'note'].forEach(function(id){ $(id).addEventListener('input', update); });
+$('order').addEventListener('click', function(e){ if (this.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
+update();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 import {db,seats,stripe,site,mail,adminOk,method,feeFor,applicantAcceptance,reviewRequired,futureCohort,applicationResult,notifyAdmin} from './_shared.js';
 function err(res,code,message){return res.status(code).json({ok:false,error:message});}
 const cleanse=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-function display(a){return {reference:a.reference,createdAt:a.created_at,fullName:cleanse(a.full_name),email:cleanse(a.email),country:cleanse(a.country),whatsapp:cleanse(a.whatsapp),aiExperience:cleanse(a.ai_experience),claudePlan:cleanse(a.claude_plan),projectGoal:cleanse(a.project_goal),classification:a.classification,classificationScore:a.score,classificationBreakdown:a.breakdown,status:a.status,currency:a.currency,invite:a.stripe_session_id?{createdAt:a.created_at,expiresAt:a.invite_expires_at,url:a.invite_url}:null,payment:a.paid_at?{paidAt:a.paid_at}:null};}
+function display(a){return {reference:a.reference,createdAt:a.created_at,fullName:cleanse(a.full_name),email:cleanse(a.email),country:cleanse(a.country),whatsapp:cleanse(a.whatsapp),aiExperience:cleanse(a.ai_experience),claudePlan:cleanse(a.claude_plan),projectGoal:cleanse(a.project_goal),classification:a.classification,classificationScore:a.score,classificationBreakdown:a.breakdown,status:a.status,currency:a.currency,invite:a.stripe_session_id?{createdAt:a.created_at,expiresAt:a.invite_expires_at,url:a.invite_url}:null,payment:a.paid_at?{paidAt:a.paid_at}:null,feeAmount:Number(a.fee_amount)>0?Number(a.fee_amount):null};}
 function model(a){return {fullName:a.full_name,email:a.email,country:a.country,whatsapp:a.whatsapp,aiExperience:a.ai_experience,claudePlan:a.claude_plan,projectGoal:a.project_goal,currency:a.currency,reference:a.reference};}
 async function byRef(reference){const rows=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference)+'&select=*');return rows[0];}
 async function update(reference,patch){const rows=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference),{method:'PATCH',body:patch,prefer:'return=representation'});return rows[0];}
@@ -11,25 +11,35 @@ const LINK_TTL=86400-60;
 // One path for approving and resending: reuse a link with more than an hour left,
 // otherwise retire the old link (so only one can ever be paid) and issue a new 24-hour one.
 // Always emails the applicant the link.
+// The fee for one applicant, in the smallest currency unit: a per-applicant override
+// (workshop_applications.fee_amount) or the standard fee for their currency.
+const feeAmount=a=>Number(a.fee_amount)>0?Number(a.fee_amount):feeFor(a.currency).amount;
 async function sendPaymentLink(a){
  if(a.status==='paid')throw fail(409,'Already paid');
  const current=await seats();if(!current.remaining)throw fail(409,'The cohort is full');
  const client=stripe();if(!client)throw fail(503,'Stripe is not configured');
+ const amount=feeAmount(a);
+ const old=a.stripe_session_id?await client.checkout.sessions.retrieve(a.stripe_session_id).catch(()=>null):null;
+ if(old&&(old.payment_status==='paid'||old.status==='complete'))throw fail(409,'This applicant has just paid. Refresh in a minute.');
  const left=a.invite_expires_at?new Date(a.invite_expires_at).getTime()-Date.now():0;
- const reuse=a.status==='invited'&&a.invite_url&&a.stripe_session_id&&left>3600e3;
+ const open=!!(old&&old.status==='open');
+ // Reuse only an open link at the right price with more than an hour left.
+ const reuse=a.status==='invited'&&a.invite_url&&open&&old.amount_total===amount&&left>3600e3;
+ // A link at a different price is replaced, and the email says so.
+ const replaced=open&&old.amount_total!==amount;
  let row=a;
  if(!reuse){
-  if(a.stripe_session_id){
-   const old=await client.checkout.sessions.retrieve(a.stripe_session_id).catch(()=>null);
-   if(old&&(old.payment_status==='paid'||old.status==='complete'))throw fail(409,'This applicant has just paid. Refresh in a minute.');
-   if(old&&old.status==='open')await client.checkout.sessions.expire(a.stripe_session_id);
-  }
-  const fee=feeFor(a.currency),expires=Math.floor(Date.now()/1000)+LINK_TTL,ref=a.reference;
-  const session=await client.checkout.sessions.create({mode:'payment',customer_email:a.email,client_reference_id:ref,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],metadata:{reference:ref,cohort:'cohort-01'},expires_at:expires,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(ref),cancel_url:site()+'/?payment=cancelled'});
+  if(open)await client.checkout.sessions.expire(a.stripe_session_id);
+  // 24 hours, or until the session starts if that comes first (Stripe needs at least 30 minutes).
+  const now=Math.floor(Date.now()/1000),cohort=(await db('workshop_cohorts?id=eq.'+encodeURIComponent(a.cohort_id||'cohort-01')+'&select=session_at'))[0];
+  const startsAt=cohort?.session_at?Math.floor(Date.parse(cohort.session_at)/1000):0;
+  const expires=startsAt-now>=1800&&startsAt<now+LINK_TTL?startsAt:now+LINK_TTL;
+  const fee=feeFor(a.currency),ref=a.reference;
+  const session=await client.checkout.sessions.create({mode:'payment',customer_email:a.email,client_reference_id:ref,line_items:[{price_data:{currency:fee.currency,unit_amount:amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],metadata:{reference:ref,cohort:'cohort-01'},expires_at:expires,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(ref),cancel_url:site()+'/?payment=cancelled'});
   row=await update(ref,{classification:'Guided Builder',status:'invited',stripe_session_id:session.id,invite_url:session.url,invite_expires_at:new Date(expires*1000).toISOString()});
  }
- await mail(row.email,applicantAcceptance(model(row),row.reference,applicationResult(row),row.invite_url,site(),{seatsRemaining:current.remaining,expiresAt:row.invite_expires_at}));
- return {url:row.invite_url,expiresAt:row.invite_expires_at,reused:!!reuse,applicant:display(row)};
+ await mail(row.email,applicantAcceptance(model(row),row.reference,applicationResult(row),row.invite_url,site(),{seatsRemaining:current.remaining,expiresAt:row.invite_expires_at,amount,replaced}));
+ return {url:row.invite_url,expiresAt:row.invite_expires_at,reused:!!reuse,replaced,amount,applicant:display(row)};
 }
 export default async function handler(req,res){
  res.setHeader('Cache-Control','no-store');

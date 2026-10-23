@@ -89,7 +89,7 @@ class="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-se
           <div class="text-gray-500 text-xs italic">“${(a.projectGoal||'').slice(0,90)}”</div></td>
         <td class="px-4 py-3">${badge(a)}</td>
         <td class="px-4 py-3">${statusPill(a.status)}${a.invite ? `<div class="text-[11px] text-gray-500 mt-1">invited ${(a.invite.createdAt||'').slice(0,10)} · link expires ${a.invite.expiresAt ? ukTime(a.invite.expiresAt) : '?'}${new Date(a.invite.expiresAt) < new Date() ? ' (expired)' : ''}</div>`:''}${a.payment ? `<div class="text-[11px] text-gray-500 mt-1">paid ${(a.payment.paidAt||'').slice(0,10)}${a.payment.manual ? ' · manual' : ''}</div>`:''}</td>
-        <td class="px-4 py-3 font-bold whitespace-nowrap">${a.currency === 'NGN' ? '₦85,000' : '£50'}</td>
+        <td class="px-4 py-3 font-bold whitespace-nowrap">${a.feeAmount ? ((a.currency === 'NGN' ? '₦' : '£') + (a.feeAmount/100).toLocaleString('en-GB') + ' <span class="text-[11px] text-[#ccff00]">custom</span>') : (a.currency === 'NGN' ? '₦85,000' : '£50')}</td>
         <td class="px-4 py-3"><div class="flex flex-wrap gap-1.5">
           ${a.status === 'paid' ? '<span class="text-[11px] text-gray-500">Confirmed</span>' : a.status === 'invited'
             ? `<button data-act="resend" data-ref="${a.reference}" class="text-[11px] font-black bg-[#ccff00] text-black px-2.5 py-1.5 rounded-lg">Resend link</button>`

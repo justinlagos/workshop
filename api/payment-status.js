@@ -18,7 +18,7 @@ export default async function handler(req,res){
   if(outcome==='confirmed'){
    const d={fullName:a.full_name,email:a.email,currency:a.currency,projectGoal:a.project_goal};
    const result={classification:a.classification,score:a.score};
-   try{await mail(a.email,paymentConfirmation(d,a.reference,result,session.id));}catch(e){console.error('payment email delivery failed',e.message)}
+   try{await mail(a.email,paymentConfirmation(d,a.reference,result,session.id,{amount:session.amount_total}));}catch(e){console.error('payment email delivery failed',e.message)}
    try{await notifyAdmin(a,'Verified payment received',await seats());}catch(e){console.error('admin payment email failed',e.message)}
   }
   if(['confirmed','already-paid','duplicate-event'].includes(outcome))return res.status(200).json({ok:true,status:'confirmed'});

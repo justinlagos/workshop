@@ -37,6 +37,10 @@
       "dest": "/api/kit.js?action=logout"
     },
     {
+      "src": "/api/kit-mail",
+      "dest": "/api/kit.js?action=mail"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1.js"
     },

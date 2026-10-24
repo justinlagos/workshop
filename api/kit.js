@@ -3,11 +3,12 @@
 // POST /api/kit-verify {reference, code} : check the code, start a session
 // POST /api/kit-logout             : end this device's session
 // GET  /kit/deck.pdf               : the Saturday deck, members only
+// POST /api/kit-mail {mode}        : host only. 'list' recipients, 'proof' to the host, 'send' to every paid attendee once
 // One function on purpose: the Vercel Hobby plan allows 12 functions per deployment.
 import fs from 'node:fs';
-import { method, mail } from './_shared.js';
+import { method, mail, db } from './_shared.js';
 import { currentMember, kitOpen, findMember, issueCode, maskEmail, checkCode, createSession, sessionCookie, endSession, clearCookie } from '../lib/kit.js';
-import { kitCodeEmail, firstName } from '../lib/kit-emails.js';
+import { kitCodeEmail, firstName, followUpEmail } from '../lib/kit-emails.js';
 import { esc } from '../lib/emails.js';
 
 const KIT = fs.readFileSync(new URL('../private/kit.html', import.meta.url), 'utf8');
@@ -106,7 +107,60 @@ async function file(req, res) {
   return res.status(200).send(buf);
 }
 
-const ACTIONS = { start, verify, logout, file };
+const FOLLOWUP_KIND = 'followup-2026-10-cohort01';
+const FOLLOWUP_FROM = 'Justin at MotionPlay Labs <hello@motionplaylabs.com>';
+
+async function sendWithDeck(to, msg, idempotencyKey) {
+  const pdf = fs.readFileSync(FILES.deck.url).toString('base64');
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
+    body: JSON.stringify({ from: FOLLOWUP_FROM, to: [to], subject: msg.subject, html: msg.html, text: msg.text, attachments: [{ filename: FILES.deck.name, content: pdf }] }),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error('Resend ' + r.status + ': ' + (j.message || j.name || 'send failed'));
+  return j.id;
+}
+
+// Host-only mailer for the after-session follow-up. Each attendee gets it once (workshop_kit_mailings).
+async function kitMail(req, res) {
+  if (!method(req, res, 'POST')) return;
+  res.setHeader('Cache-Control', 'no-store');
+  let host = null;
+  try { host = await currentMember(req); } catch (e) { console.error('kit mail session check failed:', e.message); }
+  if (!host || host.role !== 'host') return res.status(403).json({ ok: false, error: 'Host only.' });
+  if (!process.env.RESEND_API_KEY) return res.status(503).json({ ok: false, error: 'Email is not configured.' });
+  const b = req.body || {};
+  const attendees = await db('workshop_applications?cohort_id=eq.cohort-01&status=eq.paid&select=reference,full_name,email&order=created_at');
+  const sent = await db(`workshop_kit_mailings?kind=eq.${FOLLOWUP_KIND}&select=reference,sent_at`);
+  const sentRefs = new Set(sent.map((s) => s.reference));
+  if (b.mode === 'list') {
+    return res.status(200).json({ ok: true, recipients: attendees.map((a) => ({ reference: a.reference, name: a.full_name, to: maskEmail(a.email), sent: sentRefs.has(a.reference) })) });
+  }
+  if (b.mode === 'proof') {
+    const as = attendees.find((a) => a.reference === b.as) || attendees[0];
+    const msg = followUpEmail(as);
+    try {
+      const id = await sendWithDeck(host.email, { ...msg, subject: '[Proof as ' + firstName(as) + '] ' + msg.subject }, 'proof-' + as.reference + '-' + Date.now());
+      return res.status(200).json({ ok: true, proof: true, as: as.reference, to: maskEmail(host.email), id });
+    } catch (e) { console.error('proof send failed:', e.message); return res.status(502).json({ ok: false, error: e.message }); }
+  }
+  if (b.mode === 'send') {
+    const only = b.only ? String(b.only) : null;
+    const todo = attendees.filter((a) => !sentRefs.has(a.reference) && (!only || a.reference === only));
+    const results = await Promise.all(todo.map(async (a) => {
+      try {
+        const id = await sendWithDeck(a.email, followUpEmail(a), FOLLOWUP_KIND + '-' + a.reference);
+        await db('workshop_kit_mailings', { method: 'POST', body: { kind: FOLLOWUP_KIND, reference: a.reference, email: a.email, resend_id: id } });
+        return { reference: a.reference, sent: true, id };
+      } catch (e) { console.error('follow-up send failed for', a.reference, e.message); return { reference: a.reference, sent: false, error: e.message }; }
+    }));
+    return res.status(200).json({ ok: results.every((r) => r.sent), results, skipped: attendees.filter((a) => sentRefs.has(a.reference)).map((a) => a.reference) });
+  }
+  return res.status(400).json({ ok: false, error: "mode must be 'list', 'proof' or 'send'" });
+}
+
+const ACTIONS = { start, verify, logout, file, mail: kitMail };
 
 export default async function handler(req, res) {
   const action = ACTIONS[String(req.query?.action || '')];

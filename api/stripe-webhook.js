@@ -1,4 +1,5 @@
 import {db,rpc,seats,mail,notifyAdmin,stripe,method} from './_shared.js';
+import {prepEmail} from '../lib/prep.js';
 export const config={api:{bodyParser:false}};
 async function raw(req){const chunks=[];for await(const chunk of req)chunks.push(Buffer.from(chunk));return Buffer.concat(chunks);}
 export default async function handler(req,res){
@@ -43,8 +44,13 @@ export default async function handler(req,res){
    const entries=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference)+'&select=*');
    const a=entries[0],s=await seats();
    if(a){
+    // Confirmation doubles as the prep email (Zoom link, checklist, timings) once the cohort has a join link.
+    const cohort=(await db('workshop_cohorts?id=eq.'+encodeURIComponent(a.cohort_id||'cohort-01')+'&select=*').catch(()=>[]))[0];
+    if(cohort&&cohort.join_url){try{await mail(a.email,prepEmail(a,cohort));}catch(e){console.error('Prep email failed:',e.message);}}
+    else{
     const info=['Your Build Session seat is confirmed.','Date: Saturday 24 October 2026','Time: 2 PM–5 PM UK','Reference: '+a.reference,'Your project: '+a.project_goal,'We will send your joining instructions before the workshop.'];
     try{await mail(a.email,{subject:'Your seat is confirmed | The Build Session',text:'Hi '+a.full_name.split(' ')[0]+',\n\n'+info.join('\n'),html:'<div style="font-family:Arial;line-height:1.7;max-width:580px"><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="132" style="display:block;width:132px;height:auto;margin-bottom:18px"/><h2>You’re in. Your seat is confirmed.</h2><p>Hi '+a.full_name.split(' ')[0].replace(/&/g,'&amp;').replace(/</g,'&lt;')+',</p><p>'+info.map(x=>x.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br>')+'</p><p>MotionPlay Labs</p></div>'});}catch(e){console.error('Confirmation email failed:',e.message);}
+    }
     try{await notifyAdmin(a,'Verified payment received',s);}catch(e){console.error('Admin notification failed:',e.message);}
    }
   }else if(outcome==='full-refund-required'||outcome==='verification-mismatch'){

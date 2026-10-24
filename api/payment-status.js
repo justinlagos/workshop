@@ -1,5 +1,6 @@
 import {db,rpc,seats,mail,notifyAdmin,stripe} from './_shared.js';
 import {paymentConfirmation} from '../lib/emails.js';
+import {prepEmail} from '../lib/prep.js';
 export default async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='GET')return res.status(405).json({ok:false});
@@ -18,7 +19,8 @@ export default async function handler(req,res){
   if(outcome==='confirmed'){
    const d={fullName:a.full_name,email:a.email,currency:a.currency,projectGoal:a.project_goal};
    const result={classification:a.classification,score:a.score};
-   try{await mail(a.email,paymentConfirmation(d,a.reference,result,session.id,{amount:session.amount_total}));}catch(e){console.error('payment email delivery failed',e.message)}
+   const cohort=(await db('workshop_cohorts?id=eq.'+encodeURIComponent(a.cohort_id||'cohort-01')+'&select=*').catch(()=>[]))[0];
+   try{await mail(a.email,cohort&&cohort.join_url?prepEmail(a,cohort):paymentConfirmation(d,a.reference,result,session.id,{amount:session.amount_total}));}catch(e){console.error('payment email delivery failed',e.message)}
    try{await notifyAdmin(a,'Verified payment received',await seats());}catch(e){console.error('admin payment email failed',e.message)}
   }
   if(['confirmed','already-paid','duplicate-event'].includes(outcome))return res.status(200).json({ok:true,status:'confirmed'});

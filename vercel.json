@@ -9,7 +9,9 @@
       "src": "api/*.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["private/**"]
+        "includeFiles": [
+          "private/**"
+        ]
       }
     }
   ],
@@ -21,6 +23,18 @@
     {
       "src": "/api/export",
       "dest": "/api/admin.js?action=export"
+    },
+    {
+      "src": "/api/kit-start",
+      "dest": "/api/kit.js?action=start"
+    },
+    {
+      "src": "/api/kit-verify",
+      "dest": "/api/kit.js?action=verify"
+    },
+    {
+      "src": "/api/kit-logout",
+      "dest": "/api/kit.js?action=logout"
     },
     {
       "src": "/api/(.*)",
@@ -36,12 +50,14 @@
     },
     {
       "src": "/kit/deck\\.pdf$",
-      "dest": "/api/kit-file.js?f=deck"
+      "dest": "/api/kit.js?action=file&f=deck"
     },
     {
       "src": "/kit/(.*)",
       "status": 302,
-      "headers": { "Location": "/kit" }
+      "headers": {
+        "Location": "/kit"
+      }
     },
     {
       "src": "/demo/?$",

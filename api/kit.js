@@ -145,6 +145,13 @@ async function kitMail(req, res) {
       return res.status(200).json({ ok: true, proof: true, as: as.reference, to: maskEmail(host.email), id });
     } catch (e) { console.error('proof send failed:', e.message); return res.status(502).json({ ok: false, error: e.message }); }
   }
+  if (b.mode === 'copy') {
+    // The host's own copy: same email an attendee gets, addressed to the host with the host reference.
+    try {
+      const id = await sendWithDeck(host.email, followUpEmail(host), 'copy-' + host.reference + '-' + Date.now());
+      return res.status(200).json({ ok: true, copy: true, to: maskEmail(host.email), id });
+    } catch (e) { console.error('host copy send failed:', e.message); return res.status(502).json({ ok: false, error: e.message }); }
+  }
   if (b.mode === 'send') {
     const only = b.only ? String(b.only) : null;
     const todo = attendees.filter((a) => !sentRefs.has(a.reference) && (!only || a.reference === only));
@@ -157,7 +164,7 @@ async function kitMail(req, res) {
     }));
     return res.status(200).json({ ok: results.every((r) => r.sent), results, skipped: attendees.filter((a) => sentRefs.has(a.reference)).map((a) => a.reference) });
   }
-  return res.status(400).json({ ok: false, error: "mode must be 'list', 'proof' or 'send'" });
+  return res.status(400).json({ ok: false, error: "mode must be 'list', 'proof', 'copy' or 'send'" });
 }
 
 const ACTIONS = { start, verify, logout, file, mail: kitMail };

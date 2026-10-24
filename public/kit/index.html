@@ -123,6 +123,13 @@ When you&#x27;re done, list anything in the brief you couldn&#x27;t do.
 
 <section id="checklist"><h2>Evaluate checklist</h2><p class="sub">You check it, not the AI. Claude saying it's done isn't done.</p>
 <article class="card"><ul class="checks" id="checks"><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>It does the one job. Try it as if you were the user.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>Every Must have is there.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>Nothing from Not now crept in.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>All text is real: no placeholder words, no made-up prices.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>It works at phone width.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>You&#x27;d show it to someone today. If not, the one thing stopping you is your next Refine.</span></label></li></ul><button class="reset" type="button" id="reset">Reset checklist</button></article>
+<article class="card" id="p6"><div class="eyebrow"><span>PROMPT 6 · SECOND OPINION</span><span class="pill">In ChatGPT</span></div><h3>Make one AI check the other</h3><p class="note">The AI that built it is the worst judge of it. Paste this into ChatGPT with a screenshot of your page. Each problem comes back ready for Prompt 3.</p><div class="code"><pre id="c11">You&#x27;re a demanding client reviewing work you&#x27;ve paid for.
+Here is my Build Brief and a screenshot of what was built.
+List the 3 biggest problems, most important first.
+Write each one as two lines, starting Now: and Instead:
+Don&#x27;t rewrite anything and don&#x27;t write code.
+<span class="br">[paste your Build Brief here]</span>
+<span class="br">[attach a screenshot]</span></pre><button class="copy" type="button" data-target="c11" aria-label="Copy">Copy</button></div></article>
 <article class="card" id="p3"><div class="eyebrow"><span>PROMPT 3 · REFINE</span><span class="pill">In Claude</span></div><h3>Change one thing</h3><div class="code"><pre id="c6">Change one thing.
 Now: <span class="br">[what you see]</span>
 Instead: <span class="br">[what you want]</span>
@@ -133,6 +140,7 @@ What I expected: <span class="br">[what should happen]</span>
 What happened: <span class="br">[what actually happened]</span>
 <span class="br">[attach a screenshot]</span>
 Fix only this, then tell me in one line what you changed.</pre><button class="copy" type="button" data-target="c7" aria-label="Copy">Copy</button></div></article>
+<article class="card" id="direct"><div class="eyebrow"><span>DIRECTING</span><span class="pill">With Prompt 3</span></div><h3>Talk like an art director</h3><p class="note">Vague feedback gets random changes. Specific feedback gets exactly what you asked for.</p><ul class="fixes"><li><strong>Not &quot;make it look better&quot;</strong><span>&quot;Make the headline twice the size and the background off-white.&quot;</span></li><li><strong>Not &quot;make it pop&quot;</strong><span>&quot;Make the Order button lime, full width, and fixed to the bottom.&quot;</span></li><li><strong>Not &quot;make it more modern&quot;</strong><span>&quot;Use one font, more space between sections, and rounded corners on the cards.&quot;</span></li><li><strong>Not &quot;it&#x27;s not working&quot;</strong><span>Use Prompt 4, with a screenshot.</span></li></ul></article>
 <article class="card" id="p5"><div class="eyebrow"><span>PROMPT 5 · HAND-OFF</span><span class="pill">In Claude</span></div><h3>Before you close, or when a chat gets long</h3><p class="note">Most useful on the free plan: if a chat hits its limit, start a new one with this note and keep going.</p><div class="code"><pre id="c8">Write a hand-off note so I can continue this build in a new chat:
 the brief, what&#x27;s done, what&#x27;s left, and any decisions we made.
 Keep it under 200 words.</pre><button class="copy" type="button" data-target="c8" aria-label="Copy">Copy</button></div></article>

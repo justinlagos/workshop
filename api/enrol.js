@@ -2,6 +2,8 @@ import {db,seats,stripe,site,mail,notifyAdmin,configured,method,classify,feeFor,
 const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 export default async function handler(req,res){
  if(!method(req,res,'POST'))return;
+ // Founding Cohort 01 has run. New interest goes to /api/waitlist.
+ return res.status(410).json({ok:false,closed:true,error:'Founding Cohort 01 is complete. Join the list on the home page for the next session.'});
  if(!configured())return res.status(503).json({ok:false,error:'Enrolment setup is not complete'});
  const b=req.body||{};
  if(b.company_website)return res.status(400).json({ok:false,error:'Invalid submission'});

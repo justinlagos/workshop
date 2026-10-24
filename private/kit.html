@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Build Session kit · Cohort 01</title>
+<link rel="icon" href="/email/arrow.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--muted:#5b5b66;--line:#e7e2f3;--lime:#ccff00;--purple:#9040ff;--lav:#f5f0ff;--bg:#ffffff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:124px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 'Plus Jakarta Sans',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--purple)}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;height:60px}
+.bar img{width:40px;height:40px;display:block}
+.bar .t{font-size:11px;font-weight:800;letter-spacing:2px;flex:1;min-width:0}
+.bar .t span{color:var(--purple)}
+.who{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;white-space:nowrap}
+.who form{margin:0}
+.who button{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font:700 12px 'Plus Jakarta Sans',Arial,sans-serif;color:var(--muted);cursor:pointer}
+.who button:hover{border-color:var(--ink);color:var(--ink)}
+nav.chips{display:flex;gap:8px;overflow-x:auto;padding:0 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+nav.chips::-webkit-scrollbar{display:none}
+nav.chips a{flex:0 0 auto;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;background:var(--lav)}
+nav.chips a:hover{border-color:var(--purple)}
+nav.chips a.new{background:var(--lime);border-color:var(--lime)}
+.hero{background:var(--ink);color:#fff;border-radius:20px;padding:28px 24px;margin:20px 0 10px;position:relative;overflow:hidden}
+.hero .lbl{margin:0 0 10px;padding-right:72px;font-size:12px;font-weight:800;letter-spacing:2px;color:var(--lime)}
+.hero h1{margin:0 0 12px;font-size:32px;line-height:1.1;letter-spacing:-0.8px;font-weight:800;max-width:14ch;text-wrap:balance}
+.hero p{margin:0;color:#d9d9e0;max-width:46ch}
+.hero .arrow{position:absolute;right:20px;top:22px;width:60px;height:auto}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none}
+.btn.lime{background:var(--lime);color:var(--ink)}
+.btn.ghost{border:1.5px solid #4a4a52;color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn.ink{background:var(--ink);color:#fff}
+.btn:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.dates{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--line);border-radius:16px;margin:0 0 10px;overflow:hidden}
+.dates div{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.dates div:first-child{border-top:0}
+.dates span{color:var(--muted);font-size:14px}
+.dates b{font-size:14px}
+.newbox{background:var(--lav);border-radius:16px;padding:18px 18px 8px;margin:0 0 4px}
+.newbox p.k{margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--purple)}
+.newbox ul{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.newbox li{border-top:1px solid var(--line);padding:10px 0}
+.newbox li:first-child{border-top:0}
+.newbox a{color:var(--ink);font-weight:700;text-decoration:none}
+.newbox a:hover{color:var(--purple)}
+.newbox li span{display:block;color:var(--muted);font-size:14px}
+section{padding:40px 0 8px}
+.k2{margin:0 0 6px;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--purple)}
+h2{margin:0 0 6px;font-size:26px;letter-spacing:-0.5px;font-weight:800;text-wrap:balance}
+.sub{margin:0 0 20px;color:var(--muted);max-width:60ch}
+h3{margin:0 0 6px;font-size:18px;font-weight:800;letter-spacing:-0.2px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.step{display:flex;gap:14px;border:1px solid var(--line);border-radius:16px;padding:16px}
+.step .num{flex:0 0 32px;height:32px;border-radius:16px;background:var(--lime);font-weight:800;display:flex;align-items:center;justify-content:center}
+.step p{margin:0;color:var(--muted)}
+.step .tool{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple)}
+.save{margin:12px 0 0;border:1px solid var(--ink);border-radius:16px;padding:14px 16px;font-weight:700}
+.save span{font-weight:400;color:var(--muted)}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
+.rules li{background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:700}
+.card{border:1px solid var(--line);border-radius:18px;padding:18px;margin:0 0 14px;scroll-margin-top:124px}
+.eyebrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--purple)}
+.pill{background:var(--lav);color:var(--ink);border-radius:999px;padding:4px 10px;letter-spacing:0.5px;font-size:12px;white-space:nowrap}
+.note{margin:0 0 12px;color:var(--muted)}
+.code{position:relative;margin-top:10px}
+pre{margin:0;background:var(--lav);border:1px solid var(--line);border-radius:12px;padding:16px 16px 56px;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;color:var(--ink)}
+.br{color:var(--purple);font-weight:700}
+button.copy{position:absolute;right:10px;bottom:10px;background:var(--lime);color:var(--ink);border:0;border-radius:10px;padding:9px 18px;font:800 14px 'Plus Jakarta Sans',Arial,sans-serif;cursor:pointer;min-width:84px}
+button.copy:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+button.copy.done{background:var(--ink);color:var(--lime)}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{border-top:1px solid var(--line)}
+.checks li:first-child{border-top:0}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}
+.checks input{position:absolute;opacity:0;width:1px;height:1px}
+.checks .box{flex:0 0 24px;height:24px;border:2px solid var(--ink);border-radius:7px;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.checks input:checked + .box{background:var(--lime);border-color:var(--ink)}
+.checks input:checked + .box::after{content:"";width:7px;height:12px;border:solid var(--ink);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.checks input:focus-visible + .box{outline:2px solid var(--purple);outline-offset:2px}
+.checks input:checked ~ span:last-child{color:var(--muted)}
+.reset{background:none;border:0;padding:0;margin:8px 0 0;color:var(--purple);font:700 14px 'Plus Jakarta Sans',Arial,sans-serif;text-decoration:underline;cursor:pointer}
+.opts{display:grid;gap:12px}
+.opt h3 span{display:inline-block;background:var(--lime);border-radius:6px;padding:0 8px;margin-right:6px;font-size:14px}
+ol.how,.opt ol{margin:8px 0 0;padding-left:20px}
+ol.how li,.opt li{margin:0 0 8px}
+.check{background:var(--ink);color:#fff;border-radius:16px;padding:14px 16px;margin:12px 0 0}
+.check b{color:var(--lime)}
+.rule{background:var(--lime);border-radius:16px;padding:16px;font-weight:700;margin:0 0 16px}
+.fixes{list-style:none;margin:0;padding:0}
+.fixes li{border-top:1px solid var(--line);padding:12px 0;display:grid;gap:2px}
+.fixes li:first-child{border-top:0}
+.fixes span{color:var(--muted)}
+.facts{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:10px}
+.facts li{border-left:4px solid var(--purple);background:var(--lav);border-radius:0 12px 12px 0;padding:12px 14px}
+details.group{border:1px solid var(--line);border-radius:18px;margin:0 0 12px;overflow:hidden}
+details.group>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:800;font-size:17px}
+details.group>summary::-webkit-details-marker{display:none}
+details.group>summary::after{content:"+";flex:0 0 28px;height:28px;border-radius:14px;background:var(--lav);display:flex;align-items:center;justify-content:center;font-weight:800}
+details.group[open]>summary::after{content:"\2212";background:var(--lime)}
+details.group>summary small{display:block;font-weight:600;font-size:13px;color:var(--muted)}
+details.group>summary:focus-visible{outline:3px solid var(--purple);outline-offset:-3px}
+.inner{padding:0 18px 4px}
+.inner .card{border-color:var(--line);background:#fff}
+.best{margin:0 0 4px;font-size:13px;color:var(--muted)}
+.best b{color:var(--ink)}
+.links{list-style:none;margin:0;padding:0}
+.links li{border-top:1px solid var(--line);padding:12px 0;display:grid;gap:2px}
+.links li:first-child{border-top:0}
+.links a{font-weight:800}
+.links span{color:var(--muted);font-size:15px}
+.deck{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--lav);border-radius:18px;padding:20px}
+.deck .doc{flex:0 0 auto;width:92px;height:62px;border-radius:8px;background:var(--ink);color:var(--lime);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;letter-spacing:1px}
+.deck div.txt{flex:1;min-width:200px}
+.deck p{margin:0;color:var(--muted)}
+footer{margin:48px 0 0;padding:24px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+@media (min-width:700px){.hero{padding:38px 36px}.hero h1{font-size:42px}.hero .arrow{width:84px}.steps{grid-template-columns:1fr 1fr}.opts{grid-template-columns:1fr 1fr}.dates{grid-template-columns:repeat(3,1fr)}.dates div{border-top:0;border-left:1px solid var(--line);flex-direction:column;gap:2px}.dates div:first-child{border-left:0}}
+@media (max-width:420px){.who .nm{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<div class="bar"><img src="/email/mpl-logo.png" alt="MotionPlay Labs" width="40" height="40"><div class="t">THE BUILD SESSION · <span>KIT</span></div>
+<div class="who"><span class="nm">{{FIRST}}</span><form method="post" action="/api/kit-logout"><button type="submit">Sign out</button></form></div></div>
+<nav class="chips" aria-label="Sections"><a href="#start">Start</a><a href="#method">Method</a><a href="#prompts">Prompts</a><a class="new" href="#golive">Go live</a><a class="new" href="#demos">Demo prompts</a><a class="new" href="#motion">Motion library</a><a class="new" href="#voidcanvas">Void Canvas</a><a class="new" href="#direct">Direct</a><a class="new" href="#references">References</a><a href="#fixes">Fixes</a><a href="#help">Help</a><a class="new" href="#deck">Deck</a></nav>
+</div></header>
+<main class="wrap">
+
+<div class="hero" id="start">
+<img class="arrow" src="/email/arrow.png" alt="" width="84" height="85">
+<p class="lbl">FOUNDING COHORT 01 · YOUR LIBRARY</p>
+<h1>Welcome back, {{FIRST}}.</h1>
+<p>Everything from Saturday, plus everything I promised after it, in one place. Tap Copy on any prompt, fill in the [brackets], change nothing else.</p>
+<div class="btns"><a class="btn lime" href="https://chat.whatsapp.com/Dji5FzXLAvKEIhUWNKCT6r" target="_blank" rel="noopener">Join the WhatsApp group</a><a class="btn ghost" href="/kit/deck.pdf">Download the deck</a></div>
+</div>
+
+<div class="dates">
+<div><span>Support in the group</span><b>Until Sat 14 November</b></div>
+<div><span>This kit</span><b>Open until Thu 31 December</b></div>
+<div><span>Your reference</span><b>{{REF}}</b></div>
+</div>
+
+<div class="newbox">
+<p class="k">NEW SINCE SATURDAY</p>
+<ul>
+<li><a href="#golive">Step 7: put your build online</a><span>Netlify, connected to Claude, plus your own domain.</span></li>
+<li><a href="#demos">The prompts behind the demos</a><span>The motion logo reveal, the brand guideline site, the logo refresh and review.</span></li>
+<li><a href="#motion">Motion graphics library</a><span>17 styles, each a ready prompt.</span></li>
+<li><a href="#voidcanvas">Claude and Void Canvas</a><span>Brand guidelines in minutes, then full control in the Editor.</span></li>
+<li><a href="#direct">Phrases that work, and where to find references</a><span>How to get from fine to good.</span></li>
+<li><a href="#fixes">Fixes from the day</a><span>Images not loading, agent to website, and more.</span></li>
+</ul>
+</div>
+
+<section id="method"><p class="k2">THE FOUNDATION</p><h2>The method</h2><p class="sub">Four steps, in this order, every time. Then save it and put it online.</p>
+<ol class="steps"><li class="step"><span class="num">1</span><div><h3>Structure</h3><p class="tool">In ChatGPT</p><p>Turn the idea into a Build Brief.</p></div></li><li class="step"><span class="num">2</span><div><h3>Direct</h3><p class="tool">In Claude</p><p>The brief becomes a first version.</p></div></li><li class="step"><span class="num">3</span><div><h3>Evaluate</h3><p class="tool">You, not the AI</p><p>Test it against the checklist, on a phone and a laptop.</p></div></li><li class="step"><span class="num">4</span><div><h3>Refine</h3><p class="tool">In Claude</p><p>Fix one thing at a time.</p></div></li></ol>
+<p class="save">Save and go live <span>Save before you close the tab, then <a href="#golive">put it online</a>.</span></p>
+<ul class="rules"><li>Brief before build.</li><li>You judge, not the AI.</li><li>One change at a time.</li></ul>
+</section>
+
+<section id="prompts"><p class="k2">THE CORE PROMPTS</p><h2>Prompts</h2><p class="sub">Copy, paste, fill in the [brackets]. Change nothing else.</p>
+<article class="card" id="p1"><div class="eyebrow"><span>PROMPT 1 · STRUCTURE</span><span class="pill">In ChatGPT</span></div><h3>Turn your idea into a Build Brief</h3><p class="note">Fill in only the two brackets at the top. Don't answer the questions yourself: ChatGPT asks them one at a time, then writes the brief.</p><div class="code"><pre id="c-p1">I want to build: <span class="br">[your one sentence]</span>.
+It's for: <span class="br">[who will use it]</span>.
+
+Ask me up to 8 short questions, one at a time, to understand what it must do. Then write a Build Brief with these headings:
+
+1. What it is (one sentence)
+2. Who it's for
+3. The one job it does
+4. Must have (no more than 5 things)
+5. Not now (what to leave out)
+6. Content (the real words, names, prices and links I gave you)
+7. Look and feel (3 words and 2 colours)
+8. Done when (how I'll know it works)
+
+Before you write the brief, tell me if any part of it can't be built as a web page that runs in a browser (for example, reading heart rate from a watch), and suggest the closest thing that can.
+
+Keep the brief under 250 words. Don't write any code.</pre><button class="copy" type="button" data-target="c-p1">Copy</button></div></article>
+<article class="card" id="p2"><div class="eyebrow"><span>PROMPT 2 · DIRECT</span><span class="pill">In Claude</span></div><h3>Build the first version</h3><p class="note">Paste your approved brief where it says to.</p><div class="code"><pre id="c-p2">Build this as one working page I can open in a browser.
+Follow the brief exactly and use the real content in it.
+Design it for a phone first, then make sure it works on a laptop.
+When you're done, list anything in the brief you couldn't do.
+
+<span class="br">[paste your Build Brief here]</span></pre><button class="copy" type="button" data-target="c-p2">Copy</button></div></article>
+<article class="card" id="checklist"><div class="eyebrow"><span>STEP 3 · EVALUATE</span><span class="pill">You, not the AI</span></div><h3>The checklist</h3><p class="note">Claude saying it's done isn't done.</p><ul class="checks" id="checks"><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>It does the one job. Try it as if you were the user.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>Every Must have is there.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>Nothing from Not now crept in.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>All text is real: no placeholder words, no made-up prices.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>It works at phone width and on a laptop.</span></label></li><li><label><input type="checkbox"><span class="box" aria-hidden="true"></span><span>You'd show it to someone today. If not, the one thing stopping you is your next Refine.</span></label></li></ul><button class="reset" type="button" id="reset">Reset checklist</button></article>
+<article class="card" id="p6"><div class="eyebrow"><span>PROMPT 6 · SECOND OPINION</span><span class="pill">In ChatGPT</span></div><h3>Make one AI check the other</h3><p class="note">The AI that built it is the worst judge of it. Paste this into ChatGPT (or a new Claude chat) with a screenshot of your page. Each problem comes back ready for Prompt 3.</p><div class="code"><pre id="c-p6">You're a demanding client reviewing work you've paid for.
+Here is my Build Brief and a screenshot of what was built.
+List the 3 biggest problems, most important first.
+Write each one as two lines, starting Now: and Instead:
+Don't rewrite anything and don't write code.
+<span class="br">[paste your Build Brief here]</span>
+<span class="br">[attach a screenshot]</span></pre><button class="copy" type="button" data-target="c-p6">Copy</button></div></article>
+<article class="card" id="p3"><div class="eyebrow"><span>PROMPT 3 · REFINE</span><span class="pill">In Claude</span></div><h3>Change one thing</h3><div class="code"><pre id="c-p3">Change one thing.
+Now: <span class="br">[what you see]</span>
+Instead: <span class="br">[what you want]</span>
+Keep everything else exactly as it is.</pre><button class="copy" type="button" data-target="c-p3">Copy</button></div></article>
+<article class="card" id="p4"><div class="eyebrow"><span>PROMPT 4 · FIX</span><span class="pill">In Claude</span></div><h3>When something is broken</h3><div class="code"><pre id="c-p4">Something isn't working.
+What I did: <span class="br">[the steps]</span>
+What I expected: <span class="br">[what should happen]</span>
+What happened: <span class="br">[what actually happened]</span>
+<span class="br">[attach a screenshot]</span>
+Fix only this, then tell me in one line what you changed.</pre><button class="copy" type="button" data-target="c-p4">Copy</button></div></article>
+<article class="card" id="p5"><div class="eyebrow"><span>PROMPT 5 · HAND-OFF</span><span class="pill">In Claude</span></div><h3>Before you close, or when a chat gets long</h3><p class="note">If a chat hits its limit, start a new one with this note and keep going.</p><div class="code"><pre id="c-p5">Write a hand-off note so I can continue this build in a new chat:
+the brief, what's done, what's left, and any decisions we made.
+Keep it under 200 words.</pre><button class="copy" type="button" data-target="c-p5">Copy</button></div></article>
+<article class="card" id="stretch"><div class="eyebrow"><span>STRETCH · ADD A FEATURE</span><span class="pill">In Claude</span></div><h3>Add one feature</h3><div class="code"><pre id="c-st">Add one feature: <span class="br">[the feature]</span>.
+Don't change anything that already works.
+Tell me what you changed.</pre><button class="copy" type="button" data-target="c-st">Copy</button></div></article>
+<details class="group"><summary><span>Build Brief template<small>The 8 headings, to check a brief or write one yourself</small></span></summary><div class="inner">
+<article class="card"><div class="code"><pre id="c-bt">1. What it is (one sentence):
+2. Who it's for:
+3. The one job it does:
+4. Must have (no more than 5 things):
+5. Not now (what to leave out):
+6. Content (the real words, names, prices and links):
+7. Look and feel (3 words and 2 colours):
+8. Done when (how I'll know it works):</pre><button class="copy" type="button" data-target="c-bt">Copy</button></div></article>
+</div></details>
+<details class="group"><summary><span>Fallback briefs<small>Three ready briefs to practise the method on</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>FALLBACK A</span></div><h3>Portfolio page</h3><p class="note">Show 3 pieces of your work to a possible client.</p><div class="code"><pre id="c-fa">1. What it is: A one-page portfolio that shows my best work.
+2. Who it's for: Possible clients deciding whether to hire me.
+3. The one job it does: Shows 3 pieces of my work and makes it easy to contact me.
+4. Must have: My name and a one-line intro. 3 work cards, each with an image, a title, one line about it and a link. A contact button that opens an email or WhatsApp to me.
+5. Not now: Blog, prices, testimonials, a contact form, more than 3 projects.
+6. Content: Name: <span class="br">[your name]</span>. Intro: <span class="br">[one line about what you do]</span>. Work 1: <span class="br">[title, one line, image link, project link]</span>. Work 2: <span class="br">[title, one line, image link, project link]</span>. Work 3: <span class="br">[title, one line, image link, project link]</span>. Contact: <span class="br">[your email or WhatsApp number]</span>.
+7. Look and feel: Clean, confident, simple. Colours: <span class="br">[colour 1]</span> and <span class="br">[colour 2]</span>.
+8. Done when: Someone on a phone can see all 3 pieces of work, open each link, and tap the contact button to reach me.</pre><button class="copy" type="button" data-target="c-fa">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>FALLBACK B</span></div><h3>WhatsApp order page</h3><p class="note">Take food orders for a small business, like Mama T's Kitchen.</p><div class="code"><pre id="c-fb">1. What it is: A one-page menu where customers pick items and send the order on WhatsApp.
+2. Who it's for: Customers of <span class="br">[your business name]</span>.
+3. The one job it does: Turns a customer's choices into a ready-to-send WhatsApp order.
+4. Must have: Menu with prices in naira. Plus and minus buttons for each item. A running total. A name field. An Order on WhatsApp button that opens WhatsApp with the order typed out.
+5. Not now: Online payment, accounts, delivery tracking, photos of every item.
+6. Content: Business name: <span class="br">[your business name]</span>. WhatsApp number: <span class="br">[international format, no + or spaces, like 2348012345678]</span>. Menu: <span class="br">[item and price, one per line]</span>. Delivery: <span class="br">[areas and fee]</span>.
+7. Look and feel: Warm, clear, appetising. Colours: <span class="br">[colour 1]</span> and <span class="br">[colour 2]</span>.
+8. Done when: I can pick 3 items, see the right total, tap the button, and WhatsApp opens with my order typed out.</pre><button class="copy" type="button" data-target="c-fb">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>FALLBACK C</span></div><h3>Weekly content planner</h3><p class="note">Plan a week of social posts.</p><div class="code"><pre id="c-fc">1. What it is: A one-page planner for one week of social media posts.
+2. Who it's for: Me, planning posts for <span class="br">[your brand or page]</span>.
+3. The one job it does: Shows the week's posts at a glance and what stage each one is at.
+4. Must have: 7 day cards, Monday to Sunday. A post idea and a platform for each day. A status for each post: idea, draft or posted. A button to copy the whole week as text.
+5. Not now: Logins, scheduling or posting to the platforms, analytics, images.
+6. Content: Brand: <span class="br">[your brand or page]</span>. Platforms: <span class="br">[for example Instagram, TikTok, LinkedIn]</span>. Post ideas: <span class="br">[one per day, or ask me for ideas]</span>.
+7. Look and feel: Calm, organised, simple. Colours: <span class="br">[colour 1]</span> and <span class="br">[colour 2]</span>.
+8. Done when: I can fill in all 7 days, change a status, and copy the week into a message.</pre><button class="copy" type="button" data-target="c-fc">Copy</button></div></article>
+</div></details>
+</section>
+
+<section id="golive"><p class="k2">STEP 7 · NEW</p><h2>Put it online</h2><p class="sub">A build nobody can open isn't finished. Netlify gives your page a real link you can send to anyone, and Claude can publish to it for you.</p>
+<article class="card"><div class="eyebrow"><span>ONCE</span><span class="pill">About 3 minutes</span></div><h3>Connect Netlify to Claude</h3>
+<ol class="how"><li>In Claude, open <b>Settings</b>, then <b>Connectors</b>.</li><li>Search for <b>Netlify</b> and choose <b>Connect</b>.</li><li>Sign up for a free Netlify account when it asks (signing in with Google is quickest), then authorise Claude.</li><li>Back in Claude, the Netlify connector now shows as connected.</li></ol></article>
+<article class="card" id="p7"><div class="eyebrow"><span>PROMPT 7 · DEPLOY</span><span class="pill">In Claude</span></div><h3>Publish your build</h3><p class="note">Run it in the same chat as your build, after the checklist passes.</p><div class="code"><pre id="c-p7">Deploy this page to Netlify as a new site called <span class="br">[short-name-with-dashes]</span>, using the Netlify connector.
+When it's live, give me the link, then check the live page works on a phone-sized screen.
+Tell me in one line how I update it later.</pre><button class="copy" type="button" data-target="c-p7">Copy</button></div></article>
+<article class="card" id="p8"><div class="eyebrow"><span>PROMPT 8 · UPDATE</span><span class="pill">In Claude</span></div><h3>Update the live site</h3><p class="note">After every Refine you're happy with. The link stays the same, so anyone you've sent it to sees the new version when they refresh.</p><div class="code"><pre id="c-p8">Update my Netlify site <span class="br">[site name or link]</span> with the latest version of this page.
+Keep the same link. Tell me what changed.</pre><button class="copy" type="button" data-target="c-p8">Copy</button></div></article>
+<div class="opts">
+<article class="card opt"><h3><span>A</span>Check it properly</h3><ol><li>Open the link on your phone in a private tab.</li><li>Send it to one person and watch them use it without help.</li><li>Anything they get stuck on is your next Prompt 3.</li></ol></article>
+<article class="card opt"><h3><span>B</span>No connector? Drag and drop</h3><ol><li>Ask Claude: <b>"Give me this page as one HTML file called index.html."</b></li><li>Save it into a folder on your computer.</li><li>Go to <b>app.netlify.com/drop</b> and drag the folder in.</li></ol></article>
+</div>
+<article class="card"><div class="eyebrow"><span>WHEN YOU'RE READY</span></div><h3>Your own domain</h3><p class="note">Buy the domain from any registrar (Namecheap, Cloudflare, Names.co.uk and so on). In Netlify, open your site, then <b>Domain management</b>, then <b>Add a domain</b>, and follow the DNS steps it shows. Netlify adds HTTPS for you. If the DNS step confuses you, screenshot it and ask Claude what to enter at your registrar.</p><p class="note" style="margin:0">Netlify's free plan has a monthly usage allowance. A small site like yours fits comfortably. If a site ever goes over, Netlify tells you, and you can upgrade or wait for the next month.</p></article>
+</section>
+
+<section id="demos"><p class="k2">AS PROMISED</p><h2>The prompts behind the demos</h2><p class="sub">What I used for the motion piece, the brand guideline site and the logo work you saw on Saturday. Same rule as everything else: the more specific your brackets, the better the result.</p>
+<article class="card" id="d-motion"><div class="eyebrow"><span>DEMO 1 · MOTION LOGO REVEAL</span><span class="pill">In Claude</span></div><h3>The 15-second showreel prompt</h3><p class="note">The exact prompt behind the logo reveal I played, with the client details turned into brackets. Attach your logo before you send it.</p><div class="code"><pre id="c-d1">You're a world-class motion designer, and this is your <span class="br">[length, e.g. 15]</span>-second résumé reel. Make it dynamic and confident: open with a striking hook in the first second, build through a sequence of distinct techniques (typography, shape play, camera moves, colour shifts), and land on a clean, memorable final frame (the logo). Pacing should feel like it's cut to music. Go crazy.
+
+Make a dynamic <span class="br">[length]</span>-second motion graphics logo reveal video that shows what an incredible motion designer you are, like it's your showreel for a résumé. Go all out.
+
+For <span class="br">[brand name]</span>: <span class="br">[one line on what the brand does and who it's for]</span>.
+Brand colours: <span class="br">[hex codes, or "take them from the logo"]</span>.
+Format: <span class="br">[16:9 for YouTube and screens / 9:16 for Reels and TikTok / 1:1 for feeds]</span>.
+See the attached logo to reveal: <span class="br">[attach your logo, PNG or SVG]</span></pre><button class="copy" type="button" data-target="c-d1">Copy</button></div>
+<p class="note" style="margin-top:14px"><b>Getting a video file.</b> Claude builds the animation as a page you can play. If it offers a video download, use it. If not, ask: <b>"Render this as a 1080p MP4."</b> No luck? Play it full screen and screen-record it: on a Mac press Shift, Command and 5; on Windows press Windows, Alt and R.</p>
+<p class="note" style="margin:0"><b>Make it yours.</b> Use Prompt 3 on the motion too: "Now: the logo appears at 12 seconds. Instead: hold the final logo frame for a full second."</p></article>
+
+<article class="card" id="d-brand"><div class="eyebrow"><span>DEMO 2 · BRAND GUIDELINE SITE</span><span class="pill">In Claude</span></div><h3>A brand guideline your client can open, share and download from</h3><p class="note">How I turned a logo into a full brand book on a website for a client. Attach every logo file you have. Then use Prompt 7 to put it online and send your client the link.</p><div class="code"><pre id="c-d2">Build a brand guideline website for <span class="br">[brand name]</span>, <span class="br">[one line on what they do and who for]</span>. Use the attached logo files.
+
+Sections, in this order:
+1. Brand story: mission, vision and values. <span class="br">[paste them, or write "ask me"]</span>
+2. Logo: primary, secondary and icon versions, clear space, minimum size, and 6 examples of misuse.
+3. Colour: primary and secondary palettes with HEX, RGB and CMYK, plus which text colours pass contrast on each. <span class="br">[hex codes, or "take them from the logo"]</span>
+4. Typography: <span class="br">[font names, or "suggest a free Google Fonts pairing that suits the logo"]</span>, with a type scale from headline to caption.
+5. Imagery: <span class="br">[the photo style, e.g. "warm natural light, real people, candid moments"]</span>.
+6. In use: mockups of a social post, a business card, a letterhead and an email signature.
+7. Downloads: the logo files and a one-click copy button on every colour code.
+
+One page with a sticky section menu. Phone first. Use only the real details I give you, and ask me for anything missing before you build.</pre><button class="copy" type="button" data-target="c-d2">Copy</button></div></article>
+
+<article class="card" id="d-refresh"><div class="eyebrow"><span>DEMO 3 · LOGO REFRESH</span><span class="pill">In Claude</span></div><h3>Clean up an old or low-resolution logo</h3><p class="note">For when all you have is a blurry PNG. Works best on simple, flat logos. Check the result against the original at 400% zoom before you send it anywhere.</p><div class="code"><pre id="c-d3">Recreate the attached logo as a clean vector SVG.
+Keep the shapes, proportions, spacing and colours exactly as they are. Don't redesign anything.
+Give me 4 versions: full colour, one colour black, one colour white (on a dark background so I can see it), and the icon on its own if there is one.
+Then list any part of the original you weren't sure about.
+<span class="br">[attach the logo]</span></pre><button class="copy" type="button" data-target="c-d3">Copy</button></div></article>
+
+<article class="card" id="d-review"><div class="eyebrow"><span>DEMO 4 · LOGO REVIEW</span><span class="pill">In Claude or ChatGPT</span></div><h3>A senior designer's review of any logo</h3><p class="note">Use it on your own work before a client sees it, or to explain to a client why their old logo needs a refresh.</p><div class="code"><pre id="c-d4">Review the attached logo as a senior brand designer.
+It's for <span class="br">[brand name]</span>, and it needs to work for <span class="br">[the audience]</span>.
+Score it from 1 to 10 on: legibility at small sizes, distinctiveness, how well it scales, use of colour, and fit with the audience.
+For each score, give one line on why and one specific fix.
+Then list the 3 changes that would make the biggest difference, most important first. Don't redraw it.
+<span class="br">[attach the logo]</span></pre><button class="copy" type="button" data-target="c-d4">Copy</button></div></article>
+</section>
+
+<section id="motion"><p class="k2">MOTION GRAPHICS LIBRARY</p><h2>17 styles, ready to run</h2><p class="sub">Each prompt sets a real style with numbers, not adjectives: colours, timing, easing, what to avoid. Swap the brackets for your brand and your message. Style list adapted from <a href="https://awesomeclaude.ai/claude-motion-graphics" target="_blank" rel="noopener">awesomeclaude.ai</a>.</p>
+<article class="card"><div class="eyebrow"><span>ADD TO ANY MOTION PROMPT</span></div><h3>Five rules that lift every result</h3><ul class="fixes"><li><strong>Numbers, not adjectives</strong><span>"#9040FF, 24 frames, 80px margins" beats "bold and modern".</span></li><li><strong>A hook in the first second</strong><span>The first frame has to make someone stop scrolling.</span></li><li><strong>Text needs time</strong><span>About 0.3 seconds per word on screen, never less than 1 second, inside a 5% safe margin.</span></li><li><strong>Hold the last frame</strong><span>The final frame, usually the logo, stays still for about 1 second.</span></li><li><strong>Say what to avoid</strong><span>Every prompt below ends with an Avoid line. Keep it.</span></li></ul>
+<div class="code"><pre id="c-mx">Before you build it, show me a storyboard: one line per shot with its timing. Wait for my OK.
+End on a logo reveal: the logo forms from the shapes used in the piece, then holds for 1 second on <span class="br">[background colour]</span>.</pre><button class="copy" type="button" data-target="c-mx">Copy</button></div></article>
+
+<details class="group"><summary><span>Graphic and type<small>Swiss kinetic type · Shape morph · Vertical social captions</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>SWISS GRID AND KINETIC TYPE</span></div><p class="best"><b>Best for:</b> brand identity, event openers, conference titles</p><div class="code"><pre id="c-m1">Make a <span class="br">[length, e.g. 15]</span>-second motion graphic in a Swiss grid and kinetic typography style for <span class="br">[brand or event]</span>.
+Lines, in order: <span class="br">[3 to 5 short lines of text]</span>.
+Format: <span class="br">[1920x1080 / 1080x1920 / 1080x1080]</span>, 60fps.
+Style: a strict 12-column grid with 80px margins. Black, off-white, and one signal colour, <span class="br">[hex]</span>, on one element per shot only. One heavy grotesque typeface. Every move snaps on one easing curve, cubic-bezier(0.7, 0, 0.2, 1). Shots change with hard wipes along the grid lines.
+Avoid: fades, gradients, drop shadows, a second accent colour, centred layouts.</pre><button class="copy" type="button" data-target="c-m1">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>SHAPE MORPH AND LIQUID</span></div><p class="best"><b>Best for:</b> music visuals, brand stories, moving between topics</p><div class="code"><pre id="c-m2">Make a <span class="br">[length]</span>-second shape morph animation for <span class="br">[brand]</span> that tells this in 4 beats: <span class="br">[beat 1, beat 2, beat 3, beat 4]</span>.
+Format: <span class="br">[size]</span>, 60fps.
+Style: one continuous shot with no cuts. Each beat is a single bold shape that melts into the next over 18 to 30 frames. Hold each shape for at least 1 second so it reads. Palette: <span class="br">[3 hex colours]</span>, flat fills, smooth organic edges. The final shape becomes the logo.
+Avoid: hard cuts, outlines, more than one shape moving at a time, text over the morphs.</pre><button class="copy" type="button" data-target="c-m2">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>VERTICAL SOCIAL CAPTIONS</span></div><p class="best"><b>Best for:</b> Reels, Shorts, TikTok, founder clips</p><div class="code"><pre id="c-m3">Make a <span class="br">[length, e.g. 20]</span>-second vertical social video, 1080x1920, for <span class="br">[brand or person]</span>.
+Script, as spoken: <span class="br">[paste the lines]</span>.
+Style: big captions, 1 to 4 words at a time, timed to the script, kept inside the middle 80% of the frame so platform buttons don't cover them. One accent word per caption in <span class="br">[hex]</span>. Background: <span class="br">[a colour, a slow gradient, or "my attached image"]</span>. Captions pop in over 4 frames with a small overshoot.
+Avoid: full sentences on screen, text in the bottom 20%, more than two colours of text.</pre><button class="copy" type="button" data-target="c-m3">Copy</button></div></article>
+</div></details>
+
+<details class="group"><summary><span>Explain and sell<small>Flat vector explainer · Data story · Dark tech keynote · Living UI</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>FLAT VECTOR EXPLAINER</span></div><p class="best"><b>Best for:</b> product promos, onboarding, how it works</p><div class="code"><pre id="c-m4">Make a <span class="br">[length, e.g. 30]</span>-second flat vector explainer for <span class="br">[product]</span>.
+The story in 4 steps: <span class="br">[the problem, what you do, how it works, the result]</span>.
+Format: <span class="br">[size]</span>, 60fps.
+Style: flat illustration with 4 to 5 colours, <span class="br">[hex codes]</span>, no gradients. Elements arrive with a small overshoot and settle within 12 frames. Groups of items stagger by 2 to 4 frames. Simple friendly characters with no facial detail.
+Avoid: gradients, 3D, realistic textures, more than 7 words on screen at once.</pre><button class="copy" type="button" data-target="c-m4">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>DATA STORY</span></div><p class="best"><b>Best for:</b> reports, impact numbers, investor updates</p><div class="code"><pre id="c-m5">Make a <span class="br">[length]</span>-second data story for <span class="br">[organisation]</span> using only these numbers: <span class="br">[paste each figure with its source]</span>.
+Format: <span class="br">[size]</span>, 60fps.
+Style: one chart per screen. Bars and lines grow over 20 frames, then hold. Axis labels at least 28px. One highlight colour, <span class="br">[hex]</span>, for the number that matters, everything else in greys. Each screen ends on one plain sentence about what the number means.
+Avoid: made-up numbers, 3D charts, pie charts with more than 4 slices, decorative icons.</pre><button class="copy" type="button" data-target="c-m5">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>DARK TECH KEYNOTE</span></div><p class="best"><b>Best for:</b> product launches, feature reveals, AI and software</p><div class="code"><pre id="c-m6">Make a <span class="br">[length, e.g. 15]</span>-second launch film in a dark tech keynote style for <span class="br">[product]</span>.
+The reveal: <span class="br">[the headline feature]</span>, and the one number that proves it: <span class="br">[the number]</span>.
+Format: <span class="br">[size]</span>, 60fps.
+Style: near-black background, soft studio light, one accent colour, <span class="br">[hex]</span>. Slow, confident camera moves of 30 to 45 frames. The key number appears huge, about 30% of the frame height. Clean sans serif, generous space.
+Avoid: lens flares, fast cuts, busy backgrounds, more than one accent colour.</pre><button class="copy" type="button" data-target="c-m6">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>LIVING UI SCREENCAST</span></div><p class="best"><b>Best for:</b> app tutorials, feature launches, showing your build</p><div class="code"><pre id="c-m7">Make a <span class="br">[length]</span>-second animated walkthrough of my app <span class="br">[app name]</span> showing: <span class="br">[the 3 steps a user takes]</span>.
+Rebuild the interface from the attached screenshots as real, crisp UI, not as pasted images.
+Format: <span class="br">[size]</span>, 60fps.
+Style: a smooth cursor moves between targets over 20 to 30 frames, clicks with a soft ripple, and the camera zooms to 1.6x on each key detail, then eases back out. Short captions name each step.
+Avoid: blurry screenshots, jumpy cursor moves, zooming more than once per step.
+<span class="br">[attach screenshots of your app]</span></pre><button class="copy" type="button" data-target="c-m7">Copy</button></div></article>
+</div></details>
+
+<details class="group"><summary><span>Hand-made<small>Single line · Watercolour · Risograph · Paper cut-out · Hand-drawn</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>SINGLE LINE AND LIVE DRAWING</span></div><p class="best"><b>Best for:</b> minimal ads, luxury brands, whiteboard explainers</p><div class="code"><pre id="c-m8">Make a <span class="br">[length]</span>-second animation drawn as one continuous line for <span class="br">[brand]</span>. The line draws: <span class="br">[the scenes, in order]</span>, and finishes by drawing the logo.
+Format: <span class="br">[size]</span>, 60fps.
+Style: a single <span class="br">[colour]</span> line with round caps on <span class="br">[background colour]</span>. It draws at a steady pace, about 800 pixels a second at 1080p. The camera follows the pen tip and keeps it in the middle third of the frame.
+Avoid: lifting the pen, fills, a second line colour, shading.</pre><button class="copy" type="button" data-target="c-m8">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>WATERCOLOUR AND INK</span></div><p class="best"><b>Best for:</b> storytelling, travel, cultural and community brands</p><div class="code"><pre id="c-m9">Make a <span class="br">[length]</span>-second watercolour and ink animation for <span class="br">[brand or story]</span> showing: <span class="br">[3 or 4 scenes]</span>.
+Format: <span class="br">[size]</span>, 24fps.
+Style: everything painted, nothing vector. Ink lines draw first, then colour washes bloom in over 15 to 25 frames with soft wet edges. Warm paper texture throughout. Palette: <span class="br">[3 to 4 colours]</span>.
+Avoid: pure white or pure black, hard digital edges, perfect circles.</pre><button class="copy" type="button" data-target="c-m9">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>RISOGRAPH AND HALFTONE PRINT</span></div><p class="best"><b>Best for:</b> indie brands, event posters, zines</p><div class="code"><pre id="c-m10">Make a <span class="br">[length]</span>-second animated poster in a risograph print style for <span class="br">[event or brand]</span>. Text: <span class="br">[event name, date, place]</span>.
+Format: <span class="br">[size]</span>, 12fps for a printed feel.
+Style: two or three inks only, <span class="br">[e.g. fluorescent pink, blue, yellow]</span>, on off-white paper. Shading is halftone dots only. The ink layers sit 2 to 4 pixels out of line, like a real print.
+Avoid: smooth gradients, more than 3 inks, perfectly aligned layers.</pre><button class="copy" type="button" data-target="c-m10">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>PAPER CUT-OUT AND COLLAGE</span></div><p class="best"><b>Best for:</b> fashion, music, kids' stories, editorial</p><div class="code"><pre id="c-m11">Make a <span class="br">[length]</span>-second paper cut-out collage animation for <span class="br">[brand or story]</span> showing: <span class="br">[the scenes]</span>.
+Format: <span class="br">[size]</span>. Animate the pieces at 12fps, like stop motion, with a smooth 24fps camera.
+Style: torn and cut paper with white edges, soft shadows under each piece, 3 to 6 layers moving at different speeds for depth. Palette: <span class="br">[colours]</span>.
+Avoid: smooth vector motion, perfect edges, flat layers with no shadow.</pre><button class="copy" type="button" data-target="c-m11">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>HAND-DRAWN LINE BOIL</span></div><p class="best"><b>Best for:</b> character shorts, playful brands, social clips</p><div class="code"><pre id="c-m12">Make a <span class="br">[length]</span>-second hand-drawn animation for <span class="br">[brand]</span>: <span class="br">[the character and what they do]</span>.
+Format: <span class="br">[size]</span>, 24fps, animated on twos.
+Style: loose ink lines that gently wobble, with three slightly different versions of each drawing cycling so the lines feel alive. A small wind-up before every big action. Palette: <span class="br">[colours]</span>.
+Avoid: perfect vector lines, still frames with no boil, smooth computer easing.</pre><button class="copy" type="button" data-target="c-m12">Copy</button></div></article>
+</div></details>
+
+<details class="group"><summary><span>Retro and era<small>Pixel art · VHS, film and CRT · HUD and terminal</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>PIXEL ART AND RETRO GAME</span></div><p class="best"><b>Best for:</b> game trailers, nostalgia campaigns, year in review</p><div class="code"><pre id="c-m13">Make a <span class="br">[length]</span>-second pixel art animation for <span class="br">[brand]</span>, like a retro game intro: <span class="br">[what happens]</span>, ending on the logo as a game title screen.
+Draw everything at 320x180, then scale it up 6 times with smoothing off so every pixel stays sharp.
+Style: a 16 to 32 colour palette, sprites animated at 8 to 12fps, chunky pixel type, a "PRESS START" flash at the end.
+Avoid: blurry scaling, smooth gradients, modern fonts.</pre><button class="copy" type="button" data-target="c-m13">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>VHS, FILM AND CRT</span></div><p class="best"><b>Best for:</b> throwback campaigns, music, mystery teasers</p><div class="code"><pre id="c-m14">Make a <span class="br">[length]</span>-second teaser for <span class="br">[brand or release]</span> in a <span class="br">[pick one: 1980s VHS tape / 16mm film / old CRT TV]</span> style. On screen: <span class="br">[the lines or scenes]</span>.
+Format: <span class="br">[size]</span>, 24fps.
+Style: commit to that one era. Film grain that changes every frame, a gentle 1 pixel frame wobble, and for tape, a 2 to 3 pixel colour fringe on edges. Era-correct type and a date stamp if it fits.
+Avoid: mixing eras, clean digital edges, modern UI elements.</pre><button class="copy" type="button" data-target="c-m14">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>HUD AND TERMINAL</span></div><p class="best"><b>Best for:</b> developer tools, AI demos, sci-fi titles</p><div class="code"><pre id="c-m15">Make a <span class="br">[length]</span>-second HUD and terminal animation for <span class="br">[product]</span> that shows: <span class="br">[the system scanning, finding, or building something]</span>.
+Format: <span class="br">[size]</span>, 60fps.
+Style: monospace type on a character grid, <span class="br">[green, amber or cyan]</span> on near-black. Numbers roll for 6 to 10 frames before they settle. Brackets and frames lock onto targets in three steps. Lines of text type out at a steady pace.
+Avoid: proportional fonts, glossy 3D, more than two colours.</pre><button class="copy" type="button" data-target="c-m15">Copy</button></div></article>
+</div></details>
+
+<details class="group"><summary><span>3D and worlds<small>Isometric world · Toy and material 3D</small></span></summary><div class="inner">
+<article class="card"><div class="eyebrow"><span>ISOMETRIC MINIATURE WORLD</span></div><p class="best"><b>Best for:</b> how a service works, supply chains, app demos</p><div class="code"><pre id="c-m16">Make a <span class="br">[length]</span>-second isometric animation for <span class="br">[business]</span> showing how <span class="br">[the process, step by step]</span> works as a tiny world.
+Format: <span class="br">[size]</span>, 60fps.
+Style: true isometric angles. Buildings and objects drop in from 40 pixels above with a small bounce. Each material uses exactly three tones: light, mid and shadow. Palette: <span class="br">[colours]</span>. Small moving details, like vans and people, keep it alive.
+Avoid: perspective camera moves, realistic textures, crowded scenes.</pre><button class="copy" type="button" data-target="c-m16">Copy</button></div></article>
+<article class="card"><div class="eyebrow"><span>TOY AND MATERIAL 3D</span></div><p class="best"><b>Best for:</b> product films, brand idents, playful explainers</p><div class="code"><pre id="c-m17">Make a <span class="br">[length]</span>-second 3D brand ident for <span class="br">[brand]</span>: <span class="br">[what the objects do]</span>, ending on the logo as a solid object.
+Format: <span class="br">[size]</span>, 60fps.
+Style: toy-like objects made of <span class="br">[e.g. soft matte plastic, clay, glass]</span>. One key light and one fill light, a shallow depth of field, soft contact shadows where objects touch the floor. Palette: <span class="br">[colours]</span>.
+Avoid: harsh lighting, floating objects with no shadow, photoreal clutter.</pre><button class="copy" type="button" data-target="c-m17">Copy</button></div></article>
+</div></details>
+</section>
+
+<section id="voidcanvas"><p class="k2">CLAUDE AND VOID CANVAS</p><h2>From brief to brand, in your browser</h2><p class="sub">Void Canvas is the free design studio I built and showed you on Saturday. It runs in your browser with no account, and your files stay on your device. It has four parts: Studio, Editor, Effects and Brand. You're among the first designers to use it, so tell me in the group what breaks.</p>
+<div class="btns" style="margin:0 0 18px"><a class="btn ink" href="https://voidcanvas.app" target="_blank" rel="noopener">Open voidcanvas.app</a></div>
+
+<article class="card"><div class="eyebrow"><span>PART 1 · BRAND GUIDELINES</span><span class="pill">voidcanvas.app/brand</span></div><h3>Build a brand system in minutes</h3>
+<ol class="how"><li>Open <a href="https://voidcanvas.app/brand" target="_blank" rel="noopener">voidcanvas.app/brand</a> and choose <b>Build your brand guideline</b>.</li><li>Add the brand name, the logo and the colours you have. Void Canvas builds the rest: colour ramps, accessible text pairings, a type scale and logo clear space.</li><li>Not right yet? <b>Lock what you like, generate the rest again.</b> Keep regenerating until it feels like the brand.</li><li>Publish it as a shareable brand site when you're happy. Only the copy you choose is uploaded.</li><li>Take the guideline into the Editor to start designing with it.</li></ol>
+<p class="note" style="margin:10px 0 0">Want Claude's thinking first? Run <a href="#d-brand">Demo 2</a> to get the brand story and rules written, then bring the logo and colours here to build the visual system.</p></article>
+
+<article class="card" id="v-claude"><div class="eyebrow"><span>PART 2 · LET CLAUDE DRIVE</span><span class="pill">Claude in Chrome</span></div><h3>Claude designs in Void Canvas for you</h3><p class="note">This is what I described on Saturday: Claude opens Void Canvas in your browser, makes the image with Higgsfield, and lays out the design while you watch.</p>
+<ol class="how"><li><b>Install Claude in Chrome.</b> Add the Claude extension from the Chrome Web Store and sign in with your Claude account.</li><li><b>Connect Higgsfield (optional).</b> In Claude, open Settings, then Connectors, search for Higgsfield and connect it. Image generation uses your Higgsfield credits.</li><li><b>Run a prompt below.</b> Claude asks before it acts on a new site, and hands back to you for anything like a sign-in or a download. That's expected.</li><li><b>Watch the first run.</b> Stop it with a message if it heads the wrong way, the same way you'd redirect a junior designer.</li></ol>
+<div class="code"><pre id="c-v1">Using Higgsfield, generate <span class="br">[the image you need, e.g. "a bowl of jollof rice on a wooden table, top-down, natural light"]</span> in the style of the attached reference.
+Then open voidcanvas.app/editor in Chrome and start a <span class="br">[format, e.g. Instagram post]</span> design.
+Place the image, add the headline "<span class="br">[headline]</span>" in <span class="br">[font]</span>, and match the layout of the reference.
+Stop and show me before you export anything.
+<span class="br">[attach a reference, e.g. a poster from Pinterest]</span></pre><button class="copy" type="button" data-target="c-v1">Copy</button></div>
+<div class="code"><pre id="c-v2">Open voidcanvas.app/brand in Chrome and build a brand guideline for <span class="br">[brand name]</span>.
+Use the logo at <span class="br">[where the file is]</span> and these colours: <span class="br">[hex codes]</span>.
+Lock the colours, then regenerate the type pairing until it feels <span class="br">[3 words, e.g. "warm, premium, Nigerian"]</span>.
+Stop and show me the result before you publish anything.</pre><button class="copy" type="button" data-target="c-v2">Copy</button></div>
+<div class="code"><pre id="c-v3">In voidcanvas.app/editor, take my open design and make every format I need: <span class="br">[e.g. Instagram post, Instagram story, LinkedIn banner, A4 flyer]</span>.
+Keep the headline readable and the logo clear of the edges in each one.
+Show me each format, then use Download all as a ZIP.</pre><button class="copy" type="button" data-target="c-v3">Copy</button></div></article>
+
+<article class="card"><div class="eyebrow"><span>PART 3 · FULL CONTROL</span><span class="pill">voidcanvas.app/editor</span></div><h3>Finish it by hand in the Editor</h3><p class="note">Whatever Claude or the Brand tool makes, the Editor is where your taste takes over. It works the way Photoshop does.</p>
+<ul class="fixes"><li><strong>Layers, Properties and History panels</strong><span>Every element is its own layer. Undo anything from History.</span></li><li><strong>Type</strong><span>Double-click the canvas to type. Use Google Fonts or font files from your computer.</span></li><li><strong>Remove background</strong><span>Creates a mask, so nothing is lost and you can paint it back.</span></li><li><strong>58 filters, as layers</strong><span>Stack them, mask them and fade them. The same effects live in voidcanvas.app/effects for one-click treatments.</span></li><li><strong>12 format presets</strong><span>From Instagram post to A4 flyer. Download all as a ZIP.</span></li><li><strong>Import your files</strong><span>PSD keeps layers, groups and blend modes. A PDF comes in with each page as a layer.</span></li><li><strong>Export</strong><span>PNG, JPG or WebP up to 3x, or a print PDF at 300 dpi with bleed and crop marks.</span></li><li><strong>Shortcuts you know</strong><span>V move, T type, M marquee, B brush, E eraser.</span></li></ul></article>
+</section>
+
+<section id="direct"><p class="k2">DIRECTING</p><h2>Talk like an art director</h2><p class="sub">Your taste is the part AI can't supply. These are the phrases that turn fine into good.</p>
+<article class="card"><div class="eyebrow"><span>VAGUE VS SPECIFIC</span><span class="pill">With Prompt 3</span></div><ul class="fixes"><li><strong>Not "make it look better"</strong><span>"Make the headline twice the size and the background off-white."</span></li><li><strong>Not "make it pop"</strong><span>"Make the Order button lime, full width, and fixed to the bottom."</span></li><li><strong>Not "make it more modern"</strong><span>"Use one font, more space between sections, and rounded corners on the cards."</span></li><li><strong>Not "it's not working"</strong><span>Use Prompt 4, with a screenshot.</span></li></ul></article>
+<article class="card" id="phrases"><div class="eyebrow"><span>PHRASES THAT WORK</span><span class="pill">In Claude</span></div><p class="note">Copy the one you need. Each keeps everything that already works.</p>
+<div class="code"><pre id="c-x1">Elevate the user interface. Keep the layout and every feature. Improve the spacing, the type hierarchy and the colour contrast, then show me what you changed.</pre><button class="copy" type="button" data-target="c-x1">Copy</button></div>
+<div class="code"><pre id="c-x2">100x this function: <span class="br">[the feature]</span>. Make it faster, clearer and more useful for <span class="br">[who uses it]</span>, without adding new screens.</pre><button class="copy" type="button" data-target="c-x2">Copy</button></div>
+<div class="code"><pre id="c-x3">Restyle my page to match the look of the attached screenshot: its spacing, type, colours and buttons. Keep every feature and all of my content exactly as it is.
+<span class="br">[attach the screenshot]</span></pre><button class="copy" type="button" data-target="c-x3">Copy</button></div>
+<div class="code"><pre id="c-x4">Before you build anything, ask me every question you need answered. Ask them one at a time.</pre><button class="copy" type="button" data-target="c-x4">Copy</button></div>
+<div class="code"><pre id="c-x5">Undo that. Go back to the last version that worked, and change only <span class="br">[the one thing]</span>.</pre><button class="copy" type="button" data-target="c-x5">Copy</button></div></article>
+</section>
+
+<section id="references"><p class="k2">TASTE, ON TAP</p><h2>Where to find references</h2><p class="sub">The fastest way to better results is a good reference. Screenshot what you like, attach it, and use the restyle phrase above.</p>
+<div class="opts">
+<article class="card"><div class="eyebrow"><span>LOOKS AND LAYOUTS</span></div><ul class="links"><li><a href="https://www.pinterest.com" target="_blank" rel="noopener">Pinterest</a><span>Mood, posters and layouts. Search the style plus "poster" or "UI".</span></li><li><a href="https://land-book.com" target="_blank" rel="noopener">Land-book</a><span>Landing pages, sorted by type of site.</span></li><li><a href="https://godly.website" target="_blank" rel="noopener">Godly</a><span>Bold, current web design.</span></li><li><a href="https://mobbin.com" target="_blank" rel="noopener">Mobbin</a><span>Real app screens, for how flows should work.</span></li><li><a href="https://www.awwwards.com" target="_blank" rel="noopener">Awwwards</a><span>Award-winning sites and motion.</span></li><li><a href="https://www.behance.net" target="_blank" rel="noopener">Behance</a><span>Full brand and campaign case studies.</span></li></ul></article>
+<article class="card"><div class="eyebrow"><span>COMPONENT PROMPTS</span></div><ul class="links"><li><a href="https://21st.dev" target="_blank" rel="noopener">21st.dev</a><span>Interface components with a copy-prompt button made for AI builders.</span></li><li><a href="https://ui.shadcn.com/blocks" target="_blank" rel="noopener">shadcn/ui blocks</a><span>Clean dashboards, sign-ins and page sections.</span></li><li><a href="https://ui.aceternity.com" target="_blank" rel="noopener">Aceternity UI</a><span>Animated hero sections and effects.</span></li><li><a href="https://magicui.design" target="_blank" rel="noopener">Magic UI</a><span>Motion-rich landing page parts.</span></li><li><a href="https://uiverse.io" target="_blank" rel="noopener">Uiverse</a><span>Buttons, cards, loaders and toggles.</span></li></ul></article>
+</div>
+<article class="card"><div class="eyebrow"><span>HOW TO USE A COMPONENT</span><span class="pill">In Claude</span></div><div class="code"><pre id="c-x6">Add this component to my page, in the <span class="br">[where it goes]</span>:
+<span class="br">[paste the component prompt or code]</span>
+Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre><button class="copy" type="button" data-target="c-x6">Copy</button></div></article>
+</section>
+
+<section id="fixes"><p class="k2">WHEN IT BREAKS</p><h2>Fixes</h2><p class="sub">Including the ones we hit together on Saturday.</p>
+<article class="card"><ul class="fixes">
+<li><strong>Pictures from a website don't load in your build</strong><span>Claude can only reach sites you allow. In Claude, open Settings, then Capabilities, and add the image site's domain to the allowed domains list (for property listings that was media.onthemarket.com). Then ask Claude to try again.</span></li>
+<li><strong>Your build answers like a chat, but you wanted a website</strong><span>Say: "Turn this into a website: one page that shows the results as cards, with a filter at the top and a link on each card. Keep the same data source."</span></li>
+<li><strong>Claude shows code but no page</strong><span>Check that code execution and file creation is on in Claude's settings. Then ask: "Show this as a page I can preview."</span></li>
+<li><strong>Claude changed things you didn't ask for</strong><span>Say: "Undo that. Go back to the previous version and change only [the one thing]."</span></li>
+<li><strong>Made-up text or prices</strong><span>Say: "Replace all placeholder text with my real content: [paste it]"</span></li>
+<li><strong>You hit the plan limit</strong><span>Run Prompt 5 to get a hand-off note. When the limit resets, start a new chat, paste the note and carry on.</span></li>
+<li><strong>Netlify doesn't show in Connectors</strong><span>Use option B under <a href="#golive">Go live</a>: save the file and drag it into app.netlify.com/drop.</span></li>
+<li><strong>The WhatsApp button doesn't open</strong><span>The number must be in international format with no + or spaces, like 2348012345678.</span></li>
+<li><strong>You can't share your screen on a Mac</strong><span>Open System Settings, then Privacy and Security, then Screen and System Audio Recording. Turn on Zoom, then restart Zoom.</span></li>
+</ul></article>
+</section>
+
+<section id="help"><p class="k2">AFTER SATURDAY</p><h2>Getting help</h2><p class="sub">21 days of support, until Saturday 14 November.</p>
+<ul class="facts">
+<li><b>WhatsApp group.</b> <a href="https://chat.whatsapp.com/Dji5FzXLAvKEIhUWNKCT6r" target="_blank" rel="noopener">Join here</a> if you haven't yet. Questions, progress and builds all go here.</li>
+<li><b>Group calls.</b> Saturday 31 October and Saturday 14 November. Times confirmed in the group.</li>
+<li><b>Replies.</b> Within 24 hours, Monday to Friday.</li>
+<li><b>Kit updates.</b> This kit grows as your questions come in. You'll get a short email each time it does.</li>
+</ul>
+<article class="card"><div class="eyebrow"><span>HOW TO ASK FOR HELP</span></div><h3>Copy this, fill it in, post it in the group</h3><div class="code"><pre id="c-help">What I'm building:
+What I tried (paste the prompt):
+What happened (screenshot):
+What I want instead:</pre><button class="copy" type="button" data-target="c-help">Copy</button></div></article>
+<details class="group"><summary><span>Questions people asked<small>Work apps, paid plans, client work</small></span></summary><div class="inner">
+<ul class="fixes" style="margin-bottom:12px">
+<li><strong>Can Claude work with an app my company already uses?</strong><span>Check Claude's Settings, then Connectors, first: many apps are already there. If the app has a website, Claude in Chrome can use it the way you do. If it's an internal app with an API, your IT team can add it as a custom connector. If it's none of those, Claude can't reach it yet.</span></li>
+<li><strong>Do I need a paid Claude plan?</strong><span>No for the core method: Prompts 1 to 6 work on free plans, with limits. If you hit limits often, or want longer builds, connectors and Claude in Chrome, a paid plan is worth it.</span></li>
+<li><strong>Can I use this for client work?</strong><span>Yes. Be careful with what you paste in: don't put a client's private data or passwords into a chat unless they've agreed to it.</span></li>
+<li><strong>Can I share this kit?</strong><span>It's just for Cohort 01, which is why it asks for your reference and a code. Share your builds as widely as you like.</span></li>
+</ul></div></details>
+</section>
+
+<section id="deck"><p class="k2">SATURDAY'S SLIDES</p><h2>The deck</h2>
+<div class="deck"><div class="doc">PDF</div><div class="txt"><h3>The Build Session · Cohort 01</h3><p>Every slide from Saturday, as a PDF you can keep.</p></div><a class="btn ink" href="/kit/deck.pdf">Download the deck</a></div>
+</section>
+</main>
+<footer class="wrap">MotionPlay Labs Ltd · <a href="mailto:hello@motionplaylabs.com">hello@motionplaylabs.com</a><br>For Founding Cohort 01 · Signed in as {{NAME}} · {{REF}}</footer>
+<script>
+(function(){
+  function fallbackCopy(text){
+    try{
+      var ta=document.createElement('textarea');
+      ta.value=text;ta.setAttribute('readonly','');
+      ta.style.position='fixed';ta.style.top='-1000px';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      var ok=document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){return false;}
+  }
+  function flash(btn,label){
+    btn.textContent=label;btn.classList.add('done');
+    setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1500);
+  }
+  document.querySelectorAll('button.copy').forEach(function(btn){
+    btn.setAttribute('aria-label','Copy');
+    btn.addEventListener('click',function(){
+      var el=document.getElementById(btn.getAttribute('data-target'));
+      var text=el?el.textContent:'';
+      try{
+        if(navigator.clipboard&&window.isSecureContext){
+          navigator.clipboard.writeText(text).then(function(){flash(btn,'Copied');},function(){flash(btn,fallbackCopy(text)?'Copied':'Select and copy');});
+          return;
+        }
+      }catch(e){}
+      flash(btn,fallbackCopy(text)?'Copied':'Select and copy');
+    });
+  });
+  var reset=document.getElementById('reset');
+  if(reset)reset.addEventListener('click',function(){
+    document.querySelectorAll('#checks input').forEach(function(i){i.checked=false;});
+  });
+  // Open a closed group when a link points inside it.
+  function openTarget(){
+    var id=location.hash.slice(1);if(!id)return;
+    var el=document.getElementById(id);if(!el)return;
+    var d=el.closest('details');if(d&&!d.open){d.open=true;el.scrollIntoView();}
+  }
+  window.addEventListener('hashchange',openTarget);openTarget();
+})();
+</script>
+</body>
+</html>

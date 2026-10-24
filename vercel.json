@@ -7,7 +7,10 @@
     },
     {
       "src": "api/*.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["private/**"]
+      }
     }
   ],
   "routes": [
@@ -29,7 +32,16 @@
     },
     {
       "src": "/kit/?$",
-      "dest": "/public/kit/index.html"
+      "dest": "/api/kit.js"
+    },
+    {
+      "src": "/kit/deck\\.pdf$",
+      "dest": "/api/kit-file.js?f=deck"
+    },
+    {
+      "src": "/kit/(.*)",
+      "status": 302,
+      "headers": { "Location": "/kit" }
     },
     {
       "src": "/demo/?$",

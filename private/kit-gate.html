@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Build Session kit · Cohort 01</title>
+<link rel="icon" href="/email/arrow.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--muted:#5b5b66;--line:#e7e2f3;--lime:#ccff00;--purple:#9040ff;--lav:#f5f0ff;--bg:#ffffff;--err:#c0262d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--lav);color:var(--ink);font:16px/1.6 'Plus Jakarta Sans',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--purple)}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px;width:100%}
+header.top{background:#fff;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;height:60px}
+.bar img{width:40px;height:40px;display:block}
+.bar .t{font-size:11px;font-weight:800;letter-spacing:2px}
+.bar .t span{color:var(--purple)}
+main{flex:1;padding:28px 0 40px}
+.door{background:var(--ink);color:#fff;border-radius:22px;padding:30px 26px 28px;position:relative;overflow:hidden}
+.door .lbl{margin:0 0 12px;padding-right:66px;font-size:12px;font-weight:800;letter-spacing:2px;color:var(--lime)}
+.door h1{margin:0 0 12px;font-size:32px;line-height:1.1;letter-spacing:-0.8px;font-weight:800;max-width:15ch;text-wrap:balance}
+.door p{margin:0;color:#d9d9e0;max-width:38ch}
+.door img{position:absolute;right:18px;top:22px;width:56px;height:auto}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px 24px;margin-top:14px}
+.stepl{margin:0 0 4px;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--purple)}
+h2{margin:0 0 6px;font-size:22px;letter-spacing:-0.4px;font-weight:800}
+.sub{margin:0 0 18px;color:var(--muted)}
+label{display:block;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 8px}
+input{width:100%;font:700 20px/1.2 'Plus Jakarta Sans',Arial,sans-serif;letter-spacing:1px;padding:15px 16px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);text-transform:uppercase}
+input::placeholder{color:#b9b6c6;font-weight:600}
+input:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+input.code{font-size:30px;letter-spacing:10px;text-align:center}
+button.go{margin-top:14px;width:100%;background:var(--lime);color:var(--ink);border:0;border-radius:14px;padding:16px 18px;font:800 16px 'Plus Jakarta Sans',Arial,sans-serif;cursor:pointer}
+button.go:disabled{opacity:.6;cursor:default}
+button.go:focus-visible,.link:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.err{margin:10px 0 0;color:var(--err);font-weight:700;font-size:14px}
+.row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px}
+.link{background:none;border:0;padding:0;color:var(--purple);font:700 14px 'Plus Jakarta Sans',Arial,sans-serif;text-decoration:underline;cursor:pointer}
+.link:disabled{color:var(--muted);text-decoration:none;cursor:default}
+.help{margin:18px 4px 0;color:var(--muted);font-size:14px}
+.closed .panel form,.closed #s1,.closed #s2{display:none}
+#closedNote{display:none}
+.closed #closedNote{display:block}
+footer{padding:18px 0 28px;color:var(--muted);font-size:13px;text-align:center}
+@media (min-width:600px){.door{padding:36px 34px 32px}.door h1{font-size:38px}.panel{padding:30px 32px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="bar"><img src="/email/mpl-logo.png" alt="MotionPlay Labs" width="40" height="40"><div class="t">THE BUILD SESSION · <span>KIT</span></div></div></div></header>
+<main class="wrap" id="root" data-state="open">
+  <section class="door">
+    <img src="/email/arrow.png" alt="" width="56" height="57">
+    <p class="lbl">FOUNDING COHORT 01 · PRIVATE</p>
+    <h1>Your kit is behind this door.</h1>
+    <p>Just for the people who were in the room on Saturday. Two steps and you're in.</p>
+  </section>
+
+  <section class="panel" id="s1">
+    <p class="stepl">STEP 1 OF 2</p>
+    <h2>Your booking reference</h2>
+    <p class="sub">It starts with TBS- and it's in your emails from MotionPlay Labs.</p>
+    <form id="f1" novalidate>
+      <label for="ref">Reference</label>
+      <input id="ref" name="ref" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="TBS-XXXXXXXX-X" maxlength="40" required>
+      <p class="err" id="e1" role="alert" hidden></p>
+      <button class="go" type="submit" id="b1">Email me a code</button>
+    </form>
+  </section>
+
+  <section class="panel" id="s2" hidden>
+    <p class="stepl">STEP 2 OF 2</p>
+    <h2>Check your email</h2>
+    <p class="sub" id="sentTo">We sent a 6-digit code to your email. It works for 10 minutes.</p>
+    <form id="f2" novalidate>
+      <label for="code">Code</label>
+      <input class="code" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" placeholder="000000" required>
+      <p class="err" id="e2" role="alert" hidden></p>
+      <button class="go" type="submit" id="b2">Open my kit</button>
+    </form>
+    <div class="row">
+      <button class="link" type="button" id="again" disabled>Send a new code</button>
+      <button class="link" type="button" id="back">Use a different reference</button>
+    </div>
+  </section>
+
+  <section class="panel" id="closedNote">
+    <h2>The Cohort 01 kit has closed</h2>
+    <p class="sub">It was open until 31 December 2026. Thank you for building with us. For anything you need, email hello@motionplaylabs.com.</p>
+  </section>
+
+  <p class="help">Can't find your reference, or the code hasn't arrived after a few minutes? Check your spam folder, then email <a href="mailto:hello@motionplaylabs.com">hello@motionplaylabs.com</a>.</p>
+</main>
+<footer>MotionPlay Labs Ltd · For Founding Cohort 01 attendees</footer>
+<script>
+(function(){
+  var root=document.getElementById('root');
+  if(root.getAttribute('data-state')==='closed'){root.classList.add('closed');return;}
+  var s1=document.getElementById('s1'),s2=document.getElementById('s2');
+  var f1=document.getElementById('f1'),f2=document.getElementById('f2');
+  var ref=document.getElementById('ref'),code=document.getElementById('code');
+  var e1=document.getElementById('e1'),e2=document.getElementById('e2');
+  var b1=document.getElementById('b1'),b2=document.getElementById('b2');
+  var again=document.getElementById('again'),back=document.getElementById('back');
+  var sentTo=document.getElementById('sentTo');
+  var currentRef='',timer=null;
+  try{var saved=sessionStorage.getItem('tbs_ref');if(saved)ref.value=saved;}catch(e){}
+
+  function err(el,msg){el.textContent=msg||'';el.hidden=!msg;}
+  async function post(url,body){
+    var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'same-origin'});
+    var j={};try{j=await r.json();}catch(e){}
+    return {ok:r.ok&&j.ok,status:r.status,j:j};
+  }
+  function cooldown(sec){
+    clearInterval(timer);again.disabled=true;var left=sec;
+    again.textContent='Send a new code in '+left+'s';
+    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);again.disabled=false;again.textContent='Send a new code';}else again.textContent='Send a new code in '+left+'s';},1000);
+  }
+  async function send(isResend){
+    var value=(isResend?currentRef:ref.value).trim().toUpperCase().replace(/\s+/g,'');
+    var target=isResend?e2:e1;err(target,'');
+    if(!/^TBS-[A-Z0-9-]{4,30}$/.test(value)){err(e1,'That doesn’t look like a reference. It starts with TBS-.');ref.focus();return;}
+    b1.disabled=true;b1.textContent='Sending…';if(isResend)again.disabled=true;
+    try{
+      var r=await post('/api/kit-start',{reference:value});
+      if(!r.ok){err(target,r.j.error||'Something went wrong. Try again.');if(isResend)again.disabled=false;return;}
+      currentRef=value;try{sessionStorage.setItem('tbs_ref',value);}catch(e){}
+      sentTo.textContent=(r.j.sent===false?'We just sent a code to ':'We sent a 6-digit code to ')+(r.j.to||'your email')+'. It works for 10 minutes.';
+      s1.hidden=true;s2.hidden=false;code.value='';code.focus();cooldown(r.j.wait||60);
+    }catch(e){err(target,'We couldn’t reach the server. Check your connection and try again.');if(isResend)again.disabled=false;}
+    finally{b1.disabled=false;b1.textContent='Email me a code';}
+  }
+  f1.addEventListener('submit',function(ev){ev.preventDefault();send(false);});
+  again.addEventListener('click',function(){send(true);});
+  back.addEventListener('click',function(){s2.hidden=true;s1.hidden=false;err(e2,'');clearInterval(timer);ref.focus();});
+  code.addEventListener('input',function(){code.value=code.value.replace(/\D/g,'').slice(0,6);if(code.value.length===6)f2.requestSubmit?f2.requestSubmit():f2.dispatchEvent(new Event('submit'));});
+  f2.addEventListener('submit',async function(ev){
+    ev.preventDefault();if(b2.disabled)return;err(e2,'');
+    if(!/^\d{6}$/.test(code.value)){err(e2,'Enter the 6 digits from the email.');return;}
+    b2.disabled=true;b2.textContent='Checking…';
+    try{
+      var r=await post('/api/kit-verify',{reference:currentRef,code:code.value});
+      if(r.ok){b2.textContent='Opening your kit…';window.location.replace('/kit');return;}
+      err(e2,r.j.error||'That didn’t work. Try again.');code.select();
+    }catch(e){err(e2,'We couldn’t reach the server. Check your connection and try again.');}
+    b2.disabled=false;b2.textContent='Open my kit';
+  });
+})();
+</script>
+</body>
+</html>

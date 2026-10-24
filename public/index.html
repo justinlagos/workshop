@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>THE BUILD SESSION: FOUNDING COHORT 01 | MotionPlay Labs Workshop</title>
-<meta name="description" content="A private hands-on online workshop: ChatGPT for thinking. Claude for building. Sat 24 Oct 2026, 8 seats only. Enrol for The Build Session Founding Cohort 01."/>
-<meta property="og:title" content="THE BUILD SESSION — Stop Prompting. Start Building."/>
-<meta property="og:description" content="Private hands-on online workshop • Sat 24 Oct 2026 • 8 seats only • £50 / ₦85,000"/>
+<title>THE BUILD SESSION · Cohort 01 shipped | MotionPlay Labs</title>
+<meta name="description" content="The Build Session: ChatGPT for thinking, Claude for building. Founding Cohort 01 ran on 24 October 2026. The next session is in the build. Get first access."/>
+<meta property="og:title" content="THE BUILD SESSION · Cohort 01 shipped. The next one is in the build."/>
+<meta property="og:description" content="Five builders, three hours, one method. Get first access to the next session."/>
 <meta property="og:type" content="website"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -56,7 +56,7 @@ tailwind.config = {
 @keyframes arrow-levitate{0%,100%{transform:translate3d(0,2px,0) rotate(-1deg)}50%{transform:translate3d(0,-14px,0) rotate(1deg)}}
 @keyframes arrow-ground{0%,100%{opacity:.78;transform:translateY(18px) scale(1)}50%{opacity:.4;transform:translateY(18px) scale(.78)}}
 @media(prefers-reduced-motion:reduce){.hero-arrow-floating,.hero-arrow-stage::after{animation:none!important}.hero-arrow-floating{will-change:auto}}
-.success-check{margin-inline:auto;animation:success-in .8s cubic-bezier(.16,1,.3,1) both}@keyframes success-in{0%{transform:scale(.5) rotate(-24deg);opacity:0}65%{transform:scale(1.13) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){.success-check{animation:none}}\n
+.success-check{margin-inline:auto;animation:success-in .8s cubic-bezier(.16,1,.3,1) both}@keyframes success-in{0%{transform:scale(.5) rotate(-24deg);opacity:0}65%{transform:scale(1.13) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){.success-check{animation:none}}
 /* Phone viewport: keep all editorial content inside the poster, never crop critical copy. */
 html,body{max-width:100%;overflow-x:clip}
 @media(max-width:639px){
@@ -118,20 +118,28 @@ html,body{max-width:100%;overflow-x:clip}
 .hero-composition .headline-tight span.text-black{-webkit-text-stroke:.8px #000}
 .hero-composition .headline-tight span.text-transparent{-webkit-text-stroke:.65px #a260ff}
 </style>
+<style>
+.shipped-stamp{display:inline-flex;align-items:center;gap:8px;border:2px solid #000;border-radius:999px;padding:6px 14px 6px 8px;font-size:11px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;background:#fff}
+.shipped-stamp i{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#ccff00;align-items:center;justify-content:center;font-style:normal;font-size:12px;letter-spacing:0}
+.next-card{background:#08080a;color:#fff;border-radius:28px;position:relative;overflow:hidden}
+.next-card::before{content:"";position:absolute;inset:auto -80px -120px auto;width:340px;height:340px;background:radial-gradient(circle,rgba(158,98,255,.45) 0%,rgba(158,98,255,0) 70%);filter:blur(20px);pointer-events:none}
+.next-card input,.next-card textarea{background:#16161b;border:1.5px solid #34343d;color:#fff}
+.next-card input::placeholder,.next-card textarea::placeholder{color:#7d7d8a}
+.next-card input:focus,.next-card textarea:focus{border-color:#ccff00;box-shadow:0 0 0 3px rgba(204,255,0,.25);outline:none}
+.workbench span{display:inline-block}
+@media (prefers-reduced-motion:no-preference){.build-dots span{animation:dot 1.4s infinite both}.build-dots span:nth-child(2){animation-delay:.2s}.build-dots span:nth-child(3){animation-delay:.4s}@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}}
+</style>
 </head>
 <body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
 
 <div class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 py-3 px-4 sm:px-8 hidden md:flex items-center justify-between">
   <div class="flex items-center gap-3">
-    <span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>
-    <span class="text-xs font-black tracking-widest uppercase">Founding Cohort 01</span>
+    <span class="w-2 h-2 rounded-full bg-black"></span>
+    <span class="text-xs font-black tracking-widest uppercase">Founding Cohort 01 · Shipped</span>
     <span class="text-gray-300">|</span>
-    <span class="text-xs font-semibold text-gray-600">8 Seats Only • Sat 24 Oct 2026</span>
+    <span class="text-xs font-semibold text-gray-600 inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>Next session: in the build</span>
   </div>
-  <div class="flex items-center gap-4">
-    <span class="text-xs font-bold" id="stickyPriceDisplay">£50</span>
-    <a class="bg-black hover:bg-brand-purple text-white text-xs font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider" href="#enrollSection">Secure Seat</a>
-  </div>
+  <a class="bg-black hover:bg-brand-purple text-white text-xs font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider" href="#next">Get first access</a>
 </div>
 
 <main class="poster-frame relative w-full max-w-[920px] bg-white rounded-3xl sm:rounded-[36px] p-6 sm:p-14 overflow-hidden z-10">
@@ -143,7 +151,7 @@ html,body{max-width:100%;overflow-x:clip}
       <span class="text-[12px] sm:text-[13px] font-extrabold tracking-[0.24em] uppercase text-black">THE BUILD SESSION</span>
       <span class="w-14 sm:w-20 h-[2px] bg-black inline-block"></span>
     </div>
-    <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">FOUNDING COHORT 01</p>
+    <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">COHORT 01 · SHIPPED</p>
   </div>
   <div class="mobile-logo relative w-[112px] h-[80px] sm:w-32 sm:h-24 shrink-0" title="MotionPlay Labs">
     <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448" class="block w-full h-full object-contain object-center" loading="eager" decoding="async"/>
@@ -167,141 +175,76 @@ html,body{max-width:100%;overflow-x:clip}
 </section>
 
 <section class="relative z-10 mb-8 sm:mb-10 max-w-2xl">
-  <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight mb-1.5">A private hands-on online workshop</h2>
-  <p class="text-xl sm:text-2xl font-bold tracking-tight text-black mb-3.5"><span class="font-black">ChatGPT</span> for thinking. <span class="font-black">Claude</span> for building.</p>
-  <p class="text-sm sm:text-base text-gray-600 font-medium leading-relaxed">Learn a practical way to work with AI, from your first idea to a finished result. Create, refine and build with the tools available to you, regardless of your technical experience.</p>
+  <p class="shipped-stamp mb-5"><i aria-hidden="true">✓</i>Founding Cohort 01 · Sat 24 Oct 2026</p>
+  <h2 class="text-3xl sm:text-4xl font-black text-black tracking-tight mb-3 leading-[1.05]">Cohort 01 has shipped.</h2>
+  <p class="text-lg sm:text-xl font-bold tracking-tight text-black mb-3.5">Five builders came in with ideas. They left building.</p>
+  <p class="text-sm sm:text-base text-gray-600 font-medium leading-relaxed">Three hours, one method, their own keyboards. <span class="font-bold text-black">ChatGPT</span> for thinking, <span class="font-bold text-black">Claude</span> for building, and a designer beside them asking the questions AI can't. Their 21 days of support are running now.</p>
 </section>
 
-<section class="relative z-10 border-t border-b border-gray-200 py-4 mb-8 sm:mb-10">
+<section class="relative z-10 border-t border-b border-gray-200 py-4 mb-10 sm:mb-12" aria-label="Cohort 01 in numbers">
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-5 items-start min-w-0">
     <div class="sm:pr-4 sm:border-r border-gray-200">
-      <p class="text-xs sm:text-sm font-black text-black uppercase tracking-wider">SAT 24 OCT 2026</p>
-      <p class="text-xs sm:text-sm font-bold text-gray-500">2:00 PM – 5:00 PM</p>
+      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">5</p>
+      <p class="text-xs sm:text-sm font-bold text-gray-500">builders, UK and Lagos</p>
     </div>
     <div class="sm:px-4 sm:border-r border-gray-200">
-      <p class="text-xs sm:text-sm font-black text-black uppercase tracking-wider mb-1.5">ONLINE WORKSHOP</p>
-      <div class="w-12 h-1.5 bg-[#d8bbfd] rounded-full"></div>
+      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">3</p>
+      <p class="text-xs sm:text-sm font-bold text-gray-500">hours, mostly hands-on</p>
     </div>
     <div class="sm:px-4 sm:border-r border-gray-200">
-      <p class="text-xs sm:text-sm font-black text-black uppercase tracking-wider mb-1.5"><span id="seatsLeftLabel">8 SEATS ONLY</span></p>
-      <div class="w-12 h-1.5 bg-brand-lime rounded-full"></div>
+      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">4</p>
+      <p class="text-xs sm:text-sm font-bold text-gray-500">steps, one method</p>
     </div>
     <div class="sm:pl-4">
-      <p class="text-xs sm:text-sm font-black text-black uppercase tracking-wider mb-1.5">21 DAYS SUPPORT</p>
-      <div class="w-12 h-1.5 bg-[#d8bbfd] rounded-full"></div>
+      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">21</p>
+      <p class="text-xs sm:text-sm font-bold text-gray-500">days of support, live now</p>
     </div>
   </div>
 </section>
 
-<section class="relative z-10 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center mb-12">
-  <div class="sm:col-span-6 bg-brand-purple-light/70 rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 border border-[#e4d0ff]">
-    <div class="flex items-center gap-3">
-      <span class="text-3xl sm:text-4xl font-black tracking-tight text-black" id="priceDisplay">£50</span>
-      <span class="text-xs sm:text-sm font-extrabold tracking-wider uppercase text-black/80">/ PERSON</span>
-    </div>
-    <div class="flex items-center bg-white/80 p-1 rounded-xl border border-purple-200 text-xs font-bold">
-      <button class="px-3 py-1.5 rounded-lg bg-black text-white" id="currGbp" type="button">£ GBP</button>
-      <button class="px-3 py-1.5 rounded-lg text-black hover:bg-white" id="currNgn" type="button">₦ NGN</button>
-    </div>
-  </div>
-  <div class="sm:col-span-6">
-    <a class="w-full bg-brand-lime hover:bg-brand-lime-hover text-black font-black text-base sm:text-lg tracking-wider uppercase py-4 sm:py-5 px-6 rounded-2xl sm:rounded-3xl shadow-btn-lime flex items-center justify-center gap-3 text-center" href="#enrollSection">
-      <span>REQUEST A SEAT</span><span aria-hidden="true">→</span>
-    </a>
-  </div>
-</section>
+<section class="next-card relative z-10 p-6 sm:p-10 mb-8" id="next">
+  <div class="relative max-w-xl">
+    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-brand-lime mb-3 inline-flex items-center gap-2">In the build<span class="build-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></p>
+    <h3 class="text-3xl sm:text-[42px] font-black tracking-tight leading-[1.02] mb-4">The next session is on the workbench.</h3>
+    <p class="text-sm sm:text-base text-[#c9c9d2] font-medium leading-relaxed mb-7">Deeper than Cohort 01: real data behind your build, your own domain, and taking it all the way to launch. Same rule as before. You build it yourself, with me beside you.</p>
 
-<section class="relative z-10 bg-[#f8f9fc] border border-gray-200/80 rounded-3xl p-6 sm:p-10 mb-12 shadow-card-elevated" id="enrollSection">
-  <div class="max-w-xl mx-auto">
-    <div class="text-center mb-8" id="formIntro">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-brand-lime text-black font-black text-xs rounded-full uppercase tracking-widest mb-3">
-        <span class="w-2 h-2 rounded-full bg-black"></span>LIMITED TO 8 SEATS • COHORT 01
-      </div>
-      <h3 class="text-2xl sm:text-3xl font-black text-black tracking-tight">Secure Your Application</h3>
-      <p class="text-sm text-gray-600 mt-1 font-medium">Fill out the details below to apply for Founding Cohort 01. Justin reviews submissions continuously.</p>
-    </div>
-
-    <form class="space-y-5" id="buildSessionForm" novalidate>
-      <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5" for="fullName">Full name <span class="text-red-500">*</span></label>
-        <input class="w-full rounded-2xl border-gray-300 text-sm font-medium py-3 px-4 bg-white placeholder:text-gray-400" id="fullName" name="fullName" placeholder="Your full name" required type="text" autocomplete="name" maxlength="80"/>
-        <p class="hidden text-xs text-red-600 mt-1" data-err="fullName">Please enter your full name.</p>
-      </div>
-      <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5" for="email">Email address <span class="text-red-500">*</span></label>
-        <input class="w-full rounded-2xl border-gray-300 text-sm font-medium py-3 px-4 bg-white placeholder:text-gray-400" id="email" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
-        <p class="hidden text-xs text-red-600 mt-1" data-err="email">Enter a valid email address.</p>
-      </div>
+    <form class="space-y-4" id="waitlistForm" novalidate>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5" for="country">Country <span class="text-red-500">*</span></label>
-          <select class="w-full rounded-2xl border-gray-300 text-sm font-medium py-3 px-4 bg-white" id="country" name="country" required>
-            <option disabled selected value="">Select country</option>
-            <option>United Kingdom</option><option>Nigeria</option><option>United States</option><option>Canada</option><option>Germany</option><option>Other</option>
-          </select>
-          <p class="hidden text-xs text-red-600 mt-1" data-err="country">Please select your country.</p>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlName">Name</label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
         </div>
         <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5" for="whatsapp">WhatsApp number <span class="text-gray-400 font-normal">w/ country code</span></label>
-          <input class="w-full rounded-2xl border-gray-300 text-sm font-medium py-3 px-4 bg-white placeholder:text-gray-400" id="whatsapp" name="whatsapp" placeholder="+44 7123 456789" type="tel" autocomplete="tel" maxlength="30"/>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlEmail">Email</label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
         </div>
       </div>
       <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5">Your experience level with AI tools <span class="text-red-500">*</span></label>
-        <div class="grid grid-cols-3 gap-2 min-w-0" id="aiExperienceGroup">
-          <label class="relative flex flex-col items-center justify-center p-3 text-center border-2 border-gray-200 rounded-2xl cursor-pointer bg-white has-[:checked]:border-brand-purple has-[:checked]:bg-brand-purple-soft">
-            <input class="sr-only" name="aiExperience" required type="radio" value="Beginner"/><span class="text-xs font-black">Beginner</span><span class="text-[10px] text-gray-500 font-medium">New to AI</span>
-          </label>
-          <label class="relative flex flex-col items-center justify-center p-3 text-center border-2 border-gray-200 rounded-2xl cursor-pointer bg-white has-[:checked]:border-brand-purple has-[:checked]:bg-brand-purple-soft">
-            <input class="sr-only" name="aiExperience" type="radio" value="Basic"/><span class="text-xs font-black">Basic</span><span class="text-[10px] text-gray-500 font-medium">Some usage</span>
-          </label>
-          <label class="relative flex flex-col items-center justify-center p-3 text-center border-2 border-gray-200 rounded-2xl cursor-pointer bg-white has-[:checked]:border-brand-purple has-[:checked]:bg-brand-purple-soft">
-            <input class="sr-only" name="aiExperience" type="radio" value="Intermediate"/><span class="text-xs font-black">Intermediate</span><span class="text-[10px] text-gray-500 font-medium">Regular user</span>
-          </label>
-        </div>
-        <p class="hidden text-xs text-red-600 mt-1" data-err="aiExperience">Choose one option.</p>
+        <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlInterest">What would you build? <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
+        <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlInterest" name="interest" maxlength="300" rows="2" placeholder="One sentence is plenty"></textarea>
       </div>
-      <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-black mb-1.5">Do you have a Claude subscription? <span class="text-red-500">*</span></label>
-        <div class="flex flex-wrap gap-x-5 gap-y-3 text-xs font-bold bg-white p-3.5 rounded-2xl border border-gray-200">
-          <label class="inline-flex items-center gap-2 cursor-pointer"><input class="accent-[#9e62ff]" name="claudePlan" required type="radio" value="Yes"/><span>Yes</span></label>
-          <label class="inline-flex items-center gap-2 cursor-pointer"><input class="accent-[#9e62ff]" name="claudePlan" type="radio" value="No"/><span>No</span></label>
-          <label class="inline-flex items-center gap-2 cursor-pointer"><input class="accent-[#9e62ff]" name="claudePlan" type="radio" value="Not sure"/><span>Not sure</span></label>
-        </div>
-        <p class="hidden text-xs text-red-600 mt-1" data-err="claudePlan">Choose one option.</p>
-      </div>
-      <div>
-        <div class="flex items-center justify-between mb-1.5">
-          <label class="block text-xs font-black uppercase tracking-wider text-black" for="projectGoal">What do you want to build? <span class="text-red-500">*</span></label>
-          <span class="text-[10px] font-bold text-gray-400" id="charCounter">0/300</span>
-        </div>
-        <textarea class="w-full rounded-2xl border-gray-300 text-sm font-medium py-3 px-4 bg-white placeholder:text-gray-400" id="projectGoal" maxlength="300" name="projectGoal" placeholder="E.g. a web app, content system, internal tool, portfolio project..." required rows="3"></textarea>
-        <p class="hidden text-xs text-red-600 mt-1" data-err="projectGoal">Tell us in 10+ characters what you want to build.</p>
-      </div>
-      <!-- Honeypot anti-spam (leave empty) -->
       <input type="text" name="company_website" id="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-      <div class="p-4 bg-white rounded-2xl flex items-center justify-between text-xs font-bold border border-gray-200">
-        <span class="text-gray-600 font-extrabold">Applicable Workshop Fee:</span>
-        <span class="text-black text-sm font-black" id="modalFeeIndicator">£50 GBP</span>
-      </div>
-      <p class="hidden text-xs text-red-600" id="formGlobalError"></p>
-      <button class="w-full bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-6 rounded-2xl shadow-btn-lime flex items-center justify-center gap-2" type="submit" id="submitBtn">
-        <span id="submitLabel">Submit Application / Request Seat</span><span aria-hidden="true">→</span>
+      <p class="hidden text-sm font-bold text-[#ff8a80]" id="wlError" role="alert"></p>
+      <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="wlBtn">
+        <span id="wlLabel">Get first access</span><span aria-hidden="true">→</span>
       </button>
-      <p class="text-[11px] text-gray-500 text-center">By submitting you agree to be contacted about Cohort 01. No payment now — onboarding details follow by email.</p>
+      <p class="text-[12px] text-[#9a9aa6] font-medium">One email when it opens. That's all.</p>
     </form>
 
-    <div class="hidden text-center py-10" id="formSuccessToast">
-      <div class="success-check w-16 h-16 bg-brand-lime rounded-full flex items-center justify-center mx-auto mb-4">✓</div>
-      <h3 class="text-2xl font-black text-black mb-2">Application Received!</h3>
-      <p class="text-sm text-gray-600 max-w-sm mx-auto mb-2 font-medium" id="successMsg">Check your inbox for your next step.</p>
-      <p class="text-xs text-gray-500 mb-6">Reference: <span class="font-bold text-black" id="enrolRef"></span></p>
-      <button class="px-6 py-3 bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-xl" type="button" id="resetBtn">Submit Another Response</button>
+    <div class="hidden py-4" id="wlDone" role="status">
+      <div class="success-check w-14 h-14 bg-brand-lime text-black rounded-full flex items-center justify-center text-xl font-black mb-4" style="margin-inline:0">✓</div>
+      <p class="text-2xl font-black tracking-tight mb-1">You're on the list.</p>
+      <p class="text-sm text-[#c9c9d2] font-medium">You'll hear first when the next session opens. Until then, keep building.</p>
     </div>
   </div>
 </section>
 
-<section class="relative z-10 my-8 border border-gray-200 rounded-2xl p-6"><p class="text-xs font-black uppercase tracking-widest">Cohort 01 · Live enrolment</p><p class="text-2xl font-black mt-2"><span id="soldCount">—</span> of 8 seats secured</p><p class="text-sm text-gray-500 mt-1">Only verified payments count.</p></section><footer class="relative z-10 pt-10 mt-4 border-t-2 border-black">
+<a class="relative z-10 flex items-center justify-between gap-4 border-2 border-black rounded-2xl px-5 py-4 mb-12 hover:bg-brand-lime transition" href="/kit">
+  <span><span class="block text-[11px] font-black uppercase tracking-[0.2em]">Cohort 01</span><span class="block text-base sm:text-lg font-black tracking-tight">Your kit is here. Sign in with your reference.</span></span>
+  <span aria-hidden="true" class="text-2xl font-black">→</span>
+</a>
+
+<footer class="relative z-10 pt-10 mt-4 border-t-2 border-black">
   <div class="grid grid-cols-1 sm:grid-cols-12 gap-8 mb-10">
     <div class="sm:col-span-5">
       <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">MotionPlay Labs Ltd</p>
@@ -328,124 +271,32 @@ html,body{max-width:100%;overflow-x:clip}
   </div>
   <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-5 border-t border-gray-200 text-[11px] text-gray-500 font-medium">
     <p>© 2026 MotionPlay Labs Ltd · United Kingdom 17304660 · Nigeria RC 9621200</p>
-    <span class="inline-flex items-center gap-1.5 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>Applications Reviewed Continuously</span>
+    <span class="inline-flex items-center gap-1.5 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-brand-lime animate-pulse"></span>Next session: in the build</span>
   </div>
 </footer>
 </main>
 
 <script>
 (function(){
-  let currency = 'GBP';
-  const price = document.getElementById('priceDisplay');
-  const sticky = document.getElementById('stickyPriceDisplay');
-  const fee = document.getElementById('modalFeeIndicator');
-  const gbp = document.getElementById('currGbp');
-  const ngn = document.getElementById('currNgn');
-  const country = document.getElementById('country');
-  function setCurrency(c){
-    currency = c;
-    const isNGN = c === 'NGN';
-    price.textContent = isNGN ? '₦85,000' : '£50';
-    if (sticky) sticky.textContent = isNGN ? '₦85,000' : '£50';
-    fee.textContent = isNGN ? '₦85,000 NGN' : '£50 GBP';
-    country.value = isNGN ? 'Nigeria' : 'United Kingdom';
-    ngn.className = 'px-3 py-1.5 rounded-lg ' + (isNGN ? 'bg-black text-white' : 'text-black hover:bg-white');
-    gbp.className = 'px-3 py-1.5 rounded-lg ' + (!isNGN ? 'bg-black text-white' : 'text-black hover:bg-white');
-  }
-  gbp.addEventListener('click', ()=>setCurrency('GBP'));
-  ngn.addEventListener('click', ()=>setCurrency('NGN'));
-
-  const goal = document.getElementById('projectGoal');
-  const counter = document.getElementById('charCounter');
-  goal.addEventListener('input', ()=>{ counter.textContent = goal.value.length + '/300'; });
-
-  const form = document.getElementById('buildSessionForm');
-  const success = document.getElementById('formSuccessToast');
-  const btn = document.getElementById('submitBtn');
-  const label = document.getElementById('submitLabel');
-  const globalErr = document.getElementById('formGlobalError');
-
-  function showErr(name, on){
-    const el = document.querySelector('[data-err="'+name+'"]');
-    if (el) el.classList.toggle('hidden', !on);
-    const input = document.getElementById(name);
-    if (input) input.classList.toggle('field-error', on);
-  }
-  function apiBase(){
-    // Works at / , /workshop , /workshop/ without config
-    const p = window.location.pathname;
-    if (p.startsWith('/workshop')) return '/workshop';
-    return '';
-  }
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    globalErr.classList.add('hidden');
-    const fd = new FormData(form);
-    const data = {
-      fullName: (fd.get('fullName')||'').toString().trim(),
-      email: (fd.get('email')||'').toString().trim(),
-      country: (fd.get('country')||'').toString(),
-      whatsapp: (fd.get('whatsapp')||'').toString().trim(),
-      aiExperience: (fd.get('aiExperience')||'').toString(),
-      claudePlan: (fd.get('claudePlan')||'').toString(),
-      projectGoal: (fd.get('projectGoal')||'').toString().trim(),
-      currency, company_website: (fd.get('company_website')||'').toString()
-    };
-    let bad = false;
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email);
-    if (!data.fullName || data.fullName.length < 2){ showErr('fullName', true); bad = true; } else showErr('fullName', false);
-    if (!emailOk){ showErr('email', true); bad = true; } else showErr('email', false);
-    if (!data.country){ showErr('country', true); bad = true; } else showErr('country', false);
-    if (!data.aiExperience){ showErr('aiExperience', true); bad = true; } else showErr('aiExperience', false);
-    if (!data.claudePlan){ showErr('claudePlan', true); bad = true; } else showErr('claudePlan', false);
-    if (!data.projectGoal || data.projectGoal.length < 10){ showErr('projectGoal', true); bad = true; } else showErr('projectGoal', false);
-    if (bad) return;
-    btn.disabled = true; label.textContent = 'Submitting…';
-    async function postEnrol(url, data){
-      const r = await fetch(url, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-      const j = await r.json().catch(()=>({}));
-      return { res: r, out: j };
-    }
-    try {
-      let { res, out } = await postEnrol(apiBase() + '/api/enrol', data);
-      // cPanel fallback: same folder enrol.php (if Node API not deployed)
-      if (res.status === 404) {
-        const phpUrl = (apiBase() || '') + '/enrol.php';
-        const fb = await postEnrol(phpUrl, data);
-        res = fb.res; out = fb.out;
-      }
-      if (!res.ok || !out.ok){
-        throw new Error(out.error || ('Server error ' + res.status));
-      }
-      document.getElementById('enrolRef').textContent = out.reference || '';
-      document.getElementById('successMsg').textContent = out.emailSent
-        ? 'Thank you ' + data.fullName.split(' ')[0] + '! Confirmation sent to ' + data.email + '. Check your inbox for your next step.'
-        : 'Thank you! Your application was saved (ref ' + (out.reference||'') + '). Email confirmation is pending — You can contact us about this application at ' + data.email + '.';
-      form.classList.add('hidden'); document.getElementById('formIntro')?.classList.add('hidden'); success.classList.remove('hidden');
-      success.scrollIntoView({behavior:'smooth', block:'center'});
-      try { fetch(apiBase() + '/api/seats').then(r=>r.json()).then(s=>{ if(s && typeof s.remaining==='number'){ document.getElementById('seatsLeftLabel').textContent = s.remaining + ' SEATS LEFT'; } }); } catch(_){}
-    } catch(err){
-      globalErr.textContent = 'Could not submit: ' + err.message + '. Please try again or email justin@motionplaylabs.com';
-      globalErr.classList.remove('hidden');
-    } finally {
-      btn.disabled = false; label.textContent = 'Submit Application / Request Seat';
-    }
+  var form=document.getElementById('waitlistForm'),done=document.getElementById('wlDone');
+  var err=document.getElementById('wlError'),btn=document.getElementById('wlBtn'),label=document.getElementById('wlLabel');
+  function showErr(m){err.textContent=m||'';err.classList.toggle('hidden',!m);}
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();showErr('');
+    var fd=new FormData(form);
+    var data={fullName:(fd.get('fullName')||'').toString().trim(),email:(fd.get('email')||'').toString().trim(),interest:(fd.get('interest')||'').toString().trim(),company_website:(fd.get('company_website')||'').toString()};
+    if(data.fullName.length<2){showErr('Add your name.');document.getElementById('wlName').focus();return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)){showErr('Add a valid email address.');document.getElementById('wlEmail').focus();return;}
+    btn.disabled=true;label.textContent='Adding you\u2026';
+    try{
+      var r=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      var j={};try{j=await r.json();}catch(_){}
+      if(!r.ok||!j.ok)throw new Error(j.error||'Something went wrong. Try again.');
+      form.classList.add('hidden');done.classList.remove('hidden');
+    }catch(x){showErr(x.message+' Or email justin@motionplaylabs.com.');}
+    finally{btn.disabled=false;label.textContent='Get first access';}
   });
-  document.getElementById('resetBtn').addEventListener('click', ()=>{
-    success.classList.add('hidden'); form.classList.remove('hidden'); document.getElementById('formIntro')?.classList.remove('hidden'); form.reset();
-    counter.textContent = '0/300'; setCurrency('GBP');
-  });
-  // Live seats remaining
-  (function(){
-    const p = window.location.pathname;
-    const base = p.startsWith('/workshop') ? '/workshop' : '';
-    fetch(base + '/api/seats').then(r=>r.json()).then(s=>{
-      if (s && typeof s.remaining === 'number' && s.remaining < 8){
-        document.getElementById('seatsLeftLabel').textContent = s.remaining + ' SEATS LEFT';
-      }
-    }).catch(()=>{});
-  })();
 })();
 </script>
-<script>async function updateSeats(){try{let r=await fetch('/api/seats',{cache:'no-store'});let s=await r.json();if(s.ok)document.getElementById('soldCount').textContent=s.paid}catch(e){}}updateSeats();setInterval(updateSeats,30000);</script></body>
+</body>
 </html>

@@ -7,12 +7,14 @@
 // GET  /feedback?form=&t=          : a feedback form, by session or by the token link in an email
 // POST /api/kit-form               : save a feedback form
 // POST /api/kit-mail {mode, kind}  : host only. list / proof / schedule / cancel / send / copy
+// Asking a question also refreshes workshop_kit_knowledge, which the kit assistant answers from.
 // One function on purpose: the Vercel Hobby plan allows 12 functions per deployment.
 import fs from 'node:fs';
 import { method, mail, db } from './_shared.js';
 import { currentMember, kitOpen, findMember, issueCode, maskEmail, checkCode, createSession, sessionCookie, endSession, clearCookie } from '../lib/kit.js';
 import { kitCodeEmail, firstName, followUpEmail, kitUpdateEmail, feedbackEmail, vcTesterEmail, adminFeedbackEmail } from '../lib/kit-emails.js';
 import { esc } from '../lib/emails.js';
+import { knowledge } from '../lib/kit-knowledge.js';
 import {
   askOpen, askQuestion, myQuestions, attendees, hostMember, applicationFor, HOST_REF, DESIGNERS, FORMS,
   formToken, resolveFormToken, getFeedback, feedbackDone, cleanAnswers, saveFeedback, FORM_OPTIONS,
@@ -156,11 +158,20 @@ async function ask(req, res) {
     if (!askOpen()) return res.status(410).json({ ok: false, error: 'The Ask box closed with the support window on 14 November.' });
     const b = req.body || {};
     const r = await askQuestion(member, b.question, b.link);
+    if (r.ok) await syncKnowledge().catch((e) => console.error('knowledge sync failed:', e.message));
     return res.status(r.ok ? 201 : 400).json(r);
   } catch (e) {
     console.error('ask failed:', e.message);
     return res.status(503).json({ ok: false, error: "We couldn't save that just now. Try again in a minute." });
   }
+}
+
+// Keep the assistant's sources in step with the deployed kit.
+const KNOWLEDGE = knowledge();
+async function syncKnowledge() {
+  const rows = await db('workshop_kit_knowledge?id=eq.kit&select=hash');
+  if (rows[0]?.hash === KNOWLEDGE.hash) return;
+  await db('workshop_kit_knowledge?on_conflict=id', { method: 'POST', prefer: 'resolution=merge-duplicates', body: { id: 'kit', body: KNOWLEDGE.body, hash: KNOWLEDGE.hash, updated_at: new Date().toISOString() } });
 }
 
 // ---------- Feedback forms ----------

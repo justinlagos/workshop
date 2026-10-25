@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Feedback · The Build Session</title>
+<link rel="icon" href="/email/arrow.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--muted:#5b5b66;--line:#e7e2f3;--lime:#ccff00;--purple:#9040ff;--lav:#f5f0ff;--err:#c0262d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--lav);color:var(--ink);font:16px/1.6 'Plus Jakarta Sans',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--purple)}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px}
+header.top{background:#fff;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;height:60px}
+.bar img{width:40px;height:40px;display:block}
+.bar .t{font-size:11px;font-weight:800;letter-spacing:2px}
+.bar .t span{color:var(--purple)}
+main{padding:24px 0 56px}
+.intro{background:var(--ink);color:#fff;border-radius:22px;padding:28px 26px;margin:0 0 14px}
+.intro .k{margin:0 0 10px;font-size:12px;font-weight:800;letter-spacing:2px;color:var(--lime)}
+.intro h1{margin:0 0 10px;font-size:30px;line-height:1.12;letter-spacing:-0.8px;font-weight:800;text-wrap:balance}
+.intro p{margin:0;color:#d9d9e0}
+.q{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 22px 20px;margin:0 0 12px}
+.q h2{margin:0 0 4px;font-size:18px;font-weight:800;letter-spacing:-0.2px}
+.q .hint{margin:0 0 14px;color:var(--muted);font-size:14px}
+.q .opt{color:var(--muted);font-weight:600;font-size:13px}
+.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.scale label{position:relative}
+.scale input{position:absolute;opacity:0;width:1px;height:1px}
+.scale span{display:flex;align-items:center;justify-content:center;height:44px;border:2px solid var(--line);border-radius:12px;font-weight:800;cursor:pointer;background:#fff}
+.scale input:checked + span{background:var(--lime);border-color:var(--ink)}
+.scale input:focus-visible + span{outline:3px solid var(--purple);outline-offset:2px}
+.ends{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-flex;align-items:center;min-height:42px;padding:8px 14px;border:2px solid var(--line);border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;background:#fff}
+.chips input:checked + span{background:var(--ink);border-color:var(--ink);color:#fff}
+.chips input:focus-visible + span{outline:3px solid var(--purple);outline-offset:2px}
+textarea,input[type=text],select{width:100%;font:500 15px/1.5 'Plus Jakarta Sans',Arial,sans-serif;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+textarea:focus,input[type=text]:focus,select:focus{outline:none;border-color:var(--purple)}
+.sub{margin-top:12px}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px;color:var(--muted);cursor:pointer}
+.check input{margin-top:3px;width:18px;height:18px;accent-color:var(--purple)}
+.go{width:100%;margin-top:6px;background:var(--lime);color:var(--ink);border:0;border-radius:16px;padding:17px 18px;font:800 16px 'Plus Jakarta Sans',Arial,sans-serif;cursor:pointer}
+.go:disabled{opacity:.6;cursor:default}
+.go:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.err{margin:12px 2px 0;color:var(--err);font-weight:700;font-size:14px}
+.done{background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px 26px;text-align:left}
+.tick{width:52px;height:52px;border-radius:26px;background:var(--lime);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 0 14px}
+.done h2{margin:0 0 8px;font-size:26px;letter-spacing:-0.5px}
+.done p{margin:0 0 18px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:var(--ink);color:#fff}
+.hide{display:none!important}
+footer{padding:0 0 32px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:420px){.scale{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="bar"><img src="/email/mpl-logo.png" alt="MotionPlay Labs" width="40" height="40"><div class="t">THE BUILD SESSION · <span>FEEDBACK</span></div></div></div></header>
+<main class="wrap" id="app"></main>
+<footer>MotionPlay Labs Ltd · hello@motionplaylabs.com</footer>
+<script>
+(function(){
+  var C=/*CONFIG*/null;
+  var app=document.getElementById('app');
+  function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==='text')e.textContent=attrs[k];else if(k==='html')e.innerHTML=attrs[k];else e.setAttribute(k,attrs[k]);}(kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c);});return e;}
+  if(!C||C.state!=='open'){
+    app.appendChild(h('div',{class:'done'},[h('h2',{text:'This link has expired'}),h('p',{text:'Sign in to your kit with your reference and you can give feedback from there.'}),h('a',{class:'btn',href:'/kit',text:'Go to your kit'})]));
+    return;
+  }
+  var A=C.answers||{};
+  var first=C.first||'there';
+  function scale(name,val,lo,hi){
+    var g=h('div',{class:'scale',role:'radiogroup'});
+    for(var i=1;i<=10;i++){var id=name+'-'+i;var inp=h('input',{type:'radio',name:name,id:id,value:String(i)});if(Number(val)===i)inp.checked=true;g.appendChild(h('label',{for:id},[inp,h('span',{text:String(i)})]));}
+    return h('div',null,[g,h('div',{class:'ends'},[h('span',{text:lo}),h('span',{text:hi})])]);
+  }
+  function chips(name,opts,type,vals){
+    var g=h('div',{class:'chips'});vals=vals||[];
+    opts.forEach(function(o,i){var id=name+'-'+i;var inp=h('input',{type:type,name:name,id:id,value:o});if(vals.indexOf(o)>-1)inp.checked=true;g.appendChild(h('label',{for:id},[inp,h('span',{text:o})]));});
+    return g;
+  }
+  function q(title,hint,body,optional){
+    return h('section',{class:'q'},[h('h2',null,[title,optional?h('span',{class:'opt',text:'  Optional'}):null]),hint?h('p',{class:'hint',text:hint}):null].concat(body));
+  }
+  function area(id,val,ph,max){var t=h('textarea',{id:id,maxlength:String(max||1200),placeholder:ph||''});t.value=val||'';return t;}
+  var form=h('form',{novalidate:''});
+  var intro,blocks=[];
+  if(C.form==='workshop'){
+    intro=h('div',{class:'intro'},[h('p',{class:'k',text:'TWO MINUTES · FOUR QUESTIONS'}),h('h1',{text:'How was Saturday, '+first+'?'}),h('p',{text:'Be blunt. What didn’t work matters more than what did. Your answers decide what the next session covers.'})]);
+    blocks.push(q('1. How would you rate Saturday overall?','1 is a waste of an afternoon. 10 is the best thing you’ve done this year.',[scale('rating',A.rating,'Not worth it','Outstanding')]));
+    blocks.push(q('2. What’s the one thing you’d change?','Timing, pace, content, tech, anything.',[area('change',A.change,'If I could change one thing…')]));
+    var adv=chips('advanced',['Yes','Maybe','No'],'radio',A.advanced?[A.advanced]:[]);
+    var topicsWrap=h('div',{class:'sub',id:'topicsWrap'},[h('p',{class:'hint',text:'What would you want it to cover? Pick any.'}),chips('topics',C.options.topics,'checkbox',A.topics),h('input',{type:'text',id:'topics_other',maxlength:'300',placeholder:'Anything else?',class:'sub'})]);
+    blocks.push(q('3. Would you join an advanced session?','Deeper: real data behind your build, your own domain, taking it to launch.',[adv,topicsWrap]));
+    var payQ=q('4. What would an advanced session be worth to you?','For a session like Saturday’s, with 21 days of support after it.',[chips('pay',C.options.pay,'radio',A.pay?[A.pay]:[])]);
+    payQ.id='payQ';blocks.push(payQ);
+    var quote=area('quote',A.quote,'One line about Saturday that I could share',400);quote.style.minHeight='70px';
+    var ok=h('input',{type:'checkbox',id:'quote_ok'});if(A.quote_ok)ok.checked=true;
+    blocks.push(q('Anything I can quote?','If you’re happy for me to use a line about Saturday when I tell people about the next session.',[quote,h('label',{class:'check',for:'quote_ok'},[ok,'Yes, you can use this with my first name.'])],true));
+    blocks.push(q('What was most useful?','',[area('best',A.best,'The part I’ll actually use is…')],true));
+  } else {
+    intro=h('div',{class:'intro'},[h('p',{class:'k',text:'VOID CANVAS · TESTER FEEDBACK'}),h('h1',{text:'What did you find, '+first+'?'}),h('p',{text:'Three minutes. Nothing is too small: a confusing label is as useful as a crash.'})]);
+    blocks.push(q('1. Which parts did you try?','',[chips('parts',C.options.parts,'checkbox',A.parts)]));
+    blocks.push(q('2. How would you rate it so far?','',[scale('rating',A.rating,'Unusable','I’d use it today')]));
+    blocks.push(q('3. What broke or confused you?','What you did, what you expected, what happened. "Nothing" is a fine answer.',[area('broke',A.broke,'',2000)]));
+    blocks.push(q('4. What’s missing before you’d use it for client work?','',[area('missing',A.missing,'',2000)],true));
+    blocks.push(q('5. Would you use it for client work?','',[chips('client_work',['Yes, today','After some fixes','Not yet'],'radio',A.client_work?[A.client_work]:[])],true));
+    var dev=h('select',{id:'device'});dev.appendChild(h('option',{value:'',text:'Device you used'}));C.options.devices.forEach(function(d){var o=h('option',{value:d,text:d});if(A.device===d)o.selected=true;dev.appendChild(o);});
+    var br=h('input',{type:'text',id:'browser',maxlength:'80',placeholder:'Browser, e.g. Chrome on Mac'});br.value=A.browser||'';
+    blocks.push(q('6. What did you test on?','',[dev,h('div',{class:'sub'},[br])],true));
+  }
+  var err=h('p',{class:'err hide',role:'alert'});
+  var btn=h('button',{class:'go',type:'submit',text:C.answers?'Update my feedback':'Send my feedback'});
+  form.appendChild(intro);blocks.forEach(function(b){form.appendChild(b);});form.appendChild(btn);form.appendChild(err);
+  app.appendChild(form);
+  if(C.form==='workshop'){var to=document.getElementById('topics_other');to.value=A.topics_other||'';}
+
+  function val(name){var x=form.querySelector('input[name="'+name+'"]:checked');return x?x.value:'';}
+  function vals(name){return Array.prototype.map.call(form.querySelectorAll('input[name="'+name+'"]:checked'),function(x){return x.value;});}
+  function sync(){if(C.form!=='workshop')return;var a=val('advanced');var hide=a==='No';document.getElementById('topicsWrap').classList.toggle('hide',hide);document.getElementById('payQ').classList.toggle('hide',hide);}
+  form.addEventListener('change',sync);sync();
+
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();if(btn.disabled)return;err.classList.add('hide');
+    var answers;
+    if(C.form==='workshop'){
+      answers={rating:Number(val('rating'))||null,change:document.getElementById('change').value,advanced:val('advanced'),topics:vals('topics'),topics_other:document.getElementById('topics_other').value,pay:val('pay'),quote:document.getElementById('quote').value,quote_ok:document.getElementById('quote_ok').checked,best:document.getElementById('best').value};
+    }else{
+      answers={parts:vals('parts'),rating:Number(val('rating'))||null,broke:document.getElementById('broke').value,missing:document.getElementById('missing').value,client_work:val('client_work'),device:document.getElementById('device').value,browser:document.getElementById('browser').value};
+    }
+    btn.disabled=true;btn.textContent='Sending…';
+    try{
+      var r=await fetch('/api/kit-form',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({form:C.form,token:C.token,answers:answers})});
+      var j={};try{j=await r.json();}catch(x){}
+      if(!r.ok||!j.ok)throw new Error(j.error||'Something went wrong. Try again.');
+      app.innerHTML='';
+      app.appendChild(h('div',{class:'done'},[h('div',{class:'tick',text:'✓'}),h('h2',{text:'Thank you, '+first+'.'}),h('p',{text:C.form==='workshop'?'Your feedback is in. I read every answer, and it shapes what comes next.':'Your feedback is in. I’ll fix what you found and tell you in the group when it’s done.'}),h('a',{class:'btn',href:'/kit',text:'Go to your kit'})]));
+      window.scrollTo(0,0);
+    }catch(x){err.textContent=x.message;err.classList.remove('hide');btn.disabled=false;btn.textContent=C.answers?'Update my feedback':'Send my feedback';}
+  });
+})();
+</script>
+</body>
+</html>

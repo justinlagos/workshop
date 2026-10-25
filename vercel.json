@@ -41,12 +41,24 @@
       "dest": "/api/kit.js?action=mail"
     },
     {
+      "src": "/api/kit-ask",
+      "dest": "/api/kit.js?action=ask"
+    },
+    {
+      "src": "/api/kit-form",
+      "dest": "/api/kit.js?action=form"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1.js"
     },
     {
       "src": "/$",
       "dest": "/public/index.html"
+    },
+    {
+      "src": "/feedback/?$",
+      "dest": "/api/kit.js?action=feedback"
     },
     {
       "src": "/kit/?$",

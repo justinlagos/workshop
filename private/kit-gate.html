@@ -145,7 +145,7 @@ footer{padding:18px 0 28px;color:var(--muted);font-size:13px;text-align:center}
     b2.disabled=true;b2.textContent='Checking…';
     try{
       var r=await post('/api/kit-verify',{reference:currentRef,code:code.value});
-      if(r.ok){b2.textContent='Opening your kit…';window.location.replace('/kit');return;}
+      if(r.ok){b2.textContent='Opening your kit…';window.location.replace('/kit'+(location.hash||''));return;}
       err(e2,r.j.error||'That didn’t work. Try again.');code.select();
     }catch(e){err(e2,'We couldn’t reach the server. Check your connection and try again.');}
     b2.disabled=false;b2.textContent='Open my kit';

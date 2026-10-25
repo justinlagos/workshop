@@ -865,12 +865,12 @@ What I want instead:</pre><button class="copy" type="button" data-target="c-help
   function md(src){
     var lines=String(src||'').replace(/\r\n?/g,'\n').split('\n'),out=[],para=[],lst=null,code=null;
     function fp(){if(para.length){out.push('<p>'+inline(para.join(' '))+'</p>');para=[];}}
-    function fl(){if(lst){out.push('<'+lst.t+'>'+lst.i.map(function(x){return '<li>'+inline(x)+'</li>';}).join('')+'</'+lst.t+'>');lst=null;}}
+    function fl(){if(lst){out.push('<'+lst.t+(lst.s>1?' start="'+lst.s+'"':'')+'>'+lst.i.map(function(x){return '<li>'+inline(x)+'</li>';}).join('')+'</'+lst.t+'>');lst=null;}}
     lines.forEach(function(raw){var line=raw.replace(/\s+$/,'');
       if(code){if(/^```/.test(line)){out.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>');code=null;}else code.push(raw);return;}
       if(/^```/.test(line)){fp();fl();code=[];return;}
-      var ul=line.match(/^\s*[-*]\s+(.*)$/),ol=line.match(/^\s*\d+[.)]\s+(.*)$/);
-      if(ul||ol){fp();var t=ul?'ul':'ol';if(!lst||lst.t!==t){fl();lst={t:t,i:[]};}lst.i.push((ul||ol)[1]);return;}
+      var ul=line.match(/^\s*[-*]\s+(.*)$/),ol=line.match(/^\s*(\d+)[.)]\s+(.*)$/);
+      if(ul||ol){fp();var t=ul?'ul':'ol';if(!lst||lst.t!==t){fl();lst={t:t,i:[],s:ol?Number(ol[1]):1};}lst.i.push(ul?ul[1]:ol[2]);return;}
       if(!line.trim()){fp();fl();return;}
       var h=line.match(/^#{1,4}\s+(.*)$/);if(h){fp();fl();out.push('<p><strong>'+inline(h[1])+'</strong></p>');return;}
       if(lst)fl();para.push(line.trim());});

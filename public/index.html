@@ -1,395 +1,369 @@
-<!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>THE BUILD SESSION · Booking open for 21 Nov, 5 Dec, 19 Dec | MotionPlay Labs</title>
-<meta name="description" content="The Build Session: ChatGPT for thinking, Claude for building. Three live online sessions, Sat 21 Nov, 5 Dec and 19 Dec 2026. Eight seats each, given in payment order."/>
-<meta property="og:title" content="THE BUILD SESSION · Three dates. Eight seats each."/>
-<meta property="og:description" content="Sat 21 Nov, 5 Dec, 19 Dec. Three hours live on Zoom. Seats go in payment order."/>
-<meta property="og:type" content="website"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        display: ['"Space Grotesk"', 'sans-serif'],
-      },
-      colors: {
-        brand: {
-          lime: '#ccff00',
-          'lime-hover': '#b5f000',
-          purple: '#9e62ff',
-          'purple-light': '#e9ddff',
-          'purple-soft': '#f5f0ff',
-          dark: '#08080a',
-        }
-      },
-      boxShadow: {
-        'btn-lime': '0 12px 28px -4px rgba(204, 255, 0, 0.55)',
-        'modal': '0 25px 60px -15px rgba(0, 0, 0, 0.35)',
-        'card-elevated': '0 20px 50px -10px rgba(15, 15, 20, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04)'
-      }
-    }
-  }
-}
-</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Build Session · Sat 21 Nov, 5 Dec, 19 Dec | MotionPlay Labs</title>
+<meta name="description" content="A live, three-hour workshop on Zoom. Bring one idea, plan it with ChatGPT and build it with Claude, with a designer beside you. Three Saturdays, eight seats each, given in payment order.">
+<meta property="og:title" content="The Build Session: build it yourself, with me beside you">
+<meta property="og:description" content="Sat 21 Nov, 5 Dec and 19 Dec. Three hours live on Zoom. Eight seats each, given in payment order.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f5f0ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
 <style>
-.headline-tight { letter-spacing: -0.05em; line-height: 0.85; }
-.ambient-glow {
-  position: absolute; bottom: -60px; right: -60px; width: 480px; height: 480px;
-  background: radial-gradient(circle at 60% 60%, rgba(158,98,255,0.35) 0%, rgba(190,145,255,0.2) 42%, rgba(255,255,255,0) 72%);
-  filter: blur(45px); pointer-events: none; z-index: 0;
-}
-.poster-frame { box-shadow: 0 30px 80px -20px rgba(15,15,20,0.12), 0 0 0 1px rgba(0,0,0,0.06); }
-.field-error { border-color: #ef4444 !important; }
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:8px 0 64px;overflow:hidden}
+@media (min-width:760px){.hero{padding:24px 0 96px}}
+.hero-head{position:relative;margin-top:26px}
+.hero-h{margin:0;font-weight:800;font-size:clamp(58px,17.5vw,168px);line-height:.86;letter-spacing:-.065em}
+.hero-h .line{display:block}
+.insert{position:relative;display:flex;align-items:flex-start;gap:6px;margin:2px 0 0 clamp(70px,20vw,520px)}
+@media (min-width:760px){.insert{gap:10px;margin-left:clamp(150px,40vw,520px)}}
+.insert svg{width:24px;height:30px;flex:none;margin-top:-4px}
+@media (min-width:760px){.insert svg{width:30px;height:34px;margin-top:-6px}}
+.insert .hand{font-size:clamp(29px,7.4vw,58px);transform:rotate(-3deg);transform-origin:left top;white-space:nowrap;margin-top:6px}
+.hero-copy{max-width:52ch;font-size:18px;color:var(--ink);margin:34px 0 0}
+@media (min-width:760px){.hero-copy{font-size:20px;margin-top:40px}}
 
-/* Hero arrow: restrained levitation with a detached ambient ground shadow. */
-.hero-arrow-stage{position:relative;isolation:isolate;perspective:700px;overflow:visible}
-.hero-arrow-stage::after{content:"";position:absolute;left:20%;right:14%;bottom:0;height:16%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(67,83,0,.24) 0%,rgba(67,83,0,.1) 34%,transparent 74%);filter:blur(14px);transform:translateY(18px) scale(1);animation:arrow-ground 6s cubic-bezier(.45,0,.55,1) infinite;pointer-events:none;z-index:0}
-.hero-arrow-floating{position:relative;z-index:1;transform-origin:50% 55%;filter:drop-shadow(0 24px 18px rgba(65,77,0,.17)) drop-shadow(0 5px 4px rgba(31,50,0,.10));animation:arrow-levitate 6s cubic-bezier(.45,0,.55,1) infinite;will-change:transform}
-@keyframes arrow-levitate{0%,100%{transform:translate3d(0,2px,0) rotate(-1deg)}50%{transform:translate3d(0,-14px,0) rotate(1deg)}}
-@keyframes arrow-ground{0%,100%{opacity:.78;transform:translateY(18px) scale(1)}50%{opacity:.4;transform:translateY(18px) scale(.78)}}
-@media(prefers-reduced-motion:reduce){.hero-arrow-floating,.hero-arrow-stage::after{animation:none!important}.hero-arrow-floating{will-change:auto}}
-.success-check{margin-inline:auto;animation:success-in .8s cubic-bezier(.16,1,.3,1) both}@keyframes success-in{0%{transform:scale(.5) rotate(-24deg);opacity:0}65%{transform:scale(1.13) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){.success-check{animation:none}}
-/* Phone viewport: keep all editorial content inside the poster, never crop critical copy. */
-html,body{max-width:100%;overflow-x:clip}
-@media(max-width:639px){
- main.poster-frame{width:100%;min-width:0;padding:24px 18px;border-radius:26px}
- main.poster-frame header{align-items:center;gap:8px;margin-bottom:32px}
- main.poster-frame header>div:first-child{min-width:0;flex:1}
- main.poster-frame header>div:first-child .flex{gap:6px}
- main.poster-frame header span:first-child{font-size:10px;letter-spacing:.14em;white-space:nowrap}
- main.poster-frame header .w-14{display:none}
- main.poster-frame header p{font-size:9px;letter-spacing:.15em}
- .mobile-logo{width:96px;height:56px;flex-shrink:0}
- .headline-tight{line-height:.94;letter-spacing:-.065em;overflow-wrap:normal}
- .headline-tight span{white-space:nowrap}
- #aiExperienceGroup>label{min-width:0;padding:12px 3px;gap:4px}
- #aiExperienceGroup>label>span:first-of-type{font-size:clamp(9px,2.6vw,12px);line-height:1.15;letter-spacing:-.03em}
- #aiExperienceGroup>label>span:last-child{font-size:10px;line-height:1.3}
- #enrollSection{padding:22px 16px}
- #enrollSection .max-w-xl{min-width:0}
- .ambient-glow{width:260px;height:260px;right:-50px}
-}
+.dates{position:relative;margin-top:40px}
+@media (min-width:760px){.dates{margin-top:56px}}
+.order-note{position:relative;display:flex;align-items:flex-start;gap:8px;margin:0 0 30px 6px;pointer-events:none}
+.order-note .hand{font-size:27px;transform:rotate(-2deg);max-width:280px;line-height:.95;margin-top:-2px}
+.order-note svg{width:38px;height:62px;flex:none;margin:4px 0 -40px}
+@media (min-width:760px){.order-note .hand{font-size:31px;max-width:none}}
+.is-full .order-note{display:none}
 
-/* Mobile hero composition: complete header, arrow intentionally intrudes on title edge. */
-@media(max-width:639px){
- main.poster-frame{padding-top:38px}
- main.poster-frame header{align-items:center;gap:12px;margin-bottom:30px;min-height:78px}
- main.poster-frame header>div:first-child{min-width:0;flex:1}
- main.poster-frame header span:first-child{font-size:10px;letter-spacing:.11em}
- main.poster-frame header p{font-size:10px;letter-spacing:.12em}
- .mobile-logo{width:112px;height:78px;overflow:visible}
- .mobile-logo img{width:100%;height:100%;object-fit:contain;object-position:center}
- .hero-arrow-column{position:relative;z-index:2;margin-top:-88px;margin-bottom:-8px;margin-right:-3px;pointer-events:none}
- .hero-arrow-stage{width:176px;height:176px}
- .headline-tight{position:relative;z-index:1;font-size:clamp(2.8rem,12.5vw,4.75rem);line-height:.97;letter-spacing:-.065em;max-width:100%}
-}
-@media(min-width:640px) and (max-width:767px){
- .hero-arrow-column{margin-top:-22px;position:relative;z-index:2}
-}
+.tickets{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+@media (min-width:860px){.tickets{grid-template-columns:repeat(3,1fr);gap:18px}}
+.ticket{position:relative;display:grid;grid-template-columns:1fr auto;grid-template-areas:"cohort seats" "date seats" "time seats";align-items:center;column-gap:16px;padding:16px 18px 16px 22px;background:var(--sheet);border:2px solid var(--ink);border-radius:16px}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:22px;height:22px;margin-top:-11px;border:2px solid var(--ink);border-radius:50%;background:var(--paper)}
+.ticket::before{left:-12px;clip-path:inset(0 0 0 50%)}
+.ticket::after{right:-12px;clip-path:inset(0 50% 0 0)}
+.t-cohort{grid-area:cohort;font-weight:700;font-size:14px;color:var(--muted)}
+.t-date{grid-area:date;position:relative;justify-self:start;font-weight:800;font-size:28px;letter-spacing:-.03em;line-height:1.15}
+.t-date span{position:relative}
+.t-hl{position:absolute;left:-6px;right:-8px;top:12%;height:78%;width:calc(100% + 14px);display:none}
+.t-time{grid-area:time;font-size:14px;color:var(--muted)}
+.t-seats{grid-area:seats;align-self:stretch;display:flex;align-items:center;padding-left:16px;border-left:2px dashed var(--rule);font-weight:800;font-size:14px;white-space:nowrap}
+.t-note{position:absolute;right:14px;top:-17px;font-size:25px;background:var(--paper);padding:0 6px;transform:rotate(-4deg);display:none}
+.t-strike{position:absolute;left:-4px;top:18%;height:70%;width:calc(100% + 8px);display:none}
+.t-full{display:none}
+.ticket.is-next{box-shadow:6px 6px 0 var(--ink)}
+.ticket.is-next .t-hl,.ticket.is-next .t-note{display:block}
+.ticket.is-out .t-strike{display:block}
+.ticket.is-out .t-cohort,.ticket.is-out .t-date,.ticket.is-out .t-time{opacity:.45}
+.ticket.is-out .t-seats{font-family:var(--hand);color:var(--pen);font-weight:400;font-size:26px}
 
-/* Poster-inspired type and arrow composition */
-.hero-composition{isolation:isolate}
-.hero-copy{position:relative;z-index:1}
-.hero-arrow-column{position:absolute;z-index:2;right:0;bottom:0;pointer-events:none}
-.hero-composition .headline-tight{font-size:clamp(52px,9.3vw,108px);line-height:.9;letter-spacing:-.075em}
-.hero-composition .headline-tight span{white-space:nowrap}
-.hero-composition .hero-arrow-stage{width:clamp(180px,26vw,265px);height:clamp(180px,26vw,265px)}
-@media(max-width:639px){
- .hero-composition{margin-bottom:42px}
- .hero-composition .headline-tight{font-size:clamp(38px,10.55vw,64px);line-height:.94;letter-spacing:-.073em}
- .hero-composition .hero-arrow-column{right:-8px;bottom:-52px;margin:0}
- .hero-composition .hero-arrow-stage{width:clamp(146px,43vw,200px);height:clamp(146px,43vw,200px)}
- .hero-composition + section{position:relative;z-index:3}
-}
-@media(min-width:640px) and (max-width:767px){
- .hero-composition .hero-arrow-column{right:0;bottom:-15px;margin:0}
-}
+.buy{display:flex;flex-wrap:wrap;align-items:center;gap:18px 30px;margin-top:40px}
+.price{position:relative;display:flex;align-items:flex-end;gap:10px}
+.price strong{font-size:56px;line-height:.9;font-weight:800;letter-spacing:-.05em}
+.price .hand{font-size:27px;transform:rotate(-3deg);margin-bottom:4px;white-space:nowrap}
+.price svg{width:34px;height:28px;margin:0 -4px 14px 0}
+.buy-meta{flex-basis:100%;margin:-6px 0 0;font-size:15px;color:var(--muted)}
+@media (min-width:640px){.buy-meta{flex-basis:auto;margin:0}}
 
-/* Extra-heavy display typography, preserving the approved hero proportions. */
-.hero-composition .headline-tight{font-weight:900}
-.hero-composition .headline-tight span.text-black{-webkit-text-stroke:.8px #000}
-.hero-composition .headline-tight span.text-transparent{-webkit-text-stroke:.65px #a260ff}
-</style>
-<style>
-.shipped-stamp{display:inline-flex;align-items:center;gap:8px;border:2px solid #000;border-radius:999px;padding:6px 14px 6px 8px;font-size:11px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;background:#fff}
-.shipped-stamp i{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#ccff00;align-items:center;justify-content:center;font-style:normal;font-size:12px;letter-spacing:0}
-.next-card{background:#08080a;color:#fff;border-radius:28px;position:relative;overflow:hidden}
-.next-card::before{content:"";position:absolute;inset:auto -80px -120px auto;width:340px;height:340px;background:radial-gradient(circle,rgba(158,98,255,.45) 0%,rgba(158,98,255,0) 70%);filter:blur(20px);pointer-events:none}
-.next-card input,.next-card textarea{background:#16161b;border:1.5px solid #34343d;color:#fff}
-.next-card input::placeholder,.next-card textarea::placeholder{color:#7d7d8a}
-.next-card input:focus,.next-card textarea:focus{border-color:#ccff00;box-shadow:0 0 0 3px rgba(204,255,0,.25);outline:none}
-.workbench span{display:inline-block}
-@media (prefers-reduced-motion:no-preference){.build-dots span{animation:dot 1.4s infinite both}.build-dots span:nth-child(2){animation-delay:.2s}.build-dots span:nth-child(3){animation-delay:.4s}@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}}
-</style>
-<style>
-/* Booking card: sessions, AI level chips, prerequisites */
-.sessions{display:grid;gap:8px;list-style:none;padding:0;margin:0}
-.session{display:grid;grid-template-columns:1fr auto;grid-template-areas:"label seats" "date seats" "time seats";column-gap:14px;align-items:center;border:1.5px solid #34343d;border-radius:18px;padding:12px 16px;background:#111116}
-.s-label{grid-area:label;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#9a9aa6}
-.s-date{grid-area:date;font-size:18px;font-weight:900;letter-spacing:-.02em;color:#fff;line-height:1.2}
-.s-time{grid-area:time;font-size:12px;font-weight:600;color:#9a9aa6}
-.s-seats{grid-area:seats;font-size:12px;font-weight:900;border-radius:999px;padding:6px 11px;background:#22222a;color:#fff;white-space:nowrap}
-.session.is-next{border-color:#ccff00;background:#16180c}
-.session.is-next .s-label{color:#ccff00}
-.session.is-next .s-seats{background:#ccff00;color:#000}
-.session.is-out{opacity:.45}
-.session.is-out .s-date{text-decoration:line-through;text-decoration-thickness:2px}
-.level-group label{position:relative;display:flex;flex-direction:column;gap:2px;border:1.5px solid #34343d;border-radius:16px;padding:10px 12px;cursor:pointer;background:#16161b;min-width:0}
-.level-group input{position:absolute;opacity:0;pointer-events:none}
-.level-group span{font-size:13px;font-weight:900;color:#fff}
-.level-group small{font-size:11px;font-weight:600;color:#9a9aa6;line-height:1.3}
-.level-group label:has(input:checked){border-color:#ccff00;background:#16180c}
-.level-group label:has(input:focus-visible){box-shadow:0 0 0 3px rgba(204,255,0,.35)}
-.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:600;color:#e4e4ea;cursor:pointer;line-height:1.45}
-.check input{accent-color:#ccff00;width:18px;height:18px;margin-top:1px;flex-shrink:0}
-.landing{background:#16180c;border:1.5px solid #4a5a00;color:#fff}
-.next-card .field-error{border-color:#ff8a80 !important}
-@media(max-width:639px){
- .level-group label{padding:9px 8px}
- .level-group span{font-size:12px}
- .level-group small{font-size:10px}
- .s-date{font-size:16px}
+/* ---------- Afternoon ---------- */
+.sheet{background:var(--sheet);border:2px solid var(--ink);border-radius:20px}
+.afternoon{display:grid;gap:36px;align-items:start}
+@media (min-width:900px){.afternoon{grid-template-columns:.8fr 1.2fr;gap:56px}}
+.agenda{position:relative;padding:10px 0}
+.agenda ol{list-style:none;margin:0;padding:0}
+.agenda li{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:13px 22px;border-top:1px solid var(--rule);font-size:16px}
+.agenda li:first-child{border-top:0}
+.agenda time{font-weight:800;color:var(--pen);font-variant-numeric:tabular-nums}
+.agenda .build-rows{position:relative;background:linear-gradient(90deg,rgba(204,255,0,.28),rgba(204,255,0,.12))}
+.agenda .build-rows li{font-weight:700}
+.bracket{position:absolute;top:6px;bottom:6px;right:-34px;display:flex;align-items:center;gap:4px;pointer-events:none}
+.bracket svg{width:20px;height:100%}
+.bracket .hand{font-size:26px;width:92px;line-height:.95;transform:rotate(-4deg)}
+.agenda-wrap{position:relative;margin-right:0}
+@media (max-width:899px){
+ .agenda .build-rows{padding-top:30px}
+ .bracket{right:14px;top:4px;bottom:auto;height:auto}
+ .bracket svg{display:none}
+ .bracket .hand{width:auto;white-space:nowrap}
 }
+@media (min-width:900px){.agenda-wrap{margin-right:120px}}
+.lagos{display:inline-block;margin-top:18px;font-size:27px;transform:rotate(-2deg)}
+
+/* ---------- Before you book ---------- */
+.needs{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:18px}
+@media (min-width:760px){.needs{grid-template-columns:1fr 1fr;gap:22px 40px}}
+.needs li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+.needs svg{width:36px;height:30px}
+.needs b{display:block;font-size:18px;letter-spacing:-.01em}
+.needs span{color:var(--muted)}
+.needs-note{display:inline-block;margin-top:26px;font-size:27px;transform:rotate(-1.5deg)}
+
+/* ---------- Booking ---------- */
+.book{display:grid;gap:34px;align-items:start}
+@media (min-width:960px){.book{grid-template-columns:.8fr 1.2fr;gap:56px}}
+.book-side p{margin:0 0 14px}
+.book-side .order{font-size:18px;font-weight:700}
+.form-sheet{padding:24px 20px}
+@media (min-width:640px){.form-sheet{padding:34px 32px}}
+.fields{display:grid;gap:16px}
+@media (min-width:640px){.fields.two{grid-template-columns:1fr 1fr}}
+.field label,.legend{display:block;font-weight:800;font-size:14px;margin-bottom:6px}
+.field label small,.legend small{font-weight:600;color:var(--muted);font-size:13px}
+.field input,.field textarea{width:100%;font:500 16px/1.4 var(--sans);color:var(--ink);background:#fbf9ff;border:2px solid var(--rule);border-radius:12px;padding:12px 14px}
+.field textarea{resize:vertical;min-height:84px}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px rgba(106,40,236,.18)}
+.field-error{border-color:#d0342c!important}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.levels label{position:relative;display:flex;flex-direction:column;gap:2px;padding:10px 10px;border:2px solid var(--rule);border-radius:12px;cursor:pointer;background:#fbf9ff;min-width:0}
+.levels input{position:absolute;opacity:0;pointer-events:none}
+.levels b{font-size:14px}
+.levels small{font-size:12px;color:var(--muted);line-height:1.3}
+.levels label:has(input:checked){border-color:var(--ink);background:var(--lime)}
+.levels label:has(input:checked) small{color:var(--ink)}
+.levels label:has(input:focus-visible){outline:3px solid var(--pen);outline-offset:2px}
+.check{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:15px;line-height:1.45;cursor:pointer}
+.check input{accent-color:var(--pen);width:20px;height:20px;margin:1px 0 0;flex:none}
+.landing{position:relative;margin:4px 0 0;padding:14px 16px;border-radius:12px;background:var(--paper);font-weight:700}
+.landing b{background:linear-gradient(transparent 55%,var(--lime) 55%);padding:0 2px}
+.form-error{margin:0;color:#c32a22;font-weight:700;font-size:15px}
+.fine{margin:0;font-size:13px;color:var(--muted)}
+.fine a{text-underline-offset:2px}
+.cancel-note{margin:0 0 18px;padding:12px 14px;border:2px dashed var(--pen);border-radius:12px;font-weight:700;font-size:15px}
+.held{display:block;margin:-2px 0 0 4px;font-size:25px;transform:rotate(-2deg)}
+.done-tick{width:64px;height:54px;margin-bottom:10px}
+
+/* ---------- Questions ---------- */
+.qa{display:grid;gap:28px;margin-top:36px}
+@media (min-width:760px){.qa{grid-template-columns:1fr 1fr;gap:36px 56px}}
+.qa h3{margin:0 0 6px;font-size:19px;letter-spacing:-.015em;line-height:1.3}
+.qa p{margin:0;color:var(--muted)}
+
+.hidden{display:none!important}
 </style>
 </head>
-<body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
+<body>
 
-<div class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 py-3 px-4 sm:px-8 hidden md:flex items-center justify-between">
-  <div class="flex items-center gap-3">
-    <span class="w-2 h-2 rounded-full bg-black"></span>
-    <span class="text-xs font-black tracking-widest uppercase">Founding Cohort 01 · Shipped</span>
-    <span class="text-gray-300">|</span>
-    <span class="text-xs font-semibold text-gray-600 inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>Booking open: 21 Nov, 5 Dec, 19 Dec</span>
-  </div>
-  <a class="bg-black hover:bg-brand-purple text-white text-xs font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider" href="#book">Book a seat</a>
-</div>
-
-<main class="poster-frame relative w-full max-w-[920px] bg-white rounded-3xl sm:rounded-[36px] p-6 sm:p-14 overflow-hidden z-10">
-<div aria-hidden="true" class="ambient-glow"></div>
-
-<header class="relative z-20 flex items-center justify-between gap-3 mb-8 sm:mb-12">
-  <div class="space-y-1.5">
-    <div class="flex items-center gap-3">
-      <span class="text-[12px] sm:text-[13px] font-extrabold tracking-[0.24em] uppercase text-black">THE BUILD SESSION</span>
-      <span class="w-14 sm:w-20 h-[2px] bg-black inline-block"></span>
-    </div>
-    <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">COHORTS 02 TO 04 · BOOKING OPEN</p>
-  </div>
-  <div class="mobile-logo relative w-[112px] h-[80px] sm:w-32 sm:h-24 shrink-0" title="MotionPlay Labs">
-    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448" class="block w-full h-full object-contain object-center" loading="eager" decoding="async"/>
-  </div>
+<header class="wrap top">
+  <a class="brand" href="/" aria-label="The Build Session, home">
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448">
+    <span>The Build Session</span>
+  </a>
+  <a class="top-link" href="/cohort-01">Cohort 01 kit</a>
 </header>
 
-<section class="hero-composition relative z-10 mb-9 sm:mb-12">
-  <div class="hero-copy">
-    <h1 class="headline-tight font-black text-[clamp(2.35rem,10.2vw,4.4rem)] sm:text-[96px] lg:text-[108px] tracking-tighter">
-      <span class="block text-black">STOP</span>
-      <span class="block text-black">PROMPTING.</span>
-      <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#9040ff] via-[#a260ff] to-[#be8cff]">START</span>
-      <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#9040ff] via-[#a260ff] to-[#be8cff]">BUILDING.</span>
-    </h1>
-  </div>
-  <div class="hero-arrow-column flex justify-end select-none">
-    <div class="hero-arrow-stage relative w-48 h-48 sm:w-60 sm:h-60 flex items-center justify-center">
-      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/473db752-acb4-4f99-b25b-4cd77ed9d50e.png" alt="" aria-hidden="true" width="240" height="240" loading="eager" decoding="async" class="hero-arrow-floating w-full h-full object-contain" />
-    </div>
-  </div>
-</section>
-
-<section class="relative z-10 mb-8 sm:mb-10 max-w-2xl">
-  <p class="shipped-stamp mb-5"><i aria-hidden="true">✓</i>Founding Cohort 01 · Sat 24 Oct 2026</p>
-  <h2 class="text-3xl sm:text-4xl font-black text-black tracking-tight mb-3 leading-[1.05]">Cohort 01 has shipped.</h2>
-  <p class="text-lg sm:text-xl font-bold tracking-tight text-black mb-3.5">Five builders came in with ideas. They left building.</p>
-  <p class="text-sm sm:text-base text-gray-600 font-medium leading-relaxed">Three hours, one method, their own keyboards. <span class="font-bold text-black">ChatGPT</span> for thinking, <span class="font-bold text-black">Claude</span> for building, and a designer beside them asking the questions AI can't. Their 21 days of support are running now.</p>
-</section>
-
-<section class="relative z-10 border-t border-b border-gray-200 py-4 mb-10 sm:mb-12" aria-label="Cohort 01 in numbers">
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-5 items-start min-w-0">
-    <div class="sm:pr-4 sm:border-r border-gray-200">
-      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">5</p>
-      <p class="text-xs sm:text-sm font-bold text-gray-500">builders, UK and Lagos</p>
-    </div>
-    <div class="sm:px-4 sm:border-r border-gray-200">
-      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">3</p>
-      <p class="text-xs sm:text-sm font-bold text-gray-500">hours, mostly hands-on</p>
-    </div>
-    <div class="sm:px-4 sm:border-r border-gray-200">
-      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">4</p>
-      <p class="text-xs sm:text-sm font-bold text-gray-500">steps, one method</p>
-    </div>
-    <div class="sm:pl-4">
-      <p class="text-2xl sm:text-3xl font-black text-black tracking-tight">21</p>
-      <p class="text-xs sm:text-sm font-bold text-gray-500">days of support, live now</p>
-    </div>
-  </div>
-</section>
-
-<span id="next" aria-hidden="true"></span>
-<section class="next-card relative z-10 p-6 sm:p-10 mb-8" id="book">
-  <div class="relative max-w-xl">
-    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-brand-lime mb-3">Booking open</p>
-    <h3 class="text-3xl sm:text-[42px] font-black tracking-tight leading-[1.02] mb-4">Three dates. Eight seats each.</h3>
-    <p class="text-sm sm:text-base text-[#c9c9d2] font-medium leading-relaxed mb-3">Deeper than Cohort 01: real data behind your build, your own domain, and taking it all the way to launch. Same rule as before. You build it yourself, with me beside you.</p>
-    <p class="text-sm sm:text-base text-white font-bold leading-relaxed mb-6">Seats go in payment order. The first 8 to pay are in Cohort 02, the next 8 in Cohort 03, then Cohort 04. You see your date before you pay.</p>
-
-    <ol class="sessions mb-6" id="sessionList" aria-live="polite">
-      <li class="session"><span class="s-label">Cohort 02</span><span class="s-date">Sat 21 Nov</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
-      <li class="session"><span class="s-label">Cohort 03</span><span class="s-date">Sat 5 Dec</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
-      <li class="session"><span class="s-label">Cohort 04</span><span class="s-date">Sat 19 Dec</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
-    </ol>
-    <p class="text-[13px] text-[#9a9aa6] font-semibold mb-8"><span class="text-white font-black" id="feeLine">£75</span> · <span id="feeAlt">₦125,000 in Nigeria</span> · 3 hours live on Zoom · 21 days of support after</p>
-
-    <p class="hidden mb-6 rounded-2xl border border-[#34343d] px-4 py-3 text-sm font-bold text-[#c9c9d2]" id="cancelNote" role="status">Payment cancelled. Nothing was charged, and your seat isn't held until you pay.</p>
-
-    <form class="space-y-4" id="bookForm" novalidate>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkName">Full name</label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
-        </div>
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkEmail">Email</label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
-        </div>
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkCountry">Country</label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkCountry" name="country" placeholder="United Kingdom" required type="text" autocomplete="country-name" maxlength="60" list="countryList"/>
-          <datalist id="countryList"><option value="United Kingdom"></option><option value="Nigeria"></option><option value="Ireland"></option><option value="Ghana"></option><option value="United States"></option><option value="Canada"></option></datalist>
-        </div>
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkWhatsapp">WhatsApp <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkWhatsapp" name="whatsapp" placeholder="+44 7…" type="tel" autocomplete="tel" maxlength="40"/>
-        </div>
-      </div>
-      <fieldset>
-        <legend class="block text-xs font-black uppercase tracking-wider text-white mb-1.5">Your AI level</legend>
-        <div class="level-group grid grid-cols-3 gap-2" id="levelGroup">
-          <label><input type="radio" name="aiExperience" value="Beginner" required/><span>Beginner</span><small>Tried it a few times</small></label>
-          <label><input type="radio" name="aiExperience" value="Basic"/><span>Basic</span><small>Use it most weeks</small></label>
-          <label><input type="radio" name="aiExperience" value="Intermediate"/><span>Intermediate</span><small>Use it daily for work</small></label>
-        </div>
-      </fieldset>
+<main>
+<section class="hero grid-ground draw" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero-head">
       <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkGoal">What will you build?</label>
-        <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkGoal" name="projectGoal" maxlength="300" rows="2" placeholder="One page that does one job. Who it's for and what it does." required></textarea>
+        <h1 class="hero-h" id="heroTitle"><span class="line">Build it</span><span class="line">yourself.</span><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"> With me beside you.</span></h1>
+        <div class="insert" aria-hidden="true">
+          <svg viewBox="0 0 30 34"><path class="mark d1" pathLength="1" d="M3 31 C 7 22, 11 13, 15 4 C 18 12, 22 21, 27 30"/></svg>
+          <span class="hand d2">with me beside you</span>
+        </div>
       </div>
-      <div class="space-y-2.5 pt-1">
-        <label class="check"><input type="checkbox" name="prereqClaude" id="bkClaude"/><span>I have a paid Claude plan (Pro or above), or will have one before my session.</span></label>
-        <label class="check"><input type="checkbox" name="prereqLaptop" id="bkLaptop"/><span>I'll join on a laptop or desktop, not a phone.</span></label>
-      </div>
-      <input type="text" name="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-      <p class="landing rounded-2xl px-4 py-3 text-sm font-bold" id="landing" aria-live="polite">Pay now and you're in <span class="text-brand-lime" id="landingWhere">Cohort 02 · Sat 21 Nov</span>.</p>
-      <p class="hidden text-sm font-bold text-[#ff8a80]" id="bkError" role="alert"></p>
-      <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="bkBtn">
-        <span id="bkLabel">Continue to payment · £75</span><span aria-hidden="true">→</span>
-      </button>
-      <p class="text-[12px] text-[#9a9aa6] font-medium">Card payment on Stripe. By paying you agree to the <a class="underline underline-offset-2" href="/terms.html">Terms</a> and <a class="underline underline-offset-2" href="/refunds.html">Refund Policy</a>. Full refund up to 24 hours before your session.</p>
-    </form>
+    </div>
 
-    <div class="hidden" id="waitlistBox">
-      <p class="text-lg font-black tracking-tight mb-1" id="wlHeading">Every seat has gone.</p>
-      <p class="text-sm text-[#c9c9d2] font-medium mb-5">Get first access when the next dates open.</p>
-      <form class="space-y-4" id="waitlistForm" novalidate>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlName">Name</label>
-            <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
-          </div>
-          <div>
-            <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlEmail">Email</label>
-            <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
+    <p class="hero-copy">A live, three-hour workshop on Zoom. You bring one idea. You plan it with ChatGPT and build it with Claude, on your own laptop, and I help when you get stuck.</p>
+
+    <div class="dates">
+      <div class="order-note" aria-hidden="true">
+        <svg viewBox="0 0 38 62"><path class="mark d3" pathLength="1" d="M30 4 C 14 8, 6 22, 9 40 C 10 46, 11 52, 13 58"/><path class="mark d4" pathLength="1" d="M4 48 C 7 51, 10 55, 13 59 C 16 54, 20 50, 25 47"/></svg>
+        <span class="hand d3">first 8 to pay get 02, the next 8 get 03, then 04</span>
+      </div>
+      <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Dates and seats</h2>
+      <ol class="tickets" id="tickets" aria-live="polite">
+        <li class="ticket is-next"><span class="t-cohort">Cohort 02</span><span class="t-date"><svg class="t-hl" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><path class="hl d4" d="M3 9 C 60 4, 140 3, 197 5 L 195 33 C 140 35, 70 38, 5 37 Z"/></svg><span>Sat 21 Nov</span></span><span class="t-time">2 to 5 PM UK</span><span class="t-seats">8 seats left</span><span class="t-note hand d5">you, if you pay now</span></li>
+        <li class="ticket"><span class="t-cohort">Cohort 03</span><span class="t-date"><span>Sat 5 Dec</span></span><span class="t-time">2 to 5 PM UK</span><span class="t-seats">8 seats left</span></li>
+        <li class="ticket"><span class="t-cohort">Cohort 04</span><span class="t-date"><span>Sat 19 Dec</span></span><span class="t-time">2 to 5 PM UK</span><span class="t-seats">8 seats left</span></li>
+      </ol>
+    </div>
+
+    <div class="buy">
+      <div class="price">
+        <strong id="heroPrice">£75</strong>
+        <svg viewBox="0 0 34 28" aria-hidden="true"><path class="mark d5" pathLength="1" d="M32 6 C 22 8, 12 13, 4 22 M4 22 C 6 17, 7 13, 8 9 M4 22 C 9 21, 13 21, 17 22"/></svg>
+        <span class="hand d5" id="heroNgn">₦125,000 in Nigeria</span>
+      </div>
+      <a class="btn" href="#book" id="heroCta">Book a seat</a>
+      <p class="buy-meta">Card payment on Stripe. Full refund up to 24 hours before your session.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="section" aria-labelledby="afternoonTitle">
+  <div class="wrap afternoon">
+    <div>
+      <h2 class="h2" id="afternoonTitle">How the afternoon runs</h2>
+      <p class="lede">Every session runs the same way, 2 to 5 PM UK time, live on Zoom with your camera optional.</p>
+      <span class="hand lagos">in Lagos, add an hour</span>
+    </div>
+    <div class="agenda-wrap">
+      <div class="sheet agenda">
+        <ol>
+          <li><time>1:50</time><span>Join and check your sound</span></li>
+          <li><time>2:00</time><span>Welcome and the method</span></li>
+          <li><time>2:40</time><span>Live demo: idea to working page</span></li>
+        </ol>
+        <div class="build-rows">
+          <ol>
+            <li><time>3:00</time><span>Sprint 1: plan your build</span></li>
+            <li><time>3:25</time><span>Break</span></li>
+            <li><time>3:35</time><span>Sprint 2: build it, with me beside you</span></li>
+          </ol>
+          <div class="bracket" aria-hidden="true">
+            <svg viewBox="0 0 20 100" preserveAspectRatio="none"><path class="mark" d="M3 2 C 12 3, 10 20, 11 38 C 11 45, 14 48, 18 50 C 14 52, 11 55, 11 62 C 10 80, 12 97, 3 98" vector-effect="non-scaling-stroke"/></svg>
+            <span class="hand">you're building here</span>
           </div>
         </div>
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlInterest">What would you build? <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
-          <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlInterest" name="interest" maxlength="300" rows="2" placeholder="One sentence is plenty"></textarea>
-        </div>
-        <input type="text" name="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-        <p class="hidden text-sm font-bold text-[#ff8a80]" id="wlError" role="alert"></p>
-        <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="wlBtn">
-          <span id="wlLabel">Get first access</span><span aria-hidden="true">→</span>
-        </button>
-      </form>
-      <div class="hidden py-4" id="wlDone" role="status">
-        <div class="success-check w-14 h-14 bg-brand-lime text-black rounded-full flex items-center justify-center text-xl font-black mb-4" style="margin-inline:0">✓</div>
-        <p class="text-2xl font-black tracking-tight mb-1">You're on the list.</p>
-        <p class="text-sm text-[#c9c9d2] font-medium">You'll hear first when the next dates open.</p>
+        <ol>
+          <li><time>4:35</time><span>Show what you made</span></li>
+          <li><time>5:00</time><span>Close and next steps</span></li>
+        </ol>
       </div>
     </div>
   </div>
 </section>
 
-<a class="relative z-10 flex items-center justify-between gap-4 border-2 border-black rounded-2xl px-5 py-4 mb-12 hover:bg-brand-lime transition" href="/kit">
-  <span><span class="block text-[11px] font-black uppercase tracking-[0.2em]">Cohort 01</span><span class="block text-base sm:text-lg font-black tracking-tight">Your kit is here. Sign in with your reference.</span></span>
-  <span aria-hidden="true" class="text-2xl font-black">→</span>
-</a>
+<hr class="rule">
 
-<footer class="relative z-10 pt-10 mt-4 border-t-2 border-black">
-  <div class="grid grid-cols-1 sm:grid-cols-12 gap-8 mb-10">
-    <div class="sm:col-span-5">
-      <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">MotionPlay Labs Ltd</p>
-      <p class="text-sm font-bold text-black">Hosted by Justin Ukaegbu</p>
-      <p class="text-sm text-gray-500 font-medium mb-4">Creative Designer &amp; Digital Product Builder</p>
-      <a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="mailto:justin@motionplaylabs.com">justin@motionplaylabs.com</a>
+<section class="section" aria-labelledby="needsTitle">
+  <div class="wrap">
+    <h2 class="h2" id="needsTitle">Before you book</h2>
+    <p class="lede">You don't need to code. You do need these four things on the day.</p>
+    <ul class="needs">
+      <li><svg viewBox="0 0 36 30" aria-hidden="true"><path class="mark" d="M3 16 C 7 19, 10 23, 13 27 C 19 17, 26 9, 34 3"/></svg><div><b>A paid Claude plan</b><span>Pro or above. ChatGPT's free plan is fine.</span></div></li>
+      <li><svg viewBox="0 0 36 30" aria-hidden="true"><path class="mark" d="M3 15 C 6 19, 10 22, 12 27 C 18 18, 25 10, 34 4"/></svg><div><b>A laptop or desktop</b><span>Chrome or Edge, charged. A phone won't work for building.</span></div></li>
+      <li><svg viewBox="0 0 36 30" aria-hidden="true"><path class="mark" d="M4 16 C 7 20, 10 23, 13 26 C 19 17, 27 9, 33 4"/></svg><div><b>The Zoom desktop app</b><span>You'll share your screen so I can see where you are.</span></div></li>
+      <li><svg viewBox="0 0 36 30" aria-hidden="true"><path class="mark" d="M3 17 C 7 20, 9 23, 12 27 C 19 18, 26 10, 34 3"/></svg><div><b>One idea</b><span>A page or small tool that does one job, plus the words and links you want on it.</span></div></li>
+    </ul>
+    <span class="hand needs-note">the form asks you to confirm the first two</span>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="section" id="book" aria-labelledby="bookTitle">
+  <div class="wrap book">
+    <div class="book-side">
+      <h2 class="h2" id="bookTitle">Book your seat</h2>
+      <p class="order">Seats go in payment order.</p>
+      <p class="lede">You see your date before you pay. If that date fills while you're paying, you go into the next one and your confirmation email says which.</p>
+      <p class="lede" style="margin-top:14px"><b style="color:var(--ink)" id="feeLine">£75</b>, or <span id="feeAlt">₦125,000</span> if you're in Nigeria. Includes 21 days of support after your session.</p>
     </div>
-    <div class="sm:col-span-4">
-      <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">Proof of Work</p>
-      <ul class="space-y-2">
-        <li><a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="https://drawintheair.com" target="_blank" rel="noopener">Draw in the Air</a></li>
-        <li><a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="https://voidcanvas.app" target="_blank" rel="noopener">Void Canvas</a></li>
-        <li><a class="text-sm font-bold text-black underline underline-offset-4 decoration-1 hover:decoration-2" href="https://tharevue.com" target="_blank" rel="noopener">Tha Revue</a></li>
-      </ul>
-    </div>
-    <div class="sm:col-span-3">
-      <p class="text-[11px] font-black uppercase tracking-[0.24em] text-black mb-3">Legal</p>
-      <ul class="space-y-2">
-        <li><a class="text-sm font-semibold text-gray-700 hover:text-black hover:underline underline-offset-4" href="/privacy.html">Privacy Policy</a></li>
-        <li><a class="text-sm font-semibold text-gray-700 hover:text-black hover:underline underline-offset-4" href="/terms.html">Terms &amp; Conditions</a></li>
-        <li><a class="text-sm font-semibold text-gray-700 hover:text-black hover:underline underline-offset-4" href="/refunds.html">Cancellation &amp; Refund Policy</a></li>
-      </ul>
+
+    <div class="sheet form-sheet">
+      <p class="cancel-note hidden" id="cancelNote" role="status">Payment cancelled. Nothing was charged, and no seat is held until you pay.</p>
+
+      <form class="fields" id="bookForm" novalidate>
+        <div class="fields two">
+          <div class="field"><label for="bkName">Full name</label><input id="bkName" name="fullName" type="text" autocomplete="name" maxlength="80" required></div>
+          <div class="field"><label for="bkEmail">Email</label><input id="bkEmail" name="email" type="email" autocomplete="email" maxlength="120" required></div>
+          <div class="field"><label for="bkCountry">Country</label><input id="bkCountry" name="country" type="text" autocomplete="country-name" maxlength="60" list="countryList" required>
+            <datalist id="countryList"><option value="United Kingdom"></option><option value="Nigeria"></option><option value="Ireland"></option><option value="Ghana"></option><option value="United States"></option><option value="Canada"></option></datalist></div>
+          <div class="field"><label for="bkWhatsapp">WhatsApp <small>optional</small></label><input id="bkWhatsapp" name="whatsapp" type="tel" autocomplete="tel" maxlength="40"></div>
+        </div>
+        <fieldset>
+          <legend class="legend">How much do you use AI now?</legend>
+          <div class="levels">
+            <label><input type="radio" name="aiExperience" value="Beginner" required><b>Beginner</b><small>Tried it a few times</small></label>
+            <label><input type="radio" name="aiExperience" value="Basic"><b>Basic</b><small>Most weeks</small></label>
+            <label><input type="radio" name="aiExperience" value="Intermediate"><b>Intermediate</b><small>Daily, for work</small></label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="bkGoal">What will you build?</label><textarea id="bkGoal" name="projectGoal" maxlength="300" rows="3" placeholder="One page that does one job. Who it's for and what it does." required></textarea></div>
+        <label class="check"><input type="checkbox" id="bkClaude"><span>I have a paid Claude plan (Pro or above), or will have one before my session.</span></label>
+        <label class="check"><input type="checkbox" id="bkLaptop"><span>I'll join on a laptop or desktop, not a phone.</span></label>
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <p class="landing" id="landing" aria-live="polite">Pay now and you're in <b id="landingWhere">Cohort 02, Sat 21 Nov</b>.</p>
+        <span class="hand held" aria-hidden="true">no seat is held until you've paid</span>
+        <p class="form-error hidden" id="bkError" role="alert"></p>
+        <div><button class="btn" type="submit" id="bkBtn"><span id="bkLabel">Continue to payment, £75</span></button></div>
+        <p class="fine">Card payment on Stripe. By paying you agree to the <a href="/terms.html">terms</a> and <a href="/refunds.html">refund policy</a>.</p>
+      </form>
+
+      <div class="hidden" id="waitlistBox">
+        <h3 class="h2" style="font-size:30px" id="wlHeading">Every seat has gone.</h3>
+        <p class="lede" style="margin-bottom:22px">Leave your email and you'll hear first when the next dates open.</p>
+        <form class="fields" id="waitlistForm" novalidate>
+          <div class="fields two">
+            <div class="field"><label for="wlName">Name</label><input id="wlName" name="fullName" type="text" autocomplete="name" maxlength="80" required></div>
+            <div class="field"><label for="wlEmail">Email</label><input id="wlEmail" name="email" type="email" autocomplete="email" maxlength="120" required></div>
+          </div>
+          <div class="field"><label for="wlInterest">What would you build? <small>optional</small></label><textarea id="wlInterest" name="interest" maxlength="300" rows="2"></textarea></div>
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+          <p class="form-error hidden" id="wlError" role="alert"></p>
+          <div><button class="btn" type="submit" id="wlBtn"><span id="wlLabel">Join the list</span></button></div>
+        </form>
+        <div class="hidden" id="wlDone" role="status">
+          <svg class="done-tick" viewBox="0 0 64 54" aria-hidden="true"><path class="mark" d="M5 30 C 12 35, 18 42, 23 49 C 34 31, 46 16, 60 5"/></svg>
+          <p class="h2" style="font-size:28px;margin:0 0 4px">You're on the list.</p>
+          <p class="lede">You'll hear first when the next dates open.</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-5 border-t border-gray-200 text-[11px] text-gray-500 font-medium">
-    <p>© 2026 MotionPlay Labs Ltd · United Kingdom 17304660 · Nigeria RC 9621200</p>
-    <span class="inline-flex items-center gap-1.5 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-brand-lime animate-pulse"></span>Booking open: 21 Nov, 5 Dec, 19 Dec</span>
+</section>
+
+<hr class="rule">
+
+<section class="section" aria-labelledby="qaTitle">
+  <div class="wrap">
+    <h2 class="h2" id="qaTitle">Questions people ask</h2>
+    <div class="qa">
+      <div><h3>What if my date fills while I'm paying?</h3><p>You go into the next date that has a seat. Your confirmation email and the payment page both say which.</p></div>
+      <div><h3>What if I can't make the date I'm placed in?</h3><p>Email before 2 PM UK the day before for a full refund. If a later date has a free seat, I can move you instead.</p></div>
+      <div><h3>What do I leave with?</h3><p>Your build as far as you took it, the prompt pack to keep going, and 21 days of support after your session.</p></div>
+      <div><h3>Who runs it?</h3><p>I'm Justin Ukaegbu, a brand and product designer at MotionPlay Labs. I build my own products this way, including <a href="https://drawintheair.com" target="_blank" rel="noopener">Draw in the Air</a> and <a href="https://voidcanvas.app" target="_blank" rel="noopener">Void Canvas</a>. Cohort 01 ran on 24 October with five builders from the UK and Lagos.</p></div>
+    </div>
   </div>
-</footer>
+</section>
 </main>
+
+<hr class="rule">
+<footer class="wrap foot">
+  <div class="foot-grid">
+    <div><b>MotionPlay Labs Ltd</b>Hosted by Justin Ukaegbu<br><a href="mailto:hello@motionplaylabs.com">hello@motionplaylabs.com</a></div>
+    <div><b>Already booked</b><ul><li><a href="/cohort-01">Cohort 01 kit</a></li><li><a href="/refunds.html">Cancel or move your seat</a></li></ul></div>
+    <div><b>Legal</b><ul><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refund policy</a></li><li><a href="/privacy.html">Privacy</a></li></ul></div>
+  </div>
+  <small>© 2026 MotionPlay Labs Ltd. UK company 17304660. Nigeria RC 9621200.</small>
+</footer>
 
 <script>
 (function(){
   var $=function(id){return document.getElementById(id);};
-  var state={fee:{GBP:'£75',NGN:'₦125,000'},next:null};
+  var state={fee:{GBP:'£75',NGN:'₦125,000'},next:null,sig:''};
   var bookForm=$('bookForm'),waitBox=$('waitlistBox'),country=$('bkCountry');
   var err=$('bkError'),btn=$('bkBtn'),label=$('bkLabel'),busy=false;
+  var HL='<svg class="t-hl" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><path class="hl" d="M3 9 C 60 4, 140 3, 197 5 L 195 33 C 140 35, 70 38, 5 37 Z"/></svg>';
+  var STRIKE='<svg class="t-strike" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><path class="mark" vector-effect="non-scaling-stroke" d="M2 22 C 60 16, 130 20, 198 10"/><path class="mark" vector-effect="non-scaling-stroke" d="M10 30 C 70 25, 140 27, 192 20"/></svg>';
 
   function nigeria(){return /nigeria/i.test(country.value||'');}
   function fee(){return nigeria()?state.fee.NGN:state.fee.GBP;}
-  function syncFee(){if(!busy)label.textContent='Continue to payment · '+fee();}
-  function seatsText(s){if(!s.bookingOpen)return 'Closed';if(s.remaining<=0)return 'Full';return s.remaining+(s.remaining===1?' seat left':' seats left');}
+  function syncFee(){if(!busy)label.textContent='Continue to payment, '+fee();}
+  function seatsText(s){if(!s.bookingOpen)return 'closed';if(s.remaining<=0)return 'full';return s.remaining+(s.remaining===1?' seat left':' seats left');}
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
 
   function render(d){
     state.fee=d.fee||state.fee;state.next=d.next;
-    var list=$('sessionList');list.textContent='';
-    (d.sessions||[]).forEach(function(s){
-      var li=document.createElement('li');
-      li.className='session'+(s.isNext?' is-next':'')+((!s.bookingOpen||s.remaining<=0)?' is-out':'');
-      [['s-label',s.label],['s-date',s.short],['s-time',s.times],['s-seats',seatsText(s)]].forEach(function(p){var sp=document.createElement('span');sp.className=p[0];sp.textContent=p[1];li.appendChild(sp);});
-      list.appendChild(li);
-    });
-    $('feeLine').textContent=state.fee.GBP;$('feeAlt').textContent=state.fee.NGN+' in Nigeria';
-    if(d.next){$('landingWhere').textContent=d.next.label+' · '+d.next.short;}
+    var sig=JSON.stringify([d.sessions,d.fee]);
+    if(sig!==state.sig){
+      state.sig=sig;
+      $('tickets').innerHTML=(d.sessions||[]).map(function(s){
+        var out=!s.bookingOpen||s.remaining<=0;
+        return '<li class="ticket'+(s.isNext?' is-next':'')+(out?' is-out':'')+'"><span class="t-cohort">'+esc(s.label)+'</span><span class="t-date">'+(s.isNext?HL:'')+'<span>'+esc(s.short)+'</span>'+(out?STRIKE:'')+'</span><span class="t-time">'+esc(s.times.replace(/ \(.*\)$/,''))+'</span><span class="t-seats">'+esc(seatsText(s))+'</span>'+(s.isNext?'<span class="t-note hand">you, if you pay now</span>':'')+'</li>';
+      }).join('');
+    }
+    $('feeLine').textContent=state.fee.GBP;$('feeAlt').textContent=state.fee.NGN;
+    $('heroPrice').textContent=state.fee.GBP;$('heroNgn').textContent=state.fee.NGN+' in Nigeria';
+    if(d.next)$('landingWhere').textContent=d.next.label+', '+d.next.short;
     syncFee();
   }
-  function showWaitlist(heading){bookForm.classList.add('hidden');waitBox.classList.remove('hidden');if(heading)$('wlHeading').textContent=heading;}
+  function showWaitlist(heading){document.querySelector('.hero').classList.add('is-full');bookForm.classList.add('hidden');waitBox.classList.remove('hidden');if(heading)$('wlHeading').textContent=heading;$('heroCta').textContent='Join the list';}
 
   async function loadSeats(){
     try{
@@ -402,7 +376,6 @@ html,body{max-width:100%;overflow-x:clip}
   loadSeats();
   setInterval(function(){if(!document.hidden&&!busy)loadSeats();},60000);
   country.addEventListener('input',syncFee);
-
   if(/[?&]payment=cancelled/.test(location.search))$('cancelNote').classList.remove('hidden');
 
   function showErr(m,field){err.textContent=m||'';err.classList.toggle('hidden',!m);if(field){field.classList.add('field-error');field.focus();}}
@@ -414,9 +387,9 @@ html,body{max-width:100%;overflow-x:clip}
     if(data.fullName.length<2)return showErr('Add your full name.',$('bkName'));
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email))return showErr('Add a valid email address.',$('bkEmail'));
     if(!data.country)return showErr('Add your country.',country);
-    if(!data.aiExperience)return showErr('Choose your AI level.');
-    if(data.projectGoal.length<10)return showErr('Tell me what you want to build, in a sentence.',$('bkGoal'));
-    if(!data.prereqClaude||!data.prereqLaptop)return showErr('Tick both requirements to continue.');
+    if(!data.aiExperience)return showErr('Choose how much you use AI now.');
+    if(data.projectGoal.length<10)return showErr('Say what you want to build, in a sentence.',$('bkGoal'));
+    if(!data.prereqClaude||!data.prereqLaptop)return showErr('Tick both boxes to continue.');
     busy=true;btn.disabled=true;label.textContent='Opening payment…';
     try{
       var r=await fetch('/api/enrol',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
@@ -443,7 +416,7 @@ html,body{max-width:100%;overflow-x:clip}
       if(!r.ok||!j.ok)throw new Error(j.error||'Something went wrong. Try again.');
       wForm.classList.add('hidden');wDone.classList.remove('hidden');
     }catch(x){wShow(x.message+' Or email hello@motionplaylabs.com.');}
-    finally{wBtn.disabled=false;wLabel.textContent='Get first access';}
+    finally{wBtn.disabled=false;wLabel.textContent='Join the list';}
   });
 })();
 </script>

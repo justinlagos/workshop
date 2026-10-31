@@ -76,6 +76,10 @@
       }
     },
     {
+      "src": "/cohort-01/?$",
+      "dest": "/public/cohort-01.html"
+    },
+    {
       "src": "/demo/?$",
       "dest": "/public/demo/index.html"
     },

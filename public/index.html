@@ -137,6 +137,13 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .levels label:has(input:checked){border-color:var(--ink);background:var(--lime)}
 .levels label:has(input:checked) small{color:var(--ink)}
 .levels label:has(input:focus-visible){outline:3px solid var(--pen);outline-offset:2px}
+/* Phones: one option per row, label left and hint right, so long words never spill out. */
+@media (max-width:559px){
+ .levels{grid-template-columns:1fr}
+ .levels label{flex-direction:row;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 14px}
+ .levels b{font-size:15px}
+ .levels small{font-size:13px;text-align:right}
+}
 .check{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:15px;line-height:1.45;cursor:pointer}
 .check input{accent-color:var(--pen);width:20px;height:20px;margin:1px 0 0;flex:none}
 .landing{position:relative;margin:4px 0 0;padding:14px 16px;border-radius:12px;background:var(--paper);font-weight:700}

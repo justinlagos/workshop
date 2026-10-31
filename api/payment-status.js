@@ -2,8 +2,10 @@ import {db,rpc,seats,mail,notifyAdmin,stripe} from './_shared.js';
 import {paymentConfirmation} from '../lib/emails.js';
 import {prepEmail} from '../lib/prep.js';
 import {afterIntakePayment,cohortById,sessionInfo} from '../lib/intake-fulfil.js';
-import {sessionDay,sessionTimes} from '../lib/intake.js';
+import {sessionDay,sessionTimes,getIntake,intakeFee} from '../lib/intake.js';
 
+// What they paid, for the pixel's Purchase event on the success page.
+async function paidValue(a){try{const i=await getIntake(a.intake_id);const f=intakeFee(i,a.currency);return {value:(a.fee_amount?Number(a.fee_amount):f.amount)/100,currency:a.currency};}catch{return {};}}
 const withDate=(c)=>c?{...sessionInfo(c),date:sessionDay(c.session_at),times:sessionTimes(c.session_at,c.duration_minutes||180)}:null;
 
 export default async function handler(req,res){
@@ -20,7 +22,7 @@ export default async function handler(req,res){
    const projected=a.projected_cohort_id?await cohortById(a.projected_cohort_id):null;
    if(a.status==='paid'){
     const c=await cohortById(a.cohort_id);
-    return res.status(200).json({ok:true,status:'confirmed',session:withDate(c),moved:!!(projected&&projected.id!==c?.id),projected:withDate(projected)});
+    return res.status(200).json({ok:true,status:'confirmed',session:withDate(c),moved:!!(projected&&projected.id!==c?.id),projected:withDate(projected),...(await paidValue(a))});
    }
    if(a.status==='refunded'||a.status==='refund-required')return res.status(200).json({ok:true,status:'full',refunded:a.status==='refunded'});
    if(!a.stripe_session_id)return res.status(200).json({ok:true,status:'pending',projected:withDate(projected)});
@@ -31,7 +33,7 @@ export default async function handler(req,res){
    const done=await afterIntakePayment(outcome,a.reference,session);
    if(done.status==='confirmed'){
     const c=done.cohort||await cohortById((await db('workshop_applications?reference=eq.'+encodeURIComponent(ref)+'&select=cohort_id'))[0]?.cohort_id);
-    return res.status(200).json({ok:true,status:'confirmed',session:withDate(c),moved:!!(projected&&projected.id!==c?.id),projected:withDate(projected)});
+    return res.status(200).json({ok:true,status:'confirmed',session:withDate(c),moved:!!(projected&&projected.id!==c?.id),projected:withDate(projected),...(await paidValue(a))});
    }
    if(done.status==='full')return res.status(200).json({ok:true,status:'full',refunded:!!done.refunded});
    if(done.status==='support')return res.status(200).json({ok:true,status:'support',message:'Payment needs manual reconciliation'});

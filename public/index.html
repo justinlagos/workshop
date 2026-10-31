@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
+<script src="/track.js"></script>
 <style>
 /* ---------- Hero ---------- */
 .hero{position:relative;padding:8px 0 64px;overflow:hidden}
@@ -422,7 +423,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   bookForm.addEventListener('submit',async function(e){
     e.preventDefault();showErr('');
     var fd=new FormData(bookForm);
-    var data={fullName:String(fd.get('fullName')||'').trim(),email:String(fd.get('email')||'').trim(),country:String(fd.get('country')||'').trim(),whatsapp:String(fd.get('whatsapp')||'').trim(),aiExperience:String(fd.get('aiExperience')||''),projectGoal:String(fd.get('projectGoal')||'').trim(),prereqClaude:$('bkClaude').checked,prereqLaptop:$('bkLaptop').checked,company_website:String(fd.get('company_website')||'')};
+    var data={fullName:String(fd.get('fullName')||'').trim(),email:String(fd.get('email')||'').trim(),country:String(fd.get('country')||'').trim(),whatsapp:String(fd.get('whatsapp')||'').trim(),aiExperience:String(fd.get('aiExperience')||''),projectGoal:String(fd.get('projectGoal')||'').trim(),prereqClaude:$('bkClaude').checked,prereqLaptop:$('bkLaptop').checked,company_website:String(fd.get('company_website')||''),utm:window.TBS?TBS.campaign():null,adConsent:window.TBS?TBS.consented():false};
     if(data.fullName.length<2)return showErr('Add your full name.',$('bkName'));
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email))return showErr('Add a valid email address.',$('bkEmail'));
     if(!data.country)return showErr('Add your country.',country);
@@ -433,7 +434,10 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     try{
       var r=await fetch('/api/enrol',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       var j={};try{j=await r.json();}catch(_){}
-      if(r.ok&&j.ok&&j.checkoutUrl){location.href=j.checkoutUrl;return;}
+      if(r.ok&&j.ok&&j.checkoutUrl){
+        if(window.TBS&&TBS.pixelOn()){TBS.track('InitiateCheckout',{value:j.value,currency:j.currency});setTimeout(function(){location.href=j.checkoutUrl;},300);}else{location.href=j.checkoutUrl;}
+        return;
+      }
       if(j.full||j.closed){showWaitlist(j.full?'Every seat has gone.':'Booking is closed for now.');return;}
       throw new Error(j.error||'Something went wrong. Try again.');
     }catch(x){showErr(x.message+(/hello@|justin@/.test(x.message)?'':' Or email hello@motionplaylabs.com.'));}

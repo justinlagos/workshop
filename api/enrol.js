@@ -34,6 +34,11 @@ export default async function handler(req, res) {
   if (goal.length < 10 || goal.length > 300) return res.status(400).json({ ok: false, error: 'Describe what you want to build in 10 to 300 characters.' });
   if (b.prereqClaude !== true || b.prereqLaptop !== true) return res.status(400).json({ ok: false, error: 'Tick both requirements to continue.' });
   const currency = country.toLowerCase().includes('nigeria') ? 'NGN' : 'GBP';
+  // Which ad or link brought them (from the address they landed on), and their ad-measurement choice.
+  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'landed_at'];
+  const utmIn = b.utm && typeof b.utm === 'object' ? b.utm : {};
+  const utm = Object.fromEntries(UTM_KEYS.filter((k) => typeof utmIn[k] === 'string' && utmIn[k].trim()).map((k) => [k, utmIn[k].trim().slice(0, 120)]));
+  const adConsent = b.adConsent === true;
 
   const client = stripe();
   if (!client) return res.status(503).json({ ok: false, error: 'Payments are not open yet. Try again later.' });
@@ -70,6 +75,7 @@ export default async function handler(req, res) {
       ai_experience: experience, claude_plan: 'Yes', project_goal: goal, currency,
       classification: result.classification, score: result.score, breakdown: result.breakdown,
       status: 'applied',
+      utm: Object.keys(utm).length ? utm : null, ad_consent: adConsent,
     };
     try { a = (await db('workshop_applications', { method: 'POST', prefer: 'return=representation', body: row }))[0]; }
     catch (e) {
@@ -123,5 +129,5 @@ export default async function handler(req, res) {
     catch (e) { console.error('admin email failed', a.reference, e.message); }
   }
 
-  return res.status(201).json({ ok: true, reference: a.reference, checkoutUrl: checkout.url, fee: fee.label, projected: projectedOut(next) });
+  return res.status(201).json({ ok: true, reference: a.reference, checkoutUrl: checkout.url, fee: fee.label, value: amount / 100, currency: fee.currency.toUpperCase(), projected: projectedOut(next) });
 }

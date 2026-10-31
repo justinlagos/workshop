@@ -65,6 +65,21 @@
 .buy-meta{flex-basis:100%;margin:-6px 0 0;font-size:15px;color:var(--muted)}
 @media (min-width:640px){.buy-meta{flex-basis:auto;margin:0}}
 
+/* ---------- Further than Cohort 01 ---------- */
+.further-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px 18px}
+.further-head .h2{margin-bottom:0}
+.further-tag{font-size:30px;transform:rotate(-4deg);margin-bottom:6px}
+.further .lede{margin-top:14px}
+.steps{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:54px}
+.steps li{position:relative;display:grid;align-content:start;gap:4px;padding-top:16px;border-top:2px solid var(--ink)}
+.steps b{font-size:21px;letter-spacing:-.02em;line-height:1.2}
+.steps span{color:var(--muted);max-width:34ch}
+.step-arrow{position:absolute;left:4px;top:-40px;width:44px;height:24px;transform:rotate(90deg)}
+@media (min-width:860px){
+ .steps{grid-template-columns:repeat(3,1fr);gap:64px}
+ .step-arrow{left:-58px;top:4px;width:52px;height:26px;margin-left:0;transform:none}
+}
+
 /* ---------- Afternoon ---------- */
 .sheet{background:var(--sheet);border:2px solid var(--ink);border-radius:20px}
 .afternoon{display:grid;gap:36px;align-items:start}
@@ -194,6 +209,23 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 
 <hr class="rule">
 
+<section class="section further" aria-labelledby="furtherTitle">
+  <div class="wrap">
+    <div class="further-head">
+      <h2 class="h2" id="furtherTitle">This time, you launch it.</h2>
+      <span class="hand further-tag" aria-hidden="true">new since Cohort 01</span>
+    </div>
+    <p class="lede">Cohort 01 built working pages in one afternoon. These sessions go deeper, so you leave with something people can actually use.</p>
+    <ol class="steps">
+      <li><b>Real data behind it</b><span>Your build works with real information, like sign-ups, bookings or listings, instead of placeholder text.</span></li>
+      <li><svg class="step-arrow" viewBox="0 0 60 30" aria-hidden="true"><path class="mark" d="M3 17 C 18 11, 34 11, 52 15 M52 15 C 47 11, 44 8, 41 5 M52 15 C 47 18, 44 21, 41 25"/></svg><b>Your own domain</b><span>It sits at your own web address. Use one you already own, or buy one for around £10 a year.</span></li>
+      <li><svg class="step-arrow" viewBox="0 0 60 30" aria-hidden="true"><path class="mark" d="M3 15 C 19 10, 35 12, 52 16 M52 16 C 48 12, 45 9, 42 5 M52 16 C 48 19, 45 22, 42 26"/></svg><b>All the way to launch</b><span>You finish with a live link you can send to customers, clients or friends.</span></li>
+    </ol>
+  </div>
+</section>
+
+<hr class="rule">
+
 <section class="section" aria-labelledby="afternoonTitle">
   <div class="wrap afternoon">
     <div>
@@ -316,7 +348,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     <div class="qa">
       <div><h3>What if my date fills while I'm paying?</h3><p>You go into the next date that has a seat. Your confirmation email and the payment page both say which.</p></div>
       <div><h3>What if I can't make the date I'm placed in?</h3><p>Email before 2 PM UK the day before for a full refund. If a later date has a free seat, I can move you instead.</p></div>
-      <div><h3>What do I leave with?</h3><p>Your build as far as you took it, the prompt pack to keep going, and 21 days of support after your session.</p></div>
+      <div><h3>What do I leave with?</h3><p>Your build on your own domain with a live link, the prompt pack to keep improving it, and 21 days of support after your session.</p></div>
       <div><h3>Who runs it?</h3><p>I'm Justin Ukaegbu, a brand and product designer at MotionPlay Labs. I build my own products this way, including <a href="https://drawintheair.com" target="_blank" rel="noopener">Draw in the Air</a> and <a href="https://voidcanvas.app" target="_blank" rel="noopener">Void Canvas</a>. Cohort 01 ran on 24 October with five builders from the UK and Lagos.</p></div>
     </div>
   </div>

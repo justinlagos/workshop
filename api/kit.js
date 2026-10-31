@@ -11,7 +11,9 @@
 // One function on purpose: the Vercel Hobby plan allows 12 functions per deployment.
 import fs from 'node:fs';
 import { method, mail, db } from './_shared.js';
-import { currentMember, kitOpen, findMember, issueCode, maskEmail, checkCode, createSession, sessionCookie, endSession, clearCookie } from '../lib/kit.js';
+import { currentMember, kitOpen, findMember, issueCode, maskEmail, checkCode, createSession, sessionCookie, endSession, clearCookie, cohortRow, kitClosesFor, memberKitOpen, phaseFor } from '../lib/kit.js';
+import { stepsFor } from '../lib/prep.js';
+import { sessionTimes } from '../lib/intake.js';
 import { kitCodeEmail, firstName, followUpEmail, kitUpdateEmail, feedbackEmail, vcTesterEmail, adminFeedbackEmail } from '../lib/kit-emails.js';
 import { esc } from '../lib/emails.js';
 import { knowledge } from '../lib/kit-knowledge.js';
@@ -22,16 +24,60 @@ import {
 } from '../lib/kit-data.js';
 
 const KIT = fs.readFileSync(new URL('../private/kit.html', import.meta.url), 'utf8');
+const BEFORE = fs.readFileSync(new URL('../private/kit-before.html', import.meta.url), 'utf8');
 const GATE = fs.readFileSync(new URL('../private/kit-gate.html', import.meta.url), 'utf8');
 const FORM = fs.readFileSync(new URL('../private/form.html', import.meta.url), 'utf8');
 const FILES = {
   deck: { url: new URL('../private/the-build-session-cohort-01.pdf', import.meta.url), name: 'The-Build-Session-Cohort-01.pdf', type: 'application/pdf' },
 };
-const CLOSED = { ok: false, error: 'The Cohort 01 kit closed on 31 December 2026.' };
+const CLOSED = { ok: false, error: 'This kit has closed. For anything you need, email hello@motionplaylabs.com.' };
 const FROM = 'Justin at MotionPlay Labs <hello@motionplaylabs.com>';
 const BASE = 'https://workshop.motionplaylabs.com';
 const scriptJson = (v) => JSON.stringify(v).replace(/</g, '\\u003c').replace(/[\u2028\u2029]/g, '');
 const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(iso));
+
+// ---------- Cohort dates and labels ----------
+const ukParts = (d, opts) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', ...opts }).formatToParts(d).map((p) => [p.type, p.value]));
+const dayShort = (d) => { const p = ukParts(d, { weekday: 'short', day: 'numeric', month: 'short' }); return `${p.weekday} ${p.day} ${p.month}`; };
+const dayMedium = (d) => { const p = ukParts(d, { weekday: 'short', day: 'numeric', month: 'long' }); return `${p.weekday} ${p.day} ${p.month}`; };
+const dayLong = (d) => { const p = ukParts(d, { weekday: 'long', day: 'numeric', month: 'long' }); return `${p.weekday} ${p.day} ${p.month}`; };
+const ukClock = (d) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', minute: '2-digit', hour12: true }).format(d).replace(':00', '').replace(/\s?([ap])m$/i, (_, x) => ' ' + x.toUpperCase() + 'M');
+// Support and kit end times are exclusive midnights; people read the day before.
+const lastDay = (iso) => new Date(new Date(iso).getTime() - 1000);
+
+function cohortVars(cohort) {
+  const support = cohort?.support_ends_at ? lastDay(cohort.support_ends_at) : null;
+  const kit = lastDay(kitClosesFor(cohort).toISOString());
+  const label = cohort?.label || 'Host preview';
+  return {
+    COHORT: label, COHORT_CAPS: label.toUpperCase(),
+    SUPPORT_SHORT: support ? dayShort(support) : 'your support window ends', SUPPORT_MEDIUM: support ? dayMedium(support) : 'the end of support', SUPPORT_LONG: support ? dayLong(support) : 'the end of your support window',
+    KIT_SHORT: dayShort(kit), KIT_MEDIUM: dayMedium(kit), KIT_LONG: dayLong(kit),
+    WHATSAPP: cohort?.whatsapp_url || 'mailto:hello@motionplaylabs.com',
+    GROUP_CALLS: cohort?.group_calls || '',
+  };
+}
+const fill = (html, vars) => Object.entries(vars).reduce((out, [k, v]) => out.replaceAll(`{{${k}}}`, esc(v)), html);
+
+function renderBefore(member, cohort, app, vars) {
+  const start = new Date(cohort.session_at);
+  const joinFrom = ukClock(new Date(start.getTime() - 10 * 60000));
+  const zoom = cohort.join_url
+    ? `<a class="join" href="${esc(cohort.join_url)}" target="_blank" rel="noopener">Join on Zoom</a><p class="zoomline">${[cohort.join_meeting_id && 'Meeting ID ' + esc(cohort.join_meeting_id), cohort.join_passcode && 'Passcode ' + esc(cohort.join_passcode)].filter(Boolean).join(' · ')}${cohort.join_meeting_id || cohort.join_passcode ? '<br>' : ''}Join from ${esc(joinFrom)} UK so we can start on time.</p>`
+    : '<p class="zoomline">Your Zoom link arrives by email before the session.</p>';
+  const steps = stepsFor(cohort).map(([t, d]) => `<li><div><b>${esc(t)}</b><span>${esc(d)}</span></div></li>`).join('');
+  const goal = String(app?.project_goal || '').trim().slice(0, 200);
+  const build = goal
+    ? `<section class="card build" aria-labelledby="buildH"><h2 id="buildH">Your build</h2><p>From your booking:</p><p class="goal">${esc(goal)}</p><p>Before the session, reply to your confirmation email with it in one sentence: what it is, who it's for, and the one job it does.</p></section>`
+    : '';
+  return fill(BEFORE, {
+    ...vars,
+    FIRST: firstName(member), NAME: member.full_name, REF: member.reference,
+    DAY_LONG: dayLong(start), DAY_SHORT: dayShort(start),
+    TIMES: sessionTimes(cohort.session_at, cohort.duration_minutes || 180),
+    OPENS: `${ukClock(start)} UK on ${dayLong(start)}`,
+  }).replace('{{ZOOM}}', zoom).replace('{{STEPS}}', steps).replace('{{BUILD}}', build);
+}
 
 function updatesHtml(updates) {
   if (!updates.length) return '<p class="muted">Nothing new yet. Updates land here, and you get a short email each time.</p>';
@@ -59,16 +105,34 @@ async function page(req, res) {
   let member = null;
   try { member = await currentMember(req); } catch (e) { console.error('kit session check failed:', e.message); }
   if (!member) return res.status(200).send(kitOpen() ? GATE : GATE.replace('data-state="open"', 'data-state="closed"'));
+  const now = new Date();
+  const q = req.query || {};
+  const isHost = member.role === 'host';
+  // Everyone gets their own cohort's kit. The host can preview any cohort: /kit?as=cohort-02&phase=before
+  let cohort = member.cohort || null;
+  if (isHost) {
+    try { cohort = await cohortRow(/^cohort-\d{2}$/.test(String(q.as || '')) ? String(q.as) : 'cohort-01'); } catch (e) { console.error('kit preview cohort failed:', e.message); }
+  }
+  let phase = phaseFor(cohort, now);
+  if (isHost && (q.phase === 'before' || q.phase === 'after')) phase = q.phase;
+  const vars = cohortVars(cohort);
+  if (phase === 'before' && cohort) {
+    let app = null;
+    try { app = await applicationFor(member.reference); } catch (e) { console.error('kit before app failed:', e.message); }
+    return res.status(200).send(renderBefore(member, cohort, app, vars));
+  }
   let updates = [], done = new Set();
-  try { [updates, done] = await Promise.all([publishedUpdates(), feedbackDone(member.reference)]); } catch (e) { console.error('kit extras failed:', e.message); }
-  const designer = DESIGNERS.includes(member.reference) || member.role === 'host';
-  return res.status(200).send(KIT
-    .replace('<body>', `<body data-ask="${askOpen() ? 'open' : 'closed'}" data-designer="${designer ? '1' : '0'}" data-vc-done="${done.has('voidcanvas') ? '1' : '0'}">`)
+  try { [updates, done] = await Promise.all([publishedUpdates(now, cohort?.id || null), feedbackDone(member.reference)]); } catch (e) { console.error('kit extras failed:', e.message); }
+  const designer = DESIGNERS.includes(member.reference) || isHost;
+  const ask = isHost ? (cohort ? askOpen(cohort, now) : true) : askOpen(cohort, now);
+  const html = fill(KIT
+    .replace('<body>', `<body data-cohort="${esc(cohort?.id || '')}" data-ask="${ask ? 'open' : 'closed'}" data-deck="${cohort?.has_deck ? '1' : '0'}" data-calls="${cohort?.group_calls ? '1' : '0'}" data-designer="${designer ? '1' : '0'}" data-vc-done="${done.has('voidcanvas') ? '1' : '0'}">`)
     .replace('{{UPDATES}}', updatesHtml(updates))
-    .replace('{{FEEDBACK_CARD}}', feedbackCard(done.has('workshop')))
+    .replace('{{FEEDBACK_CARD}}', feedbackCard(done.has('workshop'))), vars)
     .replaceAll('{{FIRST}}', esc(firstName(member)))
     .replaceAll('{{NAME}}', esc(member.full_name))
-    .replaceAll('{{REF}}', esc(member.reference)));
+    .replaceAll('{{REF}}', esc(member.reference));
+  return res.status(200).send(html);
 }
 
 async function start(req, res) {
@@ -80,6 +144,9 @@ async function start(req, res) {
   try { member = await findMember(b.reference); }
   catch (e) { console.error('kit lookup failed:', e.message); return res.status(503).json({ ok: false, error: "We can't check references right now. Try again in a minute." }); }
   if (!member) return res.status(404).json({ ok: false, error: "We couldn't find that reference. It starts with TBS- and it's in your booking emails from MotionPlay Labs." });
+  let cohort = null;
+  try { cohort = await cohortRow(member.cohort_id); } catch (e) { console.error('kit cohort lookup failed:', e.message); }
+  if (!memberKitOpen(cohort)) return res.status(410).json({ ok: false, error: `Your kit closed on ${dayLong(lastDay(kitClosesFor(cohort).toISOString()))}. For anything you need, email hello@motionplaylabs.com.` });
   const to = maskEmail(member.email);
   if (b.preview === true) return res.status(200).json({ ok: true, preview: true, to });
   try {
@@ -113,8 +180,11 @@ async function verify(req, res) {
     if (!member) return res.status(404).json({ ok: false, error: "We couldn't find that reference." });
     const r = await checkCode(member.reference, code);
     if (!r.ok) return res.status(400).json({ ok: false, reason: r.reason, error: MESSAGES[r.reason] });
-    const token = await createSession(member.reference);
-    res.setHeader('Set-Cookie', sessionCookie(token));
+    const cohort = await cohortRow(member.cohort_id);
+    if (!memberKitOpen(cohort)) return res.status(410).json(CLOSED);
+    const until = kitClosesFor(cohort);
+    const token = await createSession(member.reference, until);
+    res.setHeader('Set-Cookie', sessionCookie(token, until));
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error('kit verify failed:', e.message);
@@ -137,7 +207,8 @@ async function file(req, res) {
   const f = FILES[String(req.query?.f || 'deck')];
   let member = null;
   try { member = await currentMember(req); } catch (e) { console.error('kit file session check failed:', e.message); }
-  if (!member || !f) { res.statusCode = 302; res.setHeader('Location', '/kit'); return res.end(); }
+  const allowed = member && f && (member.role === 'host' || (member.cohort?.has_deck && phaseFor(member.cohort) === 'after'));
+  if (!allowed) { res.statusCode = 302; res.setHeader('Location', '/kit'); return res.end(); }
   let buf;
   try { buf = fs.readFileSync(f.url); } catch { return res.status(404).send('File not found'); }
   res.setHeader('Content-Type', f.type);
@@ -153,9 +224,16 @@ async function ask(req, res) {
   try { member = await currentMember(req); } catch (e) { console.error('ask session check failed:', e.message); }
   if (!member) return res.status(401).json({ ok: false, error: 'Your session has ended. Reload the page to sign in again.' });
   try {
-    if (req.method === 'GET') return res.status(200).json({ ok: true, open: askOpen(), questions: await myQuestions(member.reference) });
+    const c = member.cohort || null;
+    const open = askOpen(c);
+    if (req.method === 'GET') return res.status(200).json({ ok: true, open, questions: await myQuestions(member.reference) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
-    if (!askOpen()) return res.status(410).json({ ok: false, error: 'The Ask box closed with the support window on 14 November.' });
+    if (!open) {
+      const msg = c && new Date() < new Date(c.session_at)
+        ? 'The Ask box opens when your session starts.'
+        : `The Ask box closed with your support window on ${dayLong(lastDay(c.support_ends_at))}.`;
+      return res.status(410).json({ ok: false, error: msg });
+    }
     const b = req.body || {};
     const r = await askQuestion(member, b.question, b.link);
     if (r.ok) await syncKnowledge().catch((e) => console.error('knowledge sync failed:', e.message));

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Build Session kit · Cohort 01</title>
+<title>Build Session kit · {{COHORT}}</title>
 <link rel="icon" href="/email/arrow.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,6 +195,8 @@ body[data-vc-done="1"] .tester .done-msg{display:block}
 .ask-closed{display:none}
 body[data-ask="closed"] .ask-open{display:none}
 body[data-ask="closed"] .ask-closed{display:block}
+body[data-deck="0"] .deck-only{display:none!important}
+body[data-calls="0"] .calls-only{display:none!important}
 .qa{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:0 0 12px}
 .qa-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:0}
 .qa-top>div{min-width:0}
@@ -261,8 +263,8 @@ footer.kf{margin:56px 0 0;padding:20px 0 0;border-top:1px solid var(--line);colo
   <p class="ng">Help</p>
   <a href="#ask">Ask a question <em>New</em></a>
   <a href="#fixes">Fixes and FAQ</a>
-  <a href="#support">Support and deck</a>
-  <div class="nav-foot">Support until <b>Sat 14 Nov</b><br>Kit open until <b>Thu 31 Dec</b><br>Reference <b>{{REF}}</b></div>
+  <a href="#support">Support<span class="deck-only"> and deck</span></a>
+  <div class="nav-foot">{{COHORT}}<br>Support until <b>{{SUPPORT_SHORT}}</b><br>Kit open until <b>{{KIT_SHORT}}</b><br>Reference <b>{{REF}}</b></div>
 </nav>
 <div class="scrim" id="scrim" hidden></div>
 
@@ -271,20 +273,20 @@ footer.kf{margin:56px 0 0;padding:20px 0 0;border-top:1px solid var(--line);colo
 <section class="view" id="home" data-title="Home">
   <div class="hero">
     <img class="arrow" src="/email/arrow.png" alt="" width="84" height="85">
-    <p class="lbl">FOUNDING COHORT 01 · YOUR KIT</p>
+    <p class="lbl">{{COHORT_CAPS}} · YOUR KIT</p>
     <h1>Welcome back, {{FIRST}}.</h1>
-    <p>Everything from Saturday and everything since, in four parts. Pick what you need from the menu, or start with one of these.</p>
-    <div class="btns"><a class="btn lime" href="#ask">Ask a question</a><a class="btn ghost" href="https://chat.whatsapp.com/Dji5FzXLAvKEIhUWNKCT6r" target="_blank" rel="noopener">Join the WhatsApp group</a></div>
+    <p>Everything from your session and everything since, in four parts. Pick what you need from the menu, or start with one of these.</p>
+    <div class="btns"><a class="btn lime" href="#ask">Ask a question</a><a class="btn ghost" href="{{WHATSAPP}}" target="_blank" rel="noopener">Join the WhatsApp group</a></div>
   </div>
   <div class="dates">
-    <div><span>Support in the group</span><b>Until Sat 14 November</b></div>
-    <div><span>This kit</span><b>Open until Thu 31 December</b></div>
+    <div><span>Support in the group</span><b>Until {{SUPPORT_MEDIUM}}</b></div>
+    <div><span>This kit</span><b>Open until {{KIT_MEDIUM}}</b></div>
     <div><span>Your reference</span><b>{{REF}}</b></div>
   </div>
   <div class="actions">
     <a class="action hl" href="#p6"><span class="a-k">THIS WEEK</span><strong>Get a second opinion</strong><span>Run Prompt 6 on your build, then fix one thing.</span></a>
     {{FEEDBACK_CARD}}
-    <a class="action" href="/kit/deck.pdf"><span class="a-k">SATURDAY'S SLIDES</span><strong>Download the deck</strong><span>All 27 slides as a PDF.</span></a>
+    <a class="action deck-only" href="/kit/deck.pdf"><span class="a-k">SATURDAY'S SLIDES</span><strong>Download the deck</strong><span>All 27 slides as a PDF.</span></a>
   </div>
 
   <h2>What's new</h2>
@@ -310,7 +312,7 @@ footer.kf{margin:56px 0 0;padding:20px 0 0;border-top:1px solid var(--line);colo
     <div class="area"><p class="k2">Help</p>
       <a href="#ask"><strong>Ask a question</strong><span>Answered within the hour.</span></a>
       <a href="#fixes"><strong>Fixes and FAQ</strong><span>When something breaks.</span></a>
-      <a href="#support"><strong>Support and deck</strong><span>The group, the calls, the slides.</span></a>
+      <a href="#support"><strong>Support<span class="deck-only"> and deck</span></strong><span>The group, your dates<span class="deck-only">, the slides</span>.</span></a>
     </div>
   </div>
 </section>
@@ -728,15 +730,15 @@ Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre
       <button class="ask-go" id="askBtn" type="submit">Send question</button>
       <p class="ask-err" id="askErr" role="alert" hidden></p>
     </form>
-    <p class="note" style="margin:10px 4px 0">Screenshots help. Post them in the <a href="https://chat.whatsapp.com/Dji5FzXLAvKEIhUWNKCT6r" target="_blank" rel="noopener">WhatsApp group</a> and mention you asked here.</p>
+    <p class="note" style="margin:10px 4px 0">Screenshots help. Post them in the <a href="{{WHATSAPP}}" target="_blank" rel="noopener">WhatsApp group</a> and mention you asked here.</p>
   </div>
-  <div class="callout ask-closed"><b>The Ask box has closed</b>It ran with the support window until Saturday 14 November. Your questions and answers stay here until the kit closes on 31 December.</div>
+  <div class="callout ask-closed"><b>The Ask box has closed</b>It ran with your support window until {{SUPPORT_LONG}}. Your questions and answers stay here until your kit closes on {{KIT_LONG}}.</div>
   <h2>Your questions</h2>
   <div id="askList" aria-live="polite"><p class="muted">Loading your questions…</p></div>
 </section>
 
 <section class="view" id="fixes" data-title="Fixes and FAQ" hidden>
-  <header class="vh"><p class="k2">Help</p><h1>Fixes and FAQ</h1><p class="lede">The problems people hit most, including the ones we fixed together on Saturday.</p></header>
+  <header class="vh"><p class="k2">Help</p><h1>Fixes and FAQ</h1><p class="lede">The problems people hit most, including the ones we fixed together in the sessions.</p></header>
   <article class="card"><ul class="fixes">
   <li><strong>Pictures from a website don't load in your build</strong><span>Claude can only reach sites you allow. In Claude, open Settings, then Capabilities, and add the image site's domain to the allowed domains list (for property listings that was media.onthemarket.com). Then ask Claude to try again.</span></li>
   <li><strong>Your build answers like a chat, but you wanted a website</strong><span>Say: "Turn this into a website: one page that shows the results as cards, with a filter at the top and a link on each card. Keep the same data source."</span></li>
@@ -753,16 +755,16 @@ Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre
   <li><strong>Can Claude work with an app my company already uses?</strong><span>Check <a href="https://claude.ai/customize/connectors" target="_blank" rel="noopener">claude.ai/customize/connectors</a> first: many apps are already there. If the app has a website, Claude in Chrome can use it the way you do. If it's an internal app with an API, your IT team can add it as a custom connector. If it's none of those, Claude can't reach it yet.</span></li>
   <li><strong>Do I need a paid Claude plan?</strong><span>Not for the core method: Prompts 1 to 6 work on free plans, with limits. If you hit limits often, or want longer builds, connectors and Claude in Chrome, a paid plan is worth it.</span></li>
   <li><strong>Can I use this for client work?</strong><span>Yes. Be careful with what you paste in: don't put a client's private data or passwords into a chat unless they've agreed to it.</span></li>
-  <li><strong>Can I share this kit?</strong><span>It's just for Cohort 01, which is why it asks for your reference and a code. Share your builds as widely as you like.</span></li>
+  <li><strong>Can I share this kit?</strong><span>It's just for people who've done The Build Session, which is why it asks for your reference and a code. Share your builds as widely as you like.</span></li>
   </ul></article>
 </section>
 
-<section class="view" id="support" data-title="Support and deck" hidden>
-  <header class="vh"><p class="k2">Help</p><h1>Support and deck</h1><p class="lede">21 days of support, until Saturday 14 November.</p></header>
+<section class="view" id="support" data-title="Support" hidden>
+  <header class="vh"><p class="k2">Help</p><h1>Support<span class="deck-only"> and deck</span></h1><p class="lede">21 days of support, until {{SUPPORT_LONG}}.</p></header>
   <ul class="facts" id="help">
-    <li><b>WhatsApp group.</b> <a href="https://chat.whatsapp.com/Dji5FzXLAvKEIhUWNKCT6r" target="_blank" rel="noopener">Join here</a> if you haven't yet. Progress, builds and screenshots go here.</li>
+    <li><b>WhatsApp group.</b> <a href="{{WHATSAPP}}" target="_blank" rel="noopener">Join here</a> if you haven't yet. Progress, builds and screenshots go here.</li>
     <li><b>Ask a question.</b> <a href="#ask">In your kit</a>, answered within the hour.</li>
-    <li><b>Group calls.</b> Saturday 31 October and Saturday 14 November. Times confirmed in the group.</li>
+    <li class="calls-only"><b>Group calls.</b> {{GROUP_CALLS}}</li>
     <li><b>Replies from Justin.</b> Within 24 hours, Monday to Friday.</li>
     <li><b>Kit updates.</b> One short email each time the kit changes.</li>
   </ul>
@@ -770,8 +772,8 @@ Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre
 What I tried (paste the prompt):
 What happened (screenshot):
 What I want instead:</pre><button class="copy" type="button" data-target="c-help">Copy</button></div></article>
-  <h2 id="deck">Saturday's deck</h2>
-  <div class="deck"><div class="doc">PDF</div><div class="txt"><h3>The Build Session · Cohort 01</h3><p>All 27 slides from Saturday, as a PDF you can keep.</p></div><a class="btn ink" href="/kit/deck.pdf">Download the deck</a></div>
+  <h2 id="deck" class="deck-only">Saturday's deck</h2>
+  <div class="deck deck-only"><div class="doc">PDF</div><div class="txt"><h3>The Build Session · Cohort 01</h3><p>All 27 slides from Saturday, as a PDF you can keep.</p></div><a class="btn ink" href="/kit/deck.pdf">Download the deck</a></div>
   <h2 id="feedback">Feedback</h2>
   <article class="card"><p class="note">Four questions, about two minutes. Your answers decide what the next session covers. You can change them any time.</p><a class="btn line" href="/feedback?form=workshop">Give feedback</a></article>
 </section>

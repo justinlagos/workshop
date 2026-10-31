@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>THE BUILD SESSION · Cohort 01 shipped | MotionPlay Labs</title>
-<meta name="description" content="The Build Session: ChatGPT for thinking, Claude for building. Founding Cohort 01 ran on 24 October 2026. The next session is in the build. Get first access."/>
-<meta property="og:title" content="THE BUILD SESSION · Cohort 01 shipped. The next one is in the build."/>
-<meta property="og:description" content="Five builders, three hours, one method. Get first access to the next session."/>
+<title>THE BUILD SESSION · Booking open for 21 Nov, 5 Dec, 19 Dec | MotionPlay Labs</title>
+<meta name="description" content="The Build Session: ChatGPT for thinking, Claude for building. Three live online sessions, Sat 21 Nov, 5 Dec and 19 Dec 2026. Eight seats each, given in payment order."/>
+<meta property="og:title" content="THE BUILD SESSION · Three dates. Eight seats each."/>
+<meta property="og:description" content="Sat 21 Nov, 5 Dec, 19 Dec. Three hours live on Zoom. Seats go in payment order."/>
 <meta property="og:type" content="website"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -129,6 +129,36 @@ html,body{max-width:100%;overflow-x:clip}
 .workbench span{display:inline-block}
 @media (prefers-reduced-motion:no-preference){.build-dots span{animation:dot 1.4s infinite both}.build-dots span:nth-child(2){animation-delay:.2s}.build-dots span:nth-child(3){animation-delay:.4s}@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}}
 </style>
+<style>
+/* Booking card: sessions, AI level chips, prerequisites */
+.sessions{display:grid;gap:8px;list-style:none;padding:0;margin:0}
+.session{display:grid;grid-template-columns:1fr auto;grid-template-areas:"label seats" "date seats" "time seats";column-gap:14px;align-items:center;border:1.5px solid #34343d;border-radius:18px;padding:12px 16px;background:#111116}
+.s-label{grid-area:label;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#9a9aa6}
+.s-date{grid-area:date;font-size:18px;font-weight:900;letter-spacing:-.02em;color:#fff;line-height:1.2}
+.s-time{grid-area:time;font-size:12px;font-weight:600;color:#9a9aa6}
+.s-seats{grid-area:seats;font-size:12px;font-weight:900;border-radius:999px;padding:6px 11px;background:#22222a;color:#fff;white-space:nowrap}
+.session.is-next{border-color:#ccff00;background:#16180c}
+.session.is-next .s-label{color:#ccff00}
+.session.is-next .s-seats{background:#ccff00;color:#000}
+.session.is-out{opacity:.45}
+.session.is-out .s-date{text-decoration:line-through;text-decoration-thickness:2px}
+.level-group label{position:relative;display:flex;flex-direction:column;gap:2px;border:1.5px solid #34343d;border-radius:16px;padding:10px 12px;cursor:pointer;background:#16161b;min-width:0}
+.level-group input{position:absolute;opacity:0;pointer-events:none}
+.level-group span{font-size:13px;font-weight:900;color:#fff}
+.level-group small{font-size:11px;font-weight:600;color:#9a9aa6;line-height:1.3}
+.level-group label:has(input:checked){border-color:#ccff00;background:#16180c}
+.level-group label:has(input:focus-visible){box-shadow:0 0 0 3px rgba(204,255,0,.35)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:600;color:#e4e4ea;cursor:pointer;line-height:1.45}
+.check input{accent-color:#ccff00;width:18px;height:18px;margin-top:1px;flex-shrink:0}
+.landing{background:#16180c;border:1.5px solid #4a5a00;color:#fff}
+.next-card .field-error{border-color:#ff8a80 !important}
+@media(max-width:639px){
+ .level-group label{padding:9px 8px}
+ .level-group span{font-size:12px}
+ .level-group small{font-size:10px}
+ .s-date{font-size:16px}
+}
+</style>
 </head>
 <body class="bg-[#f0f1f5] text-brand-dark min-h-screen py-6 sm:py-12 px-3 sm:px-6 antialiased flex flex-col items-center font-sans selection:bg-brand-lime selection:text-black">
 
@@ -137,9 +167,9 @@ html,body{max-width:100%;overflow-x:clip}
     <span class="w-2 h-2 rounded-full bg-black"></span>
     <span class="text-xs font-black tracking-widest uppercase">Founding Cohort 01 · Shipped</span>
     <span class="text-gray-300">|</span>
-    <span class="text-xs font-semibold text-gray-600 inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>Next session: in the build</span>
+    <span class="text-xs font-semibold text-gray-600 inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>Booking open: 21 Nov, 5 Dec, 19 Dec</span>
   </div>
-  <a class="bg-black hover:bg-brand-purple text-white text-xs font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider" href="#next">Get first access</a>
+  <a class="bg-black hover:bg-brand-purple text-white text-xs font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider" href="#book">Book a seat</a>
 </div>
 
 <main class="poster-frame relative w-full max-w-[920px] bg-white rounded-3xl sm:rounded-[36px] p-6 sm:p-14 overflow-hidden z-10">
@@ -151,7 +181,7 @@ html,body{max-width:100%;overflow-x:clip}
       <span class="text-[12px] sm:text-[13px] font-extrabold tracking-[0.24em] uppercase text-black">THE BUILD SESSION</span>
       <span class="w-14 sm:w-20 h-[2px] bg-black inline-block"></span>
     </div>
-    <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">COHORT 01 · SHIPPED</p>
+    <p class="text-[11px] sm:text-[12px] font-bold tracking-[0.26em] uppercase text-black/60">COHORTS 02 TO 04 · BOOKING OPEN</p>
   </div>
   <div class="mobile-logo relative w-[112px] h-[80px] sm:w-32 sm:h-24 shrink-0" title="MotionPlay Labs">
     <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3B7NW37kNCO9R3JjEQ3Re2UR4ee/33f6247e-a677-4e37-9ca6-0fad86efc4d4.png" alt="MotionPlay Labs" width="2048" height="1448" class="block w-full h-full object-contain object-center" loading="eager" decoding="async"/>
@@ -202,39 +232,97 @@ html,body{max-width:100%;overflow-x:clip}
   </div>
 </section>
 
-<section class="next-card relative z-10 p-6 sm:p-10 mb-8" id="next">
+<span id="next" aria-hidden="true"></span>
+<section class="next-card relative z-10 p-6 sm:p-10 mb-8" id="book">
   <div class="relative max-w-xl">
-    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-brand-lime mb-3 inline-flex items-center gap-2">In the build<span class="build-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></p>
-    <h3 class="text-3xl sm:text-[42px] font-black tracking-tight leading-[1.02] mb-4">The next session is on the workbench.</h3>
-    <p class="text-sm sm:text-base text-[#c9c9d2] font-medium leading-relaxed mb-7">Deeper than Cohort 01: real data behind your build, your own domain, and taking it all the way to launch. Same rule as before. You build it yourself, with me beside you.</p>
+    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-brand-lime mb-3">Booking open</p>
+    <h3 class="text-3xl sm:text-[42px] font-black tracking-tight leading-[1.02] mb-4">Three dates. Eight seats each.</h3>
+    <p class="text-sm sm:text-base text-[#c9c9d2] font-medium leading-relaxed mb-3">Deeper than Cohort 01: real data behind your build, your own domain, and taking it all the way to launch. Same rule as before. You build it yourself, with me beside you.</p>
+    <p class="text-sm sm:text-base text-white font-bold leading-relaxed mb-6">Seats go in payment order. The first 8 to pay are in Cohort 02, the next 8 in Cohort 03, then Cohort 04. You see your date before you pay.</p>
 
-    <form class="space-y-4" id="waitlistForm" novalidate>
+    <ol class="sessions mb-6" id="sessionList" aria-live="polite">
+      <li class="session"><span class="s-label">Cohort 02</span><span class="s-date">Sat 21 Nov</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
+      <li class="session"><span class="s-label">Cohort 03</span><span class="s-date">Sat 5 Dec</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
+      <li class="session"><span class="s-label">Cohort 04</span><span class="s-date">Sat 19 Dec</span><span class="s-time">2 to 5 PM UK</span><span class="s-seats">8 seats</span></li>
+    </ol>
+    <p class="text-[13px] text-[#9a9aa6] font-semibold mb-8"><span class="text-white font-black" id="feeLine">£75</span> · <span id="feeAlt">₦125,000 in Nigeria</span> · 3 hours live on Zoom · 21 days of support after</p>
+
+    <p class="hidden mb-6 rounded-2xl border border-[#34343d] px-4 py-3 text-sm font-bold text-[#c9c9d2]" id="cancelNote" role="status">Payment cancelled. Nothing was charged, and your seat isn't held until you pay.</p>
+
+    <form class="space-y-4" id="bookForm" novalidate>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlName">Name</label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkName">Full name</label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
         </div>
         <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlEmail">Email</label>
-          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkEmail">Email</label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
+        </div>
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkCountry">Country</label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkCountry" name="country" placeholder="United Kingdom" required type="text" autocomplete="country-name" maxlength="60" list="countryList"/>
+          <datalist id="countryList"><option value="United Kingdom"></option><option value="Nigeria"></option><option value="Ireland"></option><option value="Ghana"></option><option value="United States"></option><option value="Canada"></option></datalist>
+        </div>
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkWhatsapp">WhatsApp <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
+          <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkWhatsapp" name="whatsapp" placeholder="+44 7…" type="tel" autocomplete="tel" maxlength="40"/>
         </div>
       </div>
+      <fieldset>
+        <legend class="block text-xs font-black uppercase tracking-wider text-white mb-1.5">Your AI level</legend>
+        <div class="level-group grid grid-cols-3 gap-2" id="levelGroup">
+          <label><input type="radio" name="aiExperience" value="Beginner" required/><span>Beginner</span><small>Tried it a few times</small></label>
+          <label><input type="radio" name="aiExperience" value="Basic"/><span>Basic</span><small>Use it most weeks</small></label>
+          <label><input type="radio" name="aiExperience" value="Intermediate"/><span>Intermediate</span><small>Use it daily for work</small></label>
+        </div>
+      </fieldset>
       <div>
-        <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlInterest">What would you build? <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
-        <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlInterest" name="interest" maxlength="300" rows="2" placeholder="One sentence is plenty"></textarea>
+        <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="bkGoal">What will you build?</label>
+        <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="bkGoal" name="projectGoal" maxlength="300" rows="2" placeholder="One page that does one job. Who it's for and what it does." required></textarea>
       </div>
-      <input type="text" name="company_website" id="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-      <p class="hidden text-sm font-bold text-[#ff8a80]" id="wlError" role="alert"></p>
-      <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="wlBtn">
-        <span id="wlLabel">Get first access</span><span aria-hidden="true">→</span>
+      <div class="space-y-2.5 pt-1">
+        <label class="check"><input type="checkbox" name="prereqClaude" id="bkClaude"/><span>I have a paid Claude plan (Pro or above), or will have one before my session.</span></label>
+        <label class="check"><input type="checkbox" name="prereqLaptop" id="bkLaptop"/><span>I'll join on a laptop or desktop, not a phone.</span></label>
+      </div>
+      <input type="text" name="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+      <p class="landing rounded-2xl px-4 py-3 text-sm font-bold" id="landing" aria-live="polite">Pay now and you're in <span class="text-brand-lime" id="landingWhere">Cohort 02 · Sat 21 Nov</span>.</p>
+      <p class="hidden text-sm font-bold text-[#ff8a80]" id="bkError" role="alert"></p>
+      <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="bkBtn">
+        <span id="bkLabel">Continue to payment · £75</span><span aria-hidden="true">→</span>
       </button>
-      <p class="text-[12px] text-[#9a9aa6] font-medium">One email when it opens. That's all.</p>
+      <p class="text-[12px] text-[#9a9aa6] font-medium">Card payment on Stripe. By paying you agree to the <a class="underline underline-offset-2" href="/terms.html">Terms</a> and <a class="underline underline-offset-2" href="/refunds.html">Refund Policy</a>. Full refund up to 24 hours before your session.</p>
     </form>
 
-    <div class="hidden py-4" id="wlDone" role="status">
-      <div class="success-check w-14 h-14 bg-brand-lime text-black rounded-full flex items-center justify-center text-xl font-black mb-4" style="margin-inline:0">✓</div>
-      <p class="text-2xl font-black tracking-tight mb-1">You're on the list.</p>
-      <p class="text-sm text-[#c9c9d2] font-medium">You'll hear first when the next session opens. Until then, keep building.</p>
+    <div class="hidden" id="waitlistBox">
+      <p class="text-lg font-black tracking-tight mb-1" id="wlHeading">Every seat has gone.</p>
+      <p class="text-sm text-[#c9c9d2] font-medium mb-5">Get first access when the next dates open.</p>
+      <form class="space-y-4" id="waitlistForm" novalidate>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlName">Name</label>
+            <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlName" name="fullName" placeholder="Your name" required type="text" autocomplete="name" maxlength="80"/>
+          </div>
+          <div>
+            <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlEmail">Email</label>
+            <input class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlEmail" name="email" placeholder="you@yourmail.com" required type="email" autocomplete="email" maxlength="120"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-white mb-1.5" for="wlInterest">What would you build? <span class="text-[#7d7d8a] font-semibold normal-case tracking-normal">Optional</span></label>
+          <textarea class="w-full rounded-2xl text-sm font-medium py-3 px-4" id="wlInterest" name="interest" maxlength="300" rows="2" placeholder="One sentence is plenty"></textarea>
+        </div>
+        <input type="text" name="company_website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+        <p class="hidden text-sm font-bold text-[#ff8a80]" id="wlError" role="alert"></p>
+        <button class="w-full sm:w-auto bg-brand-lime hover:bg-brand-lime-hover disabled:opacity-60 text-black font-black text-sm sm:text-base tracking-wider uppercase py-4 px-8 rounded-2xl shadow-btn-lime inline-flex items-center justify-center gap-2" type="submit" id="wlBtn">
+          <span id="wlLabel">Get first access</span><span aria-hidden="true">→</span>
+        </button>
+      </form>
+      <div class="hidden py-4" id="wlDone" role="status">
+        <div class="success-check w-14 h-14 bg-brand-lime text-black rounded-full flex items-center justify-center text-xl font-black mb-4" style="margin-inline:0">✓</div>
+        <p class="text-2xl font-black tracking-tight mb-1">You're on the list.</p>
+        <p class="text-sm text-[#c9c9d2] font-medium">You'll hear first when the next dates open.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -271,30 +359,91 @@ html,body{max-width:100%;overflow-x:clip}
   </div>
   <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-5 border-t border-gray-200 text-[11px] text-gray-500 font-medium">
     <p>© 2026 MotionPlay Labs Ltd · United Kingdom 17304660 · Nigeria RC 9621200</p>
-    <span class="inline-flex items-center gap-1.5 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-brand-lime animate-pulse"></span>Next session: in the build</span>
+    <span class="inline-flex items-center gap-1.5 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-brand-lime animate-pulse"></span>Booking open: 21 Nov, 5 Dec, 19 Dec</span>
   </div>
 </footer>
 </main>
 
 <script>
 (function(){
-  var form=document.getElementById('waitlistForm'),done=document.getElementById('wlDone');
-  var err=document.getElementById('wlError'),btn=document.getElementById('wlBtn'),label=document.getElementById('wlLabel');
-  function showErr(m){err.textContent=m||'';err.classList.toggle('hidden',!m);}
-  form.addEventListener('submit',async function(e){
+  var $=function(id){return document.getElementById(id);};
+  var state={fee:{GBP:'£75',NGN:'₦125,000'},next:null};
+  var bookForm=$('bookForm'),waitBox=$('waitlistBox'),country=$('bkCountry');
+  var err=$('bkError'),btn=$('bkBtn'),label=$('bkLabel'),busy=false;
+
+  function nigeria(){return /nigeria/i.test(country.value||'');}
+  function fee(){return nigeria()?state.fee.NGN:state.fee.GBP;}
+  function syncFee(){if(!busy)label.textContent='Continue to payment · '+fee();}
+  function seatsText(s){if(!s.bookingOpen)return 'Closed';if(s.remaining<=0)return 'Full';return s.remaining+(s.remaining===1?' seat left':' seats left');}
+
+  function render(d){
+    state.fee=d.fee||state.fee;state.next=d.next;
+    var list=$('sessionList');list.textContent='';
+    (d.sessions||[]).forEach(function(s){
+      var li=document.createElement('li');
+      li.className='session'+(s.isNext?' is-next':'')+((!s.bookingOpen||s.remaining<=0)?' is-out':'');
+      [['s-label',s.label],['s-date',s.short],['s-time',s.times],['s-seats',seatsText(s)]].forEach(function(p){var sp=document.createElement('span');sp.className=p[0];sp.textContent=p[1];li.appendChild(sp);});
+      list.appendChild(li);
+    });
+    $('feeLine').textContent=state.fee.GBP;$('feeAlt').textContent=state.fee.NGN+' in Nigeria';
+    if(d.next){$('landingWhere').textContent=d.next.label+' · '+d.next.short;}
+    syncFee();
+  }
+  function showWaitlist(heading){bookForm.classList.add('hidden');waitBox.classList.remove('hidden');if(heading)$('wlHeading').textContent=heading;}
+
+  async function loadSeats(){
+    try{
+      var r=await fetch('/api/seats',{cache:'no-store'});var d=await r.json();
+      if(!r.ok||!d.ok)return;
+      render(d);
+      if(d.full)showWaitlist('Every seat has gone.');else if(!d.open)showWaitlist('Booking is closed for now.');
+    }catch(_){}
+  }
+  loadSeats();
+  setInterval(function(){if(!document.hidden&&!busy)loadSeats();},60000);
+  country.addEventListener('input',syncFee);
+
+  if(/[?&]payment=cancelled/.test(location.search))$('cancelNote').classList.remove('hidden');
+
+  function showErr(m,field){err.textContent=m||'';err.classList.toggle('hidden',!m);if(field){field.classList.add('field-error');field.focus();}}
+  bookForm.addEventListener('input',function(e){if(e.target.classList)e.target.classList.remove('field-error');});
+  bookForm.addEventListener('submit',async function(e){
     e.preventDefault();showErr('');
-    var fd=new FormData(form);
-    var data={fullName:(fd.get('fullName')||'').toString().trim(),email:(fd.get('email')||'').toString().trim(),interest:(fd.get('interest')||'').toString().trim(),company_website:(fd.get('company_website')||'').toString()};
-    if(data.fullName.length<2){showErr('Add your name.');document.getElementById('wlName').focus();return;}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)){showErr('Add a valid email address.');document.getElementById('wlEmail').focus();return;}
-    btn.disabled=true;label.textContent='Adding you\u2026';
+    var fd=new FormData(bookForm);
+    var data={fullName:String(fd.get('fullName')||'').trim(),email:String(fd.get('email')||'').trim(),country:String(fd.get('country')||'').trim(),whatsapp:String(fd.get('whatsapp')||'').trim(),aiExperience:String(fd.get('aiExperience')||''),projectGoal:String(fd.get('projectGoal')||'').trim(),prereqClaude:$('bkClaude').checked,prereqLaptop:$('bkLaptop').checked,company_website:String(fd.get('company_website')||'')};
+    if(data.fullName.length<2)return showErr('Add your full name.',$('bkName'));
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email))return showErr('Add a valid email address.',$('bkEmail'));
+    if(!data.country)return showErr('Add your country.',country);
+    if(!data.aiExperience)return showErr('Choose your AI level.');
+    if(data.projectGoal.length<10)return showErr('Tell me what you want to build, in a sentence.',$('bkGoal'));
+    if(!data.prereqClaude||!data.prereqLaptop)return showErr('Tick both requirements to continue.');
+    busy=true;btn.disabled=true;label.textContent='Opening payment…';
+    try{
+      var r=await fetch('/api/enrol',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      var j={};try{j=await r.json();}catch(_){}
+      if(r.ok&&j.ok&&j.checkoutUrl){location.href=j.checkoutUrl;return;}
+      if(j.full||j.closed){showWaitlist(j.full?'Every seat has gone.':'Booking is closed for now.');return;}
+      throw new Error(j.error||'Something went wrong. Try again.');
+    }catch(x){showErr(x.message+(/hello@|justin@/.test(x.message)?'':' Or email hello@motionplaylabs.com.'));}
+    busy=false;btn.disabled=false;syncFee();
+  });
+
+  var wForm=$('waitlistForm'),wDone=$('wlDone'),wErr=$('wlError'),wBtn=$('wlBtn'),wLabel=$('wlLabel');
+  function wShow(m){wErr.textContent=m||'';wErr.classList.toggle('hidden',!m);}
+  wForm.addEventListener('submit',async function(e){
+    e.preventDefault();wShow('');
+    var fd=new FormData(wForm);
+    var data={fullName:String(fd.get('fullName')||'').trim(),email:String(fd.get('email')||'').trim(),interest:String(fd.get('interest')||'').trim(),company_website:String(fd.get('company_website')||'')};
+    if(data.fullName.length<2){wShow('Add your name.');$('wlName').focus();return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)){wShow('Add a valid email address.');$('wlEmail').focus();return;}
+    wBtn.disabled=true;wLabel.textContent='Adding you…';
     try{
       var r=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       var j={};try{j=await r.json();}catch(_){}
       if(!r.ok||!j.ok)throw new Error(j.error||'Something went wrong. Try again.');
-      form.classList.add('hidden');done.classList.remove('hidden');
-    }catch(x){showErr(x.message+' Or email justin@motionplaylabs.com.');}
-    finally{btn.disabled=false;label.textContent='Get first access';}
+      wForm.classList.add('hidden');wDone.classList.remove('hidden');
+    }catch(x){wShow(x.message+' Or email hello@motionplaylabs.com.');}
+    finally{wBtn.disabled=false;wLabel.textContent='Get first access';}
   });
 })();
 </script>

@@ -1,5 +1,6 @@
 import {db,rpc,seats,mail,notifyAdmin,stripe,method} from './_shared.js';
 import {prepEmail} from '../lib/prep.js';
+import {afterIntakePayment} from '../lib/intake-fulfil.js';
 export const config={api:{bodyParser:false}};
 async function raw(req){const chunks=[];for await(const chunk of req)chunks.push(Buffer.from(chunk));return Buffer.concat(chunks);}
 export default async function handler(req,res){
@@ -40,6 +41,11 @@ export default async function handler(req,res){
  if(session.payment_status!=='paid')return res.status(200).json({received:true,pending:true});
  try{
   const outcome=await rpc('workshop_confirm_payment',{p_event:event.id,p_session:session.id,p_reference:reference,p_currency:session.currency,p_amount:session.amount_total});
+  // Rolling intake (Cohorts 02 onwards): the database has placed the payer; send the right emails.
+  if(session.metadata?.intake){
+   const done=await afterIntakePayment(outcome,reference,session);
+   return res.status(200).json({received:true,outcome,status:done.status});
+  }
   if(outcome==='confirmed'){
    const entries=await db('workshop_applications?reference=eq.'+encodeURIComponent(reference)+'&select=*');
    const a=entries[0],s=await seats();

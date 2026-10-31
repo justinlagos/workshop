@@ -1,47 +1,127 @@
-import {db,seats,stripe,site,mail,notifyAdmin,configured,method,classify,feeFor,applicationResult,reviewRequired,futureCohort,applicantAcceptance} from './_shared.js';
-const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-export default async function handler(req,res){
- if(!method(req,res,'POST'))return;
- // Founding Cohort 01 has run. New interest goes to /api/waitlist.
- return res.status(410).json({ok:false,closed:true,error:'Founding Cohort 01 is complete. Join the list on the home page for the next session.'});
- if(!configured())return res.status(503).json({ok:false,error:'Enrolment setup is not complete'});
- const b=req.body||{};
- if(b.company_website)return res.status(400).json({ok:false,error:'Invalid submission'});
- const fullName=String(b.fullName||'').trim(),email=String(b.email||'').trim().toLowerCase(),country=String(b.country||'').trim(),whatsapp=String(b.whatsapp||'').trim(),experience=String(b.aiExperience||''),claude=String(b.claudePlan||''),goal=String(b.projectGoal||'').trim();
- const currency=country.toLowerCase().includes('nigeria')?'NGN':'GBP';
- if(fullName.length<2||fullName.length>80||!validEmail(email)||!country||!['Beginner','Basic','Intermediate'].includes(experience)||!['Yes','No','Not sure'].includes(claude)||goal.length<10||goal.length>300)return res.status(400).json({ok:false,error:'Please complete all required fields correctly'});
- const result=classify({aiExperience:experience,claudePlan:claude,projectGoal:goal}),reference='TBS-'+crypto.randomUUID().slice(0,10).toUpperCase();
- const row={reference,cohort_id:'cohort-01',full_name:fullName,email,country,whatsapp,ai_experience:experience,claude_plan:claude,project_goal:goal,currency,classification:result.classification,score:result.score,breakdown:result.breakdown,status:result.eligible?'applied':result.classification==='Foundation'?'foundation':'reviewed'};
- let saved;
- try{
-  const created=await db('workshop_applications',{method:'POST',prefer:'return=representation',body:row});saved=created[0];
- }catch(e){
-  if(e.code==='23505'||e.status===409)return res.status(409).json({ok:false,error:'This email has already applied'});
-  return res.status(503).json({ok:false,error:'Application cannot be saved right now'});
- }
- let inviteUrl=null;
- let emailSent=false;
- let s;
- try{s=await seats();}catch{s={capacity:8,paid:0,remaining:null};}
- const r=applicationResult(saved);
- try {
-  let message;
-  if(result.eligible){
-   const client=(process.env.STRIPE_PAYMENT_MODE==='live' && /^(sk_live_|rk_live_)/.test(process.env.STRIPE_SECRET_KEY||'')) || (process.env.STRIPE_PAYMENT_MODE==='test' && process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_')) ? stripe() : null;
-   if(client && s.remaining>0){
-    const fee=feeFor(currency);
-    const checkout=await client.checkout.sessions.create({mode:'payment',customer_email:email,line_items:[{price_data:{currency:fee.currency,unit_amount:fee.amount,product_data:{name:'The Build Session — Founding Cohort 01'}},quantity:1}],client_reference_id:reference,metadata:{reference,cohort:'cohort-01'},expires_at:Math.floor(Date.now()/1000)+86400-60,success_url:site()+'/payment-success.html?ref='+encodeURIComponent(reference),cancel_url:site()+'/?payment=cancelled'});
-    inviteUrl=checkout.url;
-    await db('workshop_applications?reference=eq.'+encodeURIComponent(reference),{method:'PATCH',body:{status:'invited',stripe_session_id:checkout.id,invite_url:checkout.url,invite_expires_at:new Date(checkout.expires_at*1000).toISOString()}});
-    message=applicantAcceptance({fullName,email,aiExperience:experience,projectGoal:goal,currency,reference},reference,r,checkout.url,site(),{seatsRemaining:s.remaining,expiresAt:new Date(checkout.expires_at*1000).toISOString()});
-   }else{
-    message={subject:'Your Build Session application — qualified, payment details to follow',text:'Hi '+fullName.split(' ')[0]+', your application '+reference+' is a fit for Guided Builder. We will email the secure payment invitation when checkout opens. A seat is confirmed only after verified payment.',html:'<div style="font-family:Arial;max-width:560px"><h2>Application received.</h2><p>Hi '+fullName.split(' ')[0].replace(/&/g,'&amp;').replace(/</g,'&lt;')+',</p><p>Your application has qualified for the Guided Builder cohort. We will send your secure payment invitation when checkout opens.</p><p>A seat is confirmed only after verified payment.</p><p>MotionPlay Labs</p></div>'};
-   }
-  }else if(result.classification==='Foundation')message=futureCohort({fullName,email,aiExperience:experience,projectGoal:goal,reference},reference,r,site());
-  else message=reviewRequired({fullName,email,aiExperience:experience,projectGoal:goal,reference},reference,r,site());
-  const sent=await mail(email,message);
-  emailSent=sent.sent;
-  await notifyAdmin(saved, 'New '+result.classification+' application',s);
- }catch(e){console.error('Application notification or checkout pending:',e.message);}
- return res.status(201).json({ok:true,reference,classification:result.classification,eligible:result.eligible,emailSent,invited:!!inviteUrl,seats:s});
+// POST /api/enrol: the continuous booking form for the rolling intake (Cohorts 02 to 04).
+// Anyone who confirms the prerequisites gets a Stripe Checkout link straight away. No session is
+// fixed here: seats go in payment order, and the database places the payer when payment is verified.
+// The response says which session a payment made now would land in, so the page can show it.
+import { db, stripe, site, mail, adminEmail, configured, method, classify } from './_shared.js';
+import { INTAKE_ID, getIntake, availability, intakeFee, sessionDay, sessionTimes } from '../lib/intake.js';
+import { intakeApplication, intakeAdmin } from '../lib/intake-emails.js';
+
+const validEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+const LEVELS = ['Beginner', 'Basic', 'Intermediate'];
+const CHECKOUT_TTL_S = 24 * 60 * 60 - 60;
+
+function projectedOut(next) {
+  return next ? { id: next.id, label: next.label, sessionAt: next.sessionAt, date: sessionDay(next.sessionAt), times: sessionTimes(next.sessionAt), remaining: next.remaining } : null;
+}
+
+export default async function handler(req, res) {
+  if (!method(req, res, 'POST')) return;
+  res.setHeader('Cache-Control', 'no-store');
+  if (!configured()) return res.status(503).json({ ok: false, error: 'Booking is not set up yet.' });
+  const b = req.body || {};
+  if (b.company_website) return res.status(400).json({ ok: false, error: 'Invalid submission' });
+
+  const fullName = String(b.fullName || '').trim();
+  const email = String(b.email || '').trim().toLowerCase();
+  const country = String(b.country || '').trim().slice(0, 60);
+  const whatsapp = String(b.whatsapp || '').trim().slice(0, 40);
+  const experience = String(b.aiExperience || '');
+  const goal = String(b.projectGoal || '').trim();
+  if (fullName.length < 2 || fullName.length > 80) return res.status(400).json({ ok: false, error: 'Add your full name.' });
+  if (!validEmail(email) || email.length > 120) return res.status(400).json({ ok: false, error: 'Add a valid email address.' });
+  if (!country) return res.status(400).json({ ok: false, error: 'Add your country.' });
+  if (!LEVELS.includes(experience)) return res.status(400).json({ ok: false, error: 'Choose your AI level.' });
+  if (goal.length < 10 || goal.length > 300) return res.status(400).json({ ok: false, error: 'Describe what you want to build in 10 to 300 characters.' });
+  if (b.prereqClaude !== true || b.prereqLaptop !== true) return res.status(400).json({ ok: false, error: 'Tick both requirements to continue.' });
+  const currency = country.toLowerCase().includes('nigeria') ? 'NGN' : 'GBP';
+
+  const client = stripe();
+  if (!client) return res.status(503).json({ ok: false, error: 'Payments are not open yet. Try again later.' });
+
+  let intake, av;
+  try { intake = await getIntake(); av = await availability(); }
+  catch (e) { console.error('intake lookup failed', e.message); return res.status(503).json({ ok: false, error: "We couldn't check seats just now. Try again in a minute." }); }
+  if (!intake || !intake.is_open) return res.status(410).json({ ok: false, closed: true, error: 'Booking is closed. Join the list for the next dates.' });
+  if (!av.next) return res.status(409).json({ ok: false, full: true, error: 'Every seat has gone. Join the list for the next dates.' });
+
+  // One application per email per intake. Coming back re-issues a fresh payment link.
+  let a = (await db('workshop_applications?intake_id=eq.' + encodeURIComponent(intake.id) + '&email=eq.' + encodeURIComponent(email) + '&select=*'))[0];
+  if (a && a.status === 'paid') {
+    const c = (await db('workshop_cohorts?id=eq.' + encodeURIComponent(a.cohort_id) + '&select=label,session_at'))[0];
+    return res.status(409).json({ ok: false, booked: true, error: `You're already booked into ${c ? c.label + ' on ' + sessionDay(c.session_at) : 'a session'}. Check your email for the details.` });
+  }
+  if (a && ['refund-required', 'refunded'].includes(a.status)) {
+    return res.status(409).json({ ok: false, error: 'Your earlier payment came in after every seat had gone and is being refunded. Email hello@motionplaylabs.com if anything looks wrong.' });
+  }
+  if (a && a.stripe_session_id) {
+    try {
+      const old = await client.checkout.sessions.retrieve(a.stripe_session_id);
+      if (old.status === 'complete') return res.status(409).json({ ok: false, processing: true, reference: a.reference, error: 'Your payment is being confirmed. Check your email in a minute.' });
+      if (old.status === 'open') await client.checkout.sessions.expire(old.id);
+    } catch (e) { console.error('old checkout check failed', a.reference, e.message); }
+  }
+
+  if (!a) {
+    const result = classify({ aiExperience: experience, claudePlan: 'Yes', projectGoal: goal });
+    const row = {
+      reference: 'TBS-' + crypto.randomUUID().slice(0, 10).toUpperCase(),
+      intake_id: intake.id, cohort_id: null,
+      full_name: fullName, email, country, whatsapp: whatsapp || null,
+      ai_experience: experience, claude_plan: 'Yes', project_goal: goal, currency,
+      classification: result.classification, score: result.score, breakdown: result.breakdown,
+      status: 'applied',
+    };
+    try { a = (await db('workshop_applications', { method: 'POST', prefer: 'return=representation', body: row }))[0]; }
+    catch (e) {
+      if (e.code === '23505' || e.status === 409) return res.status(409).json({ ok: false, error: 'This email has just applied. Check your inbox for the payment link.' });
+      console.error('application insert failed', e.message);
+      return res.status(503).json({ ok: false, error: "We couldn't save that just now. Try again in a minute." });
+    }
+  }
+
+  const fee = intakeFee(intake, a.currency);
+  const amount = a.fee_amount ? Number(a.fee_amount) : fee.amount;
+  const next = av.next;
+  const nextWhen = `${next.label}, ${sessionDay(next.sessionAt)}, ${sessionTimes(next.sessionAt)}`;
+  let checkout;
+  try {
+    checkout = await client.checkout.sessions.create({
+      mode: 'payment',
+      customer_email: a.email,
+      client_reference_id: a.reference,
+      line_items: [{ price_data: { currency: fee.currency, unit_amount: amount, product_data: { name: 'The Build Session · live online workshop', description: 'Three hours, live on Zoom. Seats go in payment order.' } }, quantity: 1 }],
+      metadata: { reference: a.reference, intake: intake.id, projected_cohort: next.id },
+      payment_intent_data: { metadata: { reference: a.reference, intake: intake.id } },
+      custom_text: { submit: { message: `Seats go in payment order. Paying now puts you in ${nextWhen}. If that session fills while you pay, you'll be placed in the next one.` } },
+      expires_at: Math.floor(Date.now() / 1000) + CHECKOUT_TTL_S,
+      success_url: site() + '/payment-success.html?ref=' + encodeURIComponent(a.reference),
+      cancel_url: site() + '/?payment=cancelled#book',
+    });
+  } catch (e) {
+    console.error('checkout create failed', a.reference, e.message);
+    return res.status(503).json({ ok: false, error: "Payment couldn't start just now. Try again in a minute." });
+  }
+
+  const expiresAt = new Date(checkout.expires_at * 1000).toISOString();
+  const firstTime = a.status === 'applied';
+  try {
+    await db('workshop_applications?reference=eq.' + encodeURIComponent(a.reference), {
+      method: 'PATCH',
+      body: { status: 'invited', stripe_session_id: checkout.id, invite_url: checkout.url, invite_expires_at: expiresAt, projected_cohort_id: next.id },
+    });
+  } catch (e) {
+    console.error('checkout save failed', a.reference, e.message);
+    try { await client.checkout.sessions.expire(checkout.id); } catch {}
+    return res.status(503).json({ ok: false, error: "We couldn't save that just now. Try again in a minute." });
+  }
+
+  const projectedCohort = { label: next.label, session_at: next.sessionAt, duration_minutes: 180 };
+  try { await mail(a.email, intakeApplication(a, { payUrl: checkout.url, fee: { label: amount === fee.amount ? fee.label : (a.currency === 'NGN' ? '₦' : '£') + (amount / 100).toLocaleString('en-GB') }, projected: projectedCohort, expiresAt })); }
+  catch (e) { console.error('application email failed', a.reference, e.message); }
+  if (firstTime) {
+    try { await mail(adminEmail(), intakeAdmin('New booking started', a, { sessions: av.sessions, note: 'Would land in: ' + next.label })); }
+    catch (e) { console.error('admin email failed', a.reference, e.message); }
+  }
+
+  return res.status(201).json({ ok: true, reference: a.reference, checkoutUrl: checkout.url, fee: fee.label, projected: projectedOut(next) });
 }

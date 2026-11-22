@@ -310,7 +310,7 @@ footer.kf{margin:56px 0 0;padding:20px 0 0;border-top:1px solid var(--line);colo
       <a href="#direct"><strong>Direct like a pro</strong><span>Phrases that work, and where to find references.</span></a>
     </div>
     <div class="area"><p class="k2">Help</p>
-      <a href="#ask"><strong>Ask a question</strong><span>Answered within the hour.</span></a>
+      <a href="#ask"><strong>Ask a question</strong><span>Answered within five hours.</span></a>
       <a href="#fixes"><strong>Fixes and FAQ</strong><span>When something breaks.</span></a>
       <a href="#support"><strong>Support<span class="deck-only"> and deck</span></strong><span>The group, your dates<span class="deck-only">, the slides</span>.</span></a>
     </div>
@@ -719,7 +719,7 @@ Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre
 </section>
 
 <section class="view" id="ask" data-title="Ask a question" hidden>
-  <header class="vh"><p class="k2">Help · New</p><h1>Ask a question</h1><p class="lede">Type what you're stuck on. The kit assistant answers within the hour, here and by email. It's an AI that works from this kit and checks anything else before it answers. Justin sees every answer.</p></header>
+  <header class="vh"><p class="k2">Help · New</p><h1>Ask a question</h1><p class="lede">Type what you're stuck on. The kit assistant answers within five hours, here and by email. It's an AI that works from this kit and checks anything else before it answers. Justin sees every answer.</p></header>
   <div class="ask-open">
     <form class="askbox" id="askForm" novalidate>
       <label for="ask-q">Your question</label>
@@ -763,7 +763,7 @@ Match my colours, fonts and spacing. Keep everything else exactly as it is.</pre
   <header class="vh"><p class="k2">Help</p><h1>Support<span class="deck-only"> and deck</span></h1><p class="lede">21 days of support, until {{SUPPORT_LONG}}.</p></header>
   <ul class="facts" id="help">
     <li><b>WhatsApp group.</b> <a href="{{WHATSAPP}}" target="_blank" rel="noopener">Join here</a> if you haven't yet. Progress, builds and screenshots go here.</li>
-    <li><b>Ask a question.</b> <a href="#ask">In your kit</a>, answered within the hour.</li>
+    <li><b>Ask a question.</b> <a href="#ask">In your kit</a>, answered within five hours.</li>
     <li class="calls-only"><b>Group calls.</b> {{GROUP_CALLS}}</li>
     <li><b>Replies from Justin.</b> Within 24 hours, Monday to Friday.</li>
     <li><b>Kit updates.</b> One short email each time the kit changes.</li>
@@ -892,7 +892,7 @@ What I want instead:</pre><button class="copy" type="button" data-target="c-help
       var chip=document.createElement('span');chip.className='chip '+q.status;chip.textContent=LABEL[q.status]||q.status;
       top.appendChild(left);top.appendChild(chip);el.appendChild(top);
       var a=document.createElement('div');a.className='qa-a';
-      if(q.status==='pending'){a.innerHTML='<p class="muted" style="margin:0"><span class="pulse" aria-hidden="true"></span>The kit assistant is on it. Your answer lands here and in your email within the hour.</p>';}
+      if(q.status==='pending'){a.innerHTML='<p class="muted" style="margin:0"><span class="pulse" aria-hidden="true"></span>The kit assistant is on it. Your answer lands here and in your email within five hours.</p>';}
       else{a.innerHTML=md(q.answer);var by=document.createElement('p');by.className='qa-by';by.textContent=q.status==='escalated'?'Justin will reply to you by email.':'Answered '+ago(q.answered_at)+' by the kit assistant. Justin sees every answer.';a.appendChild(by);}
       el.appendChild(a);list.appendChild(el);
     });
@@ -918,7 +918,7 @@ What I want instead:</pre><button class="copy" type="button" data-target="c-help
       var j={};try{j=await r.json();}catch(x){}
       if(!r.ok||!j.ok)throw new Error(j.error||'Something went wrong. Try again.');
       questions.unshift(j.question);render();qEl.value='';linkEl.value='';updCount();
-      toast('Sent. Your answer is due within the hour.');schedulePoll();
+      toast('Sent. Your answer is due within five hours.');schedulePoll();
     }catch(x){err.textContent=x.message;err.hidden=false;}
     finally{btn.disabled=false;btn.textContent='Send question';}
   });
